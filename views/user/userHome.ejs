@@ -1,0 +1,156 @@
+  <!DOCTYPE html>
+  <html lang="en">
+      <head>
+          <meta charset="UTF-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Document</title>
+          <title>UrbanGents Landing Page</title>
+          <script src="https://cdn.tailwindcss.com"></script>
+        </head>
+        <body class="bg-gray-50">
+
+            <!-- Header -->
+            <header class="bg-white shadow-lg py-4">
+                <div class="container mx-auto flex items-center justify-between px-4 lg:px-8">
+                    <div class="flex items-center">
+                        <a href="#" class="text-2xl font-bold text-gray-800 hover:text-gray-600">
+                            <span class="text-red-950">URBAN</span><span class="text-blue-950">GENTS</span>
+                        </a>
+                    </div>
+    
+                    <div class="hidden lg:flex flex-1 mx-4">
+                        <form class="flex w-full">
+                            <input type="text" placeholder="Search for products..." class="flex-grow border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                            <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-r-md">Search</button>
+                        </form>
+                    </div>
+    
+                    <nav class="hidden lg:flex items-center space-x-6 mr-5">
+                        <a href="#" class="text-gray-600 hover:text-blue-700 font-medium">Home</a>
+                        <a href="#" class="text-gray-600 hover:text-blue-700 font-medium">Shop</a>
+                        <a href="#" class="text-gray-600 hover:text-blue-700 font-medium">About</a>
+                    </nav>
+    
+                    <div class="flex items-center space-x-4">
+                        <a href="#" class="hidden lg:inline-block text-gray-600 hover:text-blue-700 font-medium">Login</a>
+                        <div class="relative">
+                            <button class="flex items-center bg-gray-100 text-gray-800 hover:bg-gray-200 rounded-full px-3 py-1">
+                                <span class="material-icons">person</span>
+                                <span class="ml-2">Profile</span>
+                            </button>
+                        </div>
+                    </div>
+    
+                    <button class="lg:hidden flex items-center">
+                        <span class="material-icons">menu</span>
+                    </button>
+                </div>
+            </header>
+    
+            <!-- Hero Banner -->
+            <section class="bg-cover bg-center h-96" style="background-image: url('https://via.placeholder.com/1500x500');">
+                <div class="flex items-center justify-center h-full bg-black bg-opacity-50">
+                    <div class="text-center">
+                        <h1 class="text-white text-4xl font-bold">Style That Defines You</h1>
+                        <p class="text-white mt-4 text-lg">Explore the latest trends in men's fashion</p>
+                        <a href="#shop" class="mt-6 inline-block bg-red-700 text-white py-2 px-4 rounded-full hover:bg-red-800">Shop Now</a>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Featured Products -->
+            <section id="shop" class="py-12">
+                <div class="container mx-auto px-4 lg:px-8">
+                    <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">Featured Products</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <!-- Product 1 -->
+                        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                            <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-56 object-cover">
+                            <div class="p-4">
+                                <h3 class="text-lg font-bold text-gray-800">Product 1</h3>
+                                <p class="text-gray-600">$49.99</p>
+                                <a href="#" class="mt-2 inline-block bg-blue-700 text-white py-1 px-3 rounded hover:bg-blue-800">Buy Now</a>
+                            </div>
+                        </div>
+                        <!-- Product 2 -->
+                        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                            <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-56 object-cover">
+                            <div class="p-4">
+                                <h3 class="text-lg font-bold text-gray-800">Product 2</h3>
+                                <p class="text-gray-600">$59.99</p>
+                                <a href="#" class="mt-2 inline-block bg-blue-700 text-white py-1 px-3 rounded hover:bg-blue-800">Buy Now</a>
+                            </div>
+                        </div>
+                        <!-- Product 3 -->
+                        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                            <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-56 object-cover">
+                            <div class="p-4">
+                                <h3 class="text-lg font-bold text-gray-800">Product 3</h3>
+                                <p class="text-gray-600">$69.99</p>
+                                <a href="#" class="mt-2 inline-block bg-blue-700 text-white py-1 px-3 rounded hover:bg-blue-800">Buy Now</a>
+                            </div>
+                        </div>
+                        <!-- Product 4 -->
+                        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                            <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-56 object-cover">
+                            <div class="p-4">
+                                <h3 class="text-lg font-bold text-gray-800">Product 4</h3>
+                                <p class="text-gray-600">$79.99</p>
+                                <a href="#" class="mt-2 inline-block bg-blue-700 text-white py-1 px-3 rounded hover:bg-blue-800">Buy Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Categories Section -->
+            <section class="py-12 bg-gray-100">
+                <div class="container mx-auto px-4 lg:px-8">
+                    <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">Categories</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Category 1 -->
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/600x400" alt="Category" class="w-full h-64 object-cover rounded-lg shadow-lg">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
+                                <a href="#" class="text-white text-2xl font-bold">Shirts</a>
+                            </div>
+                        </div>
+                        <!-- Category 2 -->
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/600x400" alt="Category" class="w-full h-64 object-cover rounded-lg shadow-lg">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
+                                <a href="#" class="text-white text-2xl font-bold">Suits</a>
+                            </div>
+                        </div>
+                        <!-- Category 3 -->
+                        <div class="relative">
+                            <img src="https://via.placeholder.com/600x400" alt="Category" class="w-full h-64 object-cover rounded-lg shadow-lg">
+                            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
+                                <a href="#" class="text-white text-2xl font-bold">Accessories</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Promo Banner -->
+            <section class="py-12">
+                <div class="container mx-auto px-4 lg:px-8">
+                    <div class="bg-blue-700 text-white py-20 rounded-lg shadow-lg text-center">
+                        <h2 class="text-4xl font-bold mb-4">Exclusive Offer for UrbanGents Members</h2>
+                        <p class="text-lg">Join our mailing list and get 20% off your next purchase</p>
+                        <a href="#" class="mt-6 inline-block bg-red-700 text-white py-2 px-4 rounded-full hover:bg-red-800">Sign Up Now</a>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Footer -->
+        <%- include('../partials/footer') %>  
+    
+            <!-- Material Icons -->
+            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+        </body>
+    </html>
+  </body>
+</html>
