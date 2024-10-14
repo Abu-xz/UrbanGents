@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTP Verification</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+ 
+</head>
+<body class="bg-gray-100">
+
+  <div class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+      <h2 class="text-2xl font-bold mb-4 text-center text-gray-800">Verify OTP</h2>
+      <p class="text-gray-600 text-sm mb-6 text-center">Enter the 6-digit OTP sent to your email or phone.</p>
+
+      <!-- OTP Input Form -->
+      <form id="otp-form">
+        <div class="flex justify-center gap-2 mb-4">
+          <input type="text" name="otp" required maxlength="1" class="w-12 h-12 border border-gray-300 text-center text-xl rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          <input type="text" name="otp" required maxlength="1" class="w-12 h-12 border border-gray-300 text-center text-xl rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          <input type="text" name="otp" required maxlength="1" class="w-12 h-12 border border-gray-300 text-center text-xl rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          <input type="text" name="otp" required maxlength="1" class="w-12 h-12 border border-gray-300 text-center text-xl rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          <input type="text" name="otp" required maxlength="1" class="w-12 h-12 border border-gray-300 text-center text-xl rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+          <input type="text" name="otp" required maxlength="1" class="w-12 h-12 border border-gray-300 text-center text-xl rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        </div>
+      
+        <!-- Submit Button -->
+        <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg text-lg font-semibold hover:bg-indigo-700 transition duration-300">Verify OTP</button>
+      </form>
+      
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class=" bg-red-600 py-2 mt-3 text-center">
+            <p class="text-white"><%= error %></p>
+        </div
+      <% } %>
+      <!-- Toast Container -->
+
+      <div id="error-container" class="hidden bg-red-600 py-2 mt-3 text-center">
+        <p id="error-message" class="text-white"></p>
+    </div
+
+      
+
+      <!-- Resend OTP  (make it hidden until timer)--> 
+      <div class="mt-4 text-center">
+        <p class="text-gray-600">Didn't receive the code?</p>
+        <button id="resend-btn" ><a href="/user/resendOtp" class="text-indigo-600 font-semibold hover:underline"> Resend OTP</a></button>
+      </div>
+    </div>  
+  </div>
+  
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/javascript/otp.js"></script>
+  
+</body>
+</html>

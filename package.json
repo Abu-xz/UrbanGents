@@ -11,10 +11,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.7.7",
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "express-session": "^1.18.1",
     "mongoose": "^8.7.1",
-    "nodemon": "^3.1.7"
+    "nodemailer": "^6.9.15",
+    "nodemon": "^3.1.7",
+    "session": "^0.1.0"
   }
 }

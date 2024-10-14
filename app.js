@@ -1,5 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+import session from 'express-session'
+import cookieParser from "cookie-parser";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import connectDb from "./utils/db.js";
@@ -20,8 +22,17 @@ const __dirname = dirname(__filename);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(express.urlencoded({extended:true}));
+
+app.use(cookieParser());
+app.use(session({
+  secret: 'xdv14nmjad',   
+  resave: false,                
+  saveUninitialized: true,  
+  cookie: { secure: false }, 
+}));
+
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 //serving static files js,css,images
 app.use(express.static("public"));
 

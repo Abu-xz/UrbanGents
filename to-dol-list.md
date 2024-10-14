@@ -4,7 +4,7 @@ October 10 - October 17, 2024
 October 10 - October 13 (Days 1-4): Admin Side Implementation
 Admin Sign-In:
 
-Day 1 (Oct 10):
+Day 1 (Oct 10): [x]
 Set up the admin sign-in page.
 Test the sign-in functionality.
 
@@ -33,7 +33,7 @@ October 14 - October 15 (Days 5-6): User Side Implementation
 
 User Sign-Up and Login:
 
-Day 5 (Oct 14):
+Day 5 (Oct 14): []
 Set up user sign-up and login forms with validation.
 Implement OTP functionality for sign-up with timer and resend OTP feature.
 Test the sign-up and login processes.

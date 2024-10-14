@@ -2,8 +2,12 @@ import express from 'express';
 import {
     loadSignup,
     userSignup,
-    checkOtp
+    loadOtp,
+    verifyOtp,
+    resendOtp,
 } from "../controllers/user/userController.js"
+
+
 
 const userRouter = express.Router();
 
@@ -12,8 +16,13 @@ userRouter.get('/signup', loadSignup);
 userRouter.post('/signup', userSignup);
 
 // OTP route management
-userRouter.get('/createOtp', checkOtp);
+userRouter.get('/otp', loadOtp);
+userRouter.post('/otp', verifyOtp);
+userRouter.get('/resendOtp', resendOtp, loadOtp);
 
+userRouter.get('/login', (req,res) => {
+    res.send('otp verified')
+})
 
 
 
