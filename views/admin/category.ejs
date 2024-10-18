@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customers - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Main Container -->
+    <div class="flex">
+      <!-- Sidebar (same as before) -->
+      <aside class="w-64 bg-white h-screen p-6 shadow-lg">
+        <div class="flex flex-col">
+          <div class="text-2xl font-bold mb-10">Admin Dashboard</div>
+
+          <!-- Navigation Menu -->
+          <nav class="space-y-4">
+            <a
+              href="/admin/dashboard"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">dashboard</span>
+              <span class="ml-2">Dashboard</span>
+            </a>
+            <a
+              href="/admin/Products"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">inventory</span>
+              <span class="ml-2">Products</span>
+            </a>
+            <a
+              href="/admin/category"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">category</span>
+              <span class="ml-2">Category</span>
+            </a>
+            <a
+              href="/admin/orders"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">shopping_cart</span>
+              <span class="ml-2">Orders</span>
+            </a>
+            <a
+              href="/admin/coupons"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">redeem</span>
+              <span class="ml-2">Coupons</span>
+            </a>
+            <a
+              href="/admin/offers"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">local_offer</span>
+              <span class="ml-2">Offers</span>
+            </a>
+            <a
+              href="/admin/banner"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">campaign</span>
+              <span class="ml-2">Banner</span>
+            </a>
+            <a
+              href="/admin/customers"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">people</span>
+              <span class="ml-2">Customers</span>
+            </a>
+            <a
+              href="/admin/login"
+              class="flex items-center text-red-600 hover:bg-red-100 p-2 rounded mt-10"
+            >
+              <span class="material-icons">logout</span>
+              <span class="ml-2">Logout</span>
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="flex-1 p-6">
+        <div class="container mx-auto py-10">
+            <!-- Page Header -->
+            <div class="mb-8 flex justify-between items-center">
+              <h1 class="text-3xl font-bold text-gray-800">Category Management</h1>
+              <button
+                id="add-category-btn"
+                class="bg-blue-500 text-white px-4 py-2 uppercase rounded hover:bg-blue-700"
+              >
+                + Add New Category
+              </button>
+            </div>
+        
+            <!-- Category Table -->
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+              <table class="min-w-full">
+                <thead>
+                  <tr class="bg-gray-200 text-gray-600 uppercase text-sm">
+                    <th class="py-3 px-4 text-center">ID</th>
+                    <th class="py-3 px-4 text-center">Category Name</th>
+                    <th class="px-3 py-4 text-center">Status</th>
+                    <th class="py-3 px-4 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="categoryTableBody" class="text-gray-700">
+                  <!-- Sample Category Rows -->
+
+                    <% if(typeof categories !== 'undefined' && categories.length > 0) { %>
+                        <% categories.forEach((category, index) => { %>
+                          <tr class="uppercase">
+                            <td class="py-3 px-4 text-center"> <%= index + 1 %> </td>
+                            <td class="py-3 px-4 text-center"> <%= category.categoryName %> </td>
+                            <td class="py-3 px-4 text-center">
+                              <span class="<%= category.isActive? 'bg-green-300':'bg-red-300' %> rounded px-2 py-1">
+                                 <%= category.isActive ? 'Active': 'Inactive' %> </span>
+                            </td>
+                            <td class="py-3 px-4 text-center">
+                                <% if (category.isActive) { %>
+                                  <button class="bg-yellow-500 text-white uppercase px-7 py-1 rounded hover:bg-yellow-600" 
+                                  onclick="confirmBlockCategory('<%= category._id %>', '<%= category.categoryName %>')">
+                              Block
+                          </button>
+                                <% } else { %>
+                                  <button class="bg-yellow-500 text-white uppercase px-4 py-1 rounded hover:bg-yellow-600" 
+                                  onclick="confirmUnblockCategory('<%= category._id %>', '<%= category.categoryName %>')">
+                              Unblock
+                          </button>
+                                    <%}%>
+
+
+                                <button id="edit-btn" class="bg-blue-500 text-white uppercase px-4 py-1 rounded hover:bg-blue-600" 
+                                onclick="editCategory('<%= category._id %>', '<%= category.categoryName %>')">
+                                    Edit
+                                </button>
+                                
+                                <button id="delete-btn" onclick="confirmDelete()" class="bg-red-500 text-white uppercase px-4 py-1 rounded hover:bg-red-600" >
+                                    Delete
+                                </button>
+                            </td>
+                          </tr>
+                     <% }) %>
+                 <% } %>
+                       
+
+                
+                  <!-- Repeat rows dynamically as needed -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+      </div>
+      
+
+    <!-- Google Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/javascript/category.js"></script>
+  </body>
+</html>

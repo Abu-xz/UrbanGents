@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Main Container -->
+  <div class="flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white h-screen p-6 shadow-lg">
+      <div class=" fixed flex flex-col">
+        <div class="text-2xl font-bold mb-10">Admin Dashboard</div>
+
+        <!-- Navigation Menu -->
+        <nav class=" space-y-4">
+          <a href="/admin/dashboard" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+            <span class="material-icons">dashboard</span>
+            <span class="ml-2">Dashboard</span>
+          </a>
+          <a href="/admin/products" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+            <span class="material-icons">inventory</span>
+            <span class="ml-2">Products</span>
+          </a>
+          <a href="/admin/category" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+            <span class="material-icons">category</span>
+            <span class="ml-2">Category</span>
+          </a>
+          <a href="/admin/orders" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+            <span class="material-icons">shopping_cart</span>
+            <span class="ml-2">Orders</span>
+          </a>
+          <a href="/admin/coupons" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+            <span class="material-icons">redeem</span>
+            <span class="ml-2">Coupons</span>
+          </a>
+          <a href="/admin/offers" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+            <span class="material-icons">local_offer</span>
+            <span class="ml-2">Offers</span>
+          </a>
+          <a href="/admin/banner" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+            <span class="material-icons">campaign</span>
+            <span class="ml-2">Banner</span>
+          </a>
+          <a href="/admin/customers" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+            <span class="material-icons">people</span>
+            <span class="ml-2">Customers</span>
+          </a>
+        </nav>
+
+        <!-- Logout -->
+        <div class="mt-2">
+          <a href="/admin/login" class="flex items-center text-red-600 hover:bg-red-100 p-2 rounded">
+            <span class="material-icons">logout</span>
+            <span class="ml-2">Logout</span>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 p-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Dashboard Cards -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-lg font-semibold">Today's Sales</h3>
+          <p class="mt-2 text-xl">₹100,999</p>
+          <p class="text-gray-500 text-sm">We have sold 123 items</p>
+        </div>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-lg font-semibold">Today's Revenue</h3>
+          <p class="mt-2 text-xl">₹30,000</p>
+          <p class="text-gray-500 text-sm">Profit made so far</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-lg font-semibold">Users Count</h3>
+          <p class="mt-2 text-xl">20,390</p>
+          <p class="text-gray-500 text-sm">Total users signed up</p>
+        </div>
+
+        <!-- Add more dashboard content here -->
+      </div>
+
+      <!-- Charts Section -->
+      <div class="mt-10">
+        <h3 class="text-xl font-semibold">Total Revenue</h3>
+        <div class="w-full h-48 bg-gray-300 rounded-lg mt-4">
+          <!-- Placeholder for revenue graph -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Google Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</body>
+</html>

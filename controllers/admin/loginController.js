@@ -2,8 +2,8 @@
 const adminEmail = process.env.EMAIL;
 const adminPassword = process.env.PASSWORD;
 
-export const adminLogin = (req, res) => {
-  res.status(200).render("admin/adminLogin");
+export const loadLogin = (req, res) => {
+  res.status(200).render("admin/login");
 };
 
 export const isValidAdmin = (req, res) => {

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customers - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Main Container -->
+    <div class="flex">
+      <!-- Sidebar (same as before) -->
+      <aside class="w-64 bg-white h-screen p-6 shadow-lg">
+        <div class="flex flex-col">
+          <div class="text-2xl font-bold mb-10">Admin Dashboard</div>
+
+          <!-- Navigation Menu -->
+          <nav class="space-y-4">
+            <a
+              href="/admin/dashboard"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">dashboard</span>
+              <span class="ml-2">Dashboard</span>
+            </a>
+            <a
+              href="/admin/Products"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">inventory</span>
+              <span class="ml-2">Products</span>
+            </a>
+            <a
+              href="/admin/category"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">category</span>
+              <span class="ml-2">Category</span>
+            </a>
+            <a
+              href="/admin/orders"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">shopping_cart</span>
+              <span class="ml-2">Orders</span>
+            </a>
+            <a
+              href="/admin/coupons"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">redeem</span>
+              <span class="ml-2">Coupons</span>
+            </a>
+            <a
+              href="/admin/offers"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">local_offer</span>
+              <span class="ml-2">Offers</span>
+            </a>
+            <a
+              href="/admin/banner"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">campaign</span>
+              <span class="ml-2">Banner</span>
+            </a>
+            <a
+              href="/admin/customers"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">people</span>
+              <span class="ml-2">Customers</span>
+            </a>
+            <a
+              href="/admin/logout"
+              class="flex items-center text-red-600 hover:bg-red-100 p-2 rounded mt-10"
+            >
+              <span class="material-icons">logout</span>
+              <span class="ml-2">Logout</span>
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="flex-1 p-10">
+        <h1 class="text-2xl font-bold mb-6">Customers</h1>
+
+        <!-- Custom modal for confirmation -->
+        <div id="confirmModal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+              <h2 class="text-lg font-bold">Confirm Action</h2>
+              <p>Are you sure you want to <span id="actionText"></span> this user?</p>
+              <div class="mt-4 flex justify-end">
+                <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2" onclick="closeModal()">Cancel</button>
+                <button class="bg-blue-500 text-white px-4 py-2 rounded" id="confirmBtn">Yes</button>
+              </div>
+            </div>
+          </div>
+          
+        <!-- Customers Table -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <table class="min-w-full table-auto">
+            <thead class="bg-gray-900">
+              <tr>
+                <th class="px-4 py-2 text-white">Customer ID</th>
+                <th class="px-4 py-2 text-white">Name</th>
+                <th class="px-4 py-2 text-white">Email</th>
+                <th class="px-4 py-2 text-white">Phone</th>
+                <th class="px-4 py-2 text-white">Status</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white">
+              <% if(typeof users !== 'undefined' && users.length > 0) {%> 
+                <% users.forEach(user => { %>
+              <tr class="text-center">
+                <td class="border px-4 py-2"><%= user.id %></td>
+                <td class="border px-4 py-2">
+                  <%= user.firstName %> <%= user.lastName %>
+                </td>
+                <td class="border px-4 py-2"><%= user.email %></td>
+                <td class="border px-4 py-2"><%= user.phoneNumber %></td>
+                <td class="border px-4 py-2">
+                  <% if(user.status){ %>
+                    <button 
+                    class="bg-green-500 text-dark-600 text-xs font-semibold px-2 py-1 rounded"
+                    onclick="confirmAction('<%=user.id %>', 'block')"
+                    >ACTIVE</button>
+                    <% }else{%>
+                        <button 
+                    class="bg-red-500 text-dark-600 text-xs font-semibold px-2 py-1 rounded"
+                    onclick="confirmAction('<%=user.id %>', 'unblock')"
+                    >BLOCK</button>
+                    <% } %>
+                 
+                </td>
+              </tr>
+              <% }) %>
+            <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/javascript/customer.js"></script>
+  </body>
+</html>

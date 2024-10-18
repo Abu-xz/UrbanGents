@@ -23,8 +23,19 @@ export const sendOTP = async (email, otp) => {
       subject: "Your OTP for Signup",
       text: `Your OTP code is ${otp}. It will expire in 3 minutes.`,
     };
+    let isProcessing = false;
+   async function debounce (){
+      if(isProcessing)return;
+      isProcessing = true;
+      await transporter.sendMail(mailOptions);
+    };
+    setTimeout(() => {
+      isProcessing = false;
+    }, 3000);
 
-    await transporter.sendMail(mailOptions);
+    debounce();
+    
+   
   } catch (error) {
     console.log(error.message);
   }

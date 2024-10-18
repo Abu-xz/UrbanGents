@@ -18,15 +18,16 @@ const userSchema =new mongoose.Schema({
         type: Number,
         required: true
     },
+    status: {
+        type: Boolean,
+        default: false
+    },
     password: {
         type: String,
         required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
     }
-});
+},
+{timestamps:true});
 
 const Users = mongoose.model('Users', userSchema);
 
