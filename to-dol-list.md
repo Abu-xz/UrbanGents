@@ -20,7 +20,7 @@ Implement add, edit, and soft delete functionality for categories.
 
 Product Management: []
 Create the product management page
-Implement add, edit, and soft delete functionality for products.
+Implement add, block, edit, and soft delete functionality for products.
 Ensure the products have a minimum of 3 images and handle image uploads.
 
 Single Sign-On (Google/Facebook): []

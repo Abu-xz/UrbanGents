@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
+import morgan from 'morgan';
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import connectDb from "./utils/db.js";
@@ -40,6 +41,7 @@ app.use(
   })
 );
 
+// app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //serving static files js,css,images

@@ -13,4 +13,3 @@ function confirmAction (userId, actionType) {
 function closeModal () {
     document.getElementById('confirmModal').classList.add('hidden');
 };
-

@@ -17,6 +17,14 @@ import {
   unblockCategory,
 } from "../controllers/admin/categoryController.js";
 
+import {
+  addProducts,
+  loadAddProducts,
+  loadProducts,
+} from "../controllers/admin/productsController.js";
+
+import upload from "../config/multer.js";
+
 const adminRouter = express.Router();
 
 //login routes
@@ -33,13 +41,15 @@ adminRouter.get("/customers/:action/:userId", customerAction);
 // Category routes
 adminRouter.get("/category", loadCategory);
 adminRouter.post("/addCategory", addCategory);
-adminRouter.post('/blockCategory', blockCategory)
-adminRouter.post('/unblockCategory', unblockCategory);
-adminRouter.post('/editCategory', editCategory)
+adminRouter.post("/blockCategory", blockCategory);
+adminRouter.post("/unblockCategory", unblockCategory);
+adminRouter.post("/editCategory", editCategory);
 
+// Products routes here ....
+adminRouter.get("/products", loadProducts);
+adminRouter.get("/products/add", loadAddProducts);
+adminRouter.post('/products/add', upload.array('croppedImages'), addProducts);
+adminRouter.post('products/block', )
 
-adminRouter.get('/products', (req, res) => {
-  res.render('admin/product')
-})
 
 export default adminRouter;

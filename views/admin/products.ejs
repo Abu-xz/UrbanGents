@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Management</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body class="bg-gray-100 pr-8">
+    <div class="flex">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white h-screen p-6 shadow-lg">
+    <div class=" fixed flex flex-col">
+      <div class="text-2xl font-bold mb-10">Admin Dashboard</div>
+
+      <!-- Navigation Menu -->
+      <nav class=" space-y-4">
+        <a href="/admin/dashboard" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+          <span class="material-icons">dashboard</span>
+          <span class="ml-2">Dashboard</span>
+        </a>
+        <a href="/admin/products" class="flex items-center text-red-700 hover:bg-red-200 p-2 rounded">
+          <span class="material-icons">inventory</span>
+          <span class="ml-2">Products</span>
+        </a>
+        <a href="/admin/category" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+          <span class="material-icons">category</span>
+          <span class="ml-2">Category</span>
+        </a>
+        <a href="/admin/orders" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+          <span class="material-icons">shopping_cart</span>
+          <span class="ml-2">Orders</span>
+        </a>
+        <a href="/admin/coupons" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+          <span class="material-icons">redeem</span>
+          <span class="ml-2">Coupons</span>
+        </a>
+        <a href="/admin/offers" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+          <span class="material-icons">local_offer</span>
+          <span class="ml-2">Offers</span>
+        </a>
+        <a href="/admin/banner" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+          <span class="material-icons">campaign</span>
+          <span class="ml-2">Banner</span>
+        </a>
+        <a href="/admin/customers" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+          <span class="material-icons">people</span>
+          <span class="ml-2">Customers</span>
+        </a>
+      </nav>
+
+      <!-- Logout -->
+      <div class="mt-2">
+        <a href="/admin/login" class="flex items-center text-red-600 hover:bg-red-100 p-2 rounded">
+          <span class="material-icons">logout</span>
+          <span class="ml-2">Logout</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+
+        
+  
+  <div class="flex-1 p-10">
+    <div class="container mx-auto py-8">
+      <h1 class="text-3xl font-bold mb-6 text-center">Product Management</h1>
+
+      <!-- Navigate to the add product page -->
+      <a
+        href="/admin/products/add"
+        class="bg-blue-500 text-lg text-white px-6 py-2 rounded mb-10"
+        >Add Product</a
+      >
+      <table class="min-w-full table-auto mt-6">
+        <thead>
+          <tr class="bg-gray-200">
+            <th class="py-2 px-4 text-center">Sl No</th>
+            <th class="py-2 px-4 text-center">Product Name</th>
+            <th class="py-2 px-4 text-center">Price</th>
+            <th class="py-2 px-4 text-center">Category</th>
+            <th class="py-2 px-4 text-center">Stock</th>
+            <th class="py-2 px-4 text-center">Image</th>
+            <th class="py-2 px-4 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if(typeof products !== "undefined" && products){ %>
+              <% products.forEach((product, index) => { %>                  
+                <tr class="border-b">
+                  <td class="py-2 px-4 text-center"><%= index + 1 %></td>
+                  <td class="py-2 px-4 text-center"><%= product.productName%></td>
+                  <td class="py-2 px-4 text-center">₹<%= product.price%></td>
+                  <td class="py-2 px-4 text-center"><%= product.category?.categoryName%></td>
+                  <td class="py-2 px-4 text-center"><%= product.stock%> </td>
+                  <td class="py-2 px-4 text-center flex align-center justify-center">
+                    <img src="<%= product.images[0] %>" alt="Product Image"class="w-16 h-16 center object-cover"/>
+                  </td>
+                  <td class="py-2 px-4 text-center">
+                    <button
+                      class="bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600"
+                       onclick="blockProduct('<%= product._id%>')" 
+                     >
+                    <%= product.isActive? 'Block' : 'Unblock'%>
+                  </button>
+                    <button
+                      class="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600"
+                      onclick="editProduct('<%= product._id%>')"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      class="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600"
+                      onclick="deleteProduct('<%= product._id%>')"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+                
+                <% }) %>
+            <% }else { %>
+              <tr>
+                <td colspan="7" class="text-center py-4">
+                  No products available
+                </td>
+              </tr>
+              <% } %>
+          
+
+         
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+  
+   
+    
+    <!-- Google Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />  
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/product.js"></script>
+  </body>
+</html>

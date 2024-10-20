@@ -9,6 +9,7 @@
   <body class="bg-gray-100">
     <!-- Main Container -->
     <div class="flex">
+     
       <!-- Sidebar (same as before) -->
       <aside class="w-64 bg-white h-screen p-6 shadow-lg">
         <div class="flex flex-col">
@@ -32,7 +33,7 @@
             </a>
             <a
               href="/admin/category"
-              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+              class="flex items-center text-red-700 hover:bg-red-200 p-2 rounded"
             >
               <span class="material-icons">category</span>
               <span class="ml-2">Category</span>
@@ -73,7 +74,7 @@
               <span class="ml-2">Customers</span>
             </a>
             <a
-              href="/admin/login"
+              href="/admin/logout"
               class="flex items-center text-red-600 hover:bg-red-100 p-2 rounded mt-10"
             >
               <span class="material-icons">logout</span>
@@ -91,7 +92,7 @@
               <h1 class="text-3xl font-bold text-gray-800">Category Management</h1>
               <button
                 id="add-category-btn"
-                class="bg-blue-500 text-white px-4 py-2 uppercase rounded hover:bg-blue-700"
+                class="bg-violet-500 text-white px-4 py-2 uppercase rounded hover:bg-blue-700"
               >
                 + Add New Category
               </button>
@@ -117,7 +118,7 @@
                             <td class="py-3 px-4 text-center"> <%= index + 1 %> </td>
                             <td class="py-3 px-4 text-center"> <%= category.categoryName %> </td>
                             <td class="py-3 px-4 text-center">
-                              <span class="<%= category.isActive? 'bg-green-300':'bg-red-300' %> rounded px-2 py-1">
+                              <span class="<%= category.isActive? 'bg-green-300 px-4':'bg-red-300 px-2' %> rounded  py-1">
                                  <%= category.isActive ? 'Active': 'Inactive' %> </span>
                             </td>
                             <td class="py-3 px-4 text-center">
