@@ -17,6 +17,11 @@ let cropper;
 // console.log(uploadedImages)
 // console.log(prevImageData1,prevImageData2,prevImageData3);
 
+//this is from top
+uploadedImages[0] = croppedImageData1.value;
+uploadedImages[1] = croppedImageData2.value;
+uploadedImages[2] = croppedImageData3.value;
+
 // croppedImageData1.value = prevImageData1
 // croppedImageData2.value = prevImageData2
 // croppedImageData3.value = prevImageData3
@@ -131,10 +136,6 @@ cropButton.addEventListener("click", () => {
 
       const container = document.getElementById("image-preview-container");
       container.appendChild(div);
-      //this is from top
-      uploadedImages[0] = croppedImageData1.value;
-      uploadedImages[1] = croppedImageData2.value;
-      uploadedImages[2] = croppedImageData3.value;
 
       if (uploadedImages.length >= 1) {
         croppedImageData1.value = uploadedImages[0];

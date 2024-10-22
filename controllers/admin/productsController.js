@@ -109,8 +109,8 @@ export const productBlockUnblock = async (req, res) => {
       await product.save();
       // console.log(product.isActive);
       const message = product.isActive
-        ? "Product blocked successfully"
-        : "Product Unblocked successfully";
+      ? "Product Unblocked successfully"
+      : "Product blocked successfully";
       return res.status(200).json({ status: true, message: message });
     }
   } catch (error) {
