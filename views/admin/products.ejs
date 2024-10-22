@@ -14,8 +14,8 @@
     <div class="flex">
 
   <!-- Sidebar -->
-  <aside class="w-64 bg-white h-screen p-6 shadow-lg">
-    <div class=" fixed flex flex-col">
+  <aside class="w-64 bg-white p-6 shadow-lg">
+    <div class="fixed flex flex-col">
       <div class="text-2xl font-bold mb-10">Admin Dashboard</div>
 
       <!-- Navigation Menu -->
@@ -67,9 +67,9 @@
 
         
   
-  <div class="flex-1 p-10">
+  <div class="flex-1 px-10">
     <div class="container mx-auto py-8">
-      <h1 class="text-3xl font-bold mb-6 text-center">Product Management</h1>
+      <h1 class="text-3xl font-bold mb-1 text-center">Product Management</h1>
 
       <!-- Navigate to the add product page -->
       <a
@@ -85,6 +85,8 @@
             <th class="py-2 px-4 text-center">Price</th>
             <th class="py-2 px-4 text-center">Category</th>
             <th class="py-2 px-4 text-center">Stock</th>
+            <th class="py-2 px-4 text-center">Discount</th>
+            <th class="py-2 px-4 text-center">Status</th>
             <th class="py-2 px-4 text-center">Image</th>
             <th class="py-2 px-4 text-center">Actions</th>
           </tr>
@@ -94,29 +96,29 @@
               <% products.forEach((product, index) => { %>                  
                 <tr class="border-b">
                   <td class="py-2 px-4 text-center"><%= index + 1 %></td>
-                  <td class="py-2 px-4 text-center"><%= product.productName%></td>
+                  <td class="py-2 px-4 text-center uppercase"><%= product.productName%></td>
                   <td class="py-2 px-4 text-center">₹<%= product.price%></td>
-                  <td class="py-2 px-4 text-center"><%= product.category?.categoryName%></td>
-                  <td class="py-2 px-4 text-center"><%= product.stock%> </td>
+                  <td class="py-2 px-4 text-center uppercase"><%= product.category?.categoryName%></td>
+                  <td class="py-2 px-4 text-center"><%= product.stock%></td>
+                  <td class="py-2 px-4 text-center"><%= product.discount%></td>
+                  <td class="py-2 px-4 text-center ">
+                    <span class="<%= product.isActive? 'bg-green-300 px-4':'bg-red-300 px-2' %> rounded  py-1">
+                      <%= product.isActive ? "Active": "InActive"%>
+                    </span>
+                  </td>
                   <td class="py-2 px-4 text-center flex align-center justify-center">
                     <img src="<%= product.images[0] %>" alt="Product Image"class="w-16 h-16 center object-cover"/>
                   </td>
                   <td class="py-2 px-4 text-center">
-                    <button
-                      class="bg-yellow-500 text-white py-1 px-2 rounded hover:bg-yellow-600"
-                       onclick="blockProduct('<%= product._id%>')" 
-                     >
-                    <%= product.isActive? 'Block' : 'Unblock'%>
-                  </button>
-                    <button
-                      class="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600"
-                      onclick="editProduct('<%= product._id%>')"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      class="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600"
-                      onclick="deleteProduct('<%= product._id%>')"
+                  <a
+                  class="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600"
+                  href="/admin/products/edit/<%=product._id %>"
+                  >
+                  Edit
+                </a>
+                  <button
+                  class="bg-red-500 text-white ml-3  py-1 px-2 rounded hover:bg-red-600"
+                  onclick="blockProduct('<%= product._id%>')" 
                     >
                       Delete
                     </button>

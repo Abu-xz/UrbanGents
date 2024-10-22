@@ -1,7 +1,7 @@
-
 const imageInput = document.getElementById("image-input");
 const imagePreview = document.getElementById("image-preview");
 const cropButton = document.getElementById("crop-button");
+const cancelButton = document.getElementById("cancel-button");
 const productForm = document.getElementById("product-form");
 const croppedImageData1 = document.getElementById("cropped-image-data1");
 const croppedImageData2 = document.getElementById("cropped-image-data2");
@@ -9,66 +9,69 @@ const croppedImageData3 = document.getElementById("cropped-image-data3");
 let uploadedImages = [];
 let cropper;
 
-
 productForm.addEventListener("submit", (e) => {
-    const name = document.getElementById('product-name').value.trim();
-    const price = document.getElementById('price').value.trim();
-    const description = document.getElementById('description').value.trim();
-    const category = document.getElementById('category').value.trim();
-    const size = document.getElementById('size').value.trim();
-    const stock = document.getElementById('stock').value.trim();
+  const name = document.getElementById("product-name").value.trim();
+  const price = document.getElementById("price").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const category = document.getElementById("category").value.trim();
+  const size = document.getElementById("size").value.trim();
+  const stock = document.getElementById("stock").value.trim();
+  const discount = document.getElementById("discount").value.trim();
 
   if (
     !name ||
     !price ||
     !description ||
     !category ||
-    !stock||
-    !size
+    !stock ||
+    !size ||
+    !discount
   ) {
-    Swal.fire('All field required!');
-    e.preventDefault();
-    return;
-  };
-
-  if(typeof name !== 'string' ||name.length < 3 || name.length > 100){
-    Swal.fire('Product name  must be between 3 and 100 characters.');
-    e.preventDefault();
-    return;
-  };
-
-  if(isNaN(price) || price <= 0){
-    Swal.fire('Invalid Product Price');
+    Swal.fire("All field required!");
     e.preventDefault();
     return;
   }
 
-  if(!Number.isInteger(Number(stock)) || stock < 0){
-    Swal.fire('Invalid stock quantity');
-    e.preventDefault();
-    return;
-  };
-
-  if(typeof size !== 'string' || size.length < 1){
-    Swal.fire('Invalid size !');
+  if (typeof name !== "string" || name.length < 3 || name.length > 100) {
+    Swal.fire("Product name  must be between 3 and 100 characters.");
     e.preventDefault();
     return;
   }
 
-  if(typeof description !== 'string' || description.length < 10 || description.length > 300){
-    Swal.fire('Description must be between 10 and 300 characters.');
+  if (isNaN(price) || price <= 0) {
+    Swal.fire("Invalid Product Price");
     e.preventDefault();
     return;
-  };
-
-
-console.log(category)
-  const validCategories = ['shirt', 'pant', 'kurta', 't-shirt', 'shorts', 'suit', 'jacket'];
-  if(!validCategories.includes(category.toLowerCase())){
-    Swal.fire('Invalid category!');
-    e.preventDefault();
-    return
   }
+  if (isNaN(discount) || discount <= 0) {
+    Swal.fire("Invalid Product discount");
+    e.preventDefault();
+    return;
+  }
+
+  if (!Number.isInteger(Number(stock))) {
+    Swal.fire("Invalid stock quantity");
+    e.preventDefault();
+    return;
+  }
+
+  // if (typeof size !== "string" || size.length < 1) {
+  //   Swal.fire("Invalid size !");
+  //   e.preventDefault();
+  //   return;
+  // }
+
+  if (
+    typeof description !== "string" ||
+    description.length < 10 ||
+    description.length > 300
+  ) {
+    Swal.fire("Description must be between 10 and 300 characters.");
+    e.preventDefault();
+    return;
+  }
+
+  // console.log(category);
 
   if (uploadedImages.length === 0) {
     Swal.fire({
@@ -86,7 +89,7 @@ console.log(category)
     });
     e.preventDefault();
     return;
-  };
+  }
 });
 
 // Handle image input change
@@ -98,6 +101,7 @@ imageInput.addEventListener("change", (event) => {
       imagePreview.src = e.target.result;
       imagePreview.classList.remove("hidden");
       cropButton.classList.remove("hidden");
+      cancelButton.classList.remove("hidden");
 
       // Initialize Cropper.js for the new image
       if (cropper) {
@@ -110,6 +114,14 @@ imageInput.addEventListener("change", (event) => {
     };
     reader.readAsDataURL(file);
   }
+});
+
+cancelButton.addEventListener("click", () => {
+  cropper.destroy();
+  document.getElementById("image-input").value = "";
+  document.getElementById("image-preview").classList.add("hidden");
+  document.getElementById("crop-button").classList.add("hidden");
+  document.getElementById("cancel-button").classList.add("hidden");
 });
 
 // Handle crop button click
@@ -130,7 +142,7 @@ cropButton.addEventListener("click", () => {
     });
     imagePreview.classList.add("hidden");
     cropButton.classList.add("hidden");
-    
+    cancelButton.classList.add('hidden');
     cropper.destroy();
     return;
   }
@@ -158,15 +170,15 @@ cropButton.addEventListener("click", () => {
       document
         .getElementById("image-preview-container")
         .appendChild(imgElement);
-        if (uploadedImages.length >= 1) {
-          croppedImageData1.value = uploadedImages[0];
-        }
-        if (uploadedImages.length >= 2) {
-          croppedImageData2.value = uploadedImages[1];
-        }
-        if (uploadedImages.length >= 3) {
-          croppedImageData3.value = uploadedImages[2];
-        }
+      if (uploadedImages.length >= 1) {
+        croppedImageData1.value = uploadedImages[0];
+      }
+      if (uploadedImages.length >= 2) {
+        croppedImageData2.value = uploadedImages[1];
+      }
+      if (uploadedImages.length >= 3) {
+        croppedImageData3.value = uploadedImages[2];
+      }
       Swal.fire({
         title: "Image Uploaded!",
         text: "Your image has been uploaded successfully.",
@@ -177,6 +189,8 @@ cropButton.addEventListener("click", () => {
       imageInput.value = "";
       imagePreview.classList.add("hidden");
       cropButton.classList.add("hidden");
+    cancelButton.classList.add('hidden');
+
       cropper.destroy(); // Destroy the cropper instance
     } catch (error) {
       console.error(error); // Log the error for debugging

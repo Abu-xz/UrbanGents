@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Add Product</title>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Edit Product</title>
     <link
       rel="stylesheet"
       href="https://unpkg.com/cropperjs@1.5.13/dist/cropper.css"
@@ -20,7 +19,7 @@
       <!-- Sidebar -->
       <aside class="w-64 bg-white h-screen p-6 shadow-lg">
         <div class="fixed flex flex-col">
-          <div class="text-2xl font-bold mb-10 pr-5">Admin Dashboard</div>
+          <div class=" text-2xl font-bold mb-10 pr-5">Admin Dashboard</div>
     
           <!-- Navigation Menu -->
           <nav class="space-y-4">
@@ -70,20 +69,23 @@
     
       <!-- Main content goes here -->
       <div class="container mx-auto py-8 px-5 flex-1">
-        <h1 class="text-3xl font-bold mb-6 text-center">Add New Product</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center">Edit Product</h1>
     
         <form
           id="product-form"
-          action="/admin/products/add"
+          action="/admin/products/edit"
           method="POST"
           enctype="multipart/form-data"
-        >
+        > 
+        <% if(typeof product !=='undefined' && product) {%>
+          <input type="hidden" name="productId" value="<%=product._id%>">
+
           <div class="mb-10 flex space-x-10">
             <div class="w-1/2">
               <label class="text-gray-700">Product Name</label>
               <input
                 type="text"
-                value="Highlander"
+                value="<%=product.productName%>"
                 id="product-name"
                 name="productName"
                 class="mt-1 block w-full rounded p-2"
@@ -94,7 +96,7 @@
               <label class="block text-gray-700">Price</label>
               <input
                 type="number"
-                value="456"
+                value="<%=product.price%>"
                 id="price"
                 name="price"
                 class="mt-1 block w-full rounded p-2"
@@ -107,7 +109,7 @@
                 name="discount"
                 id="discount"
                 class="mt-1 block w-full rounded p-2"
-                value="80"
+                value="<%=product.discount%>"
                 required
               >
               </input>
@@ -117,7 +119,7 @@
             <label class="text-gray-700">Product Description</label>
             <input
               type="text"
-              value="slim fit shirts for sale"
+              value="<%=product.description%>"
               name="description"
               id="description"
               class="mt-1 block w-full rounded p-2"
@@ -125,9 +127,6 @@
             />
           </div>
           <div class="mb-10 flex space-x-10">
-            <% if(typeof category !== 'undefined' && category){ %>
-
-
             <div class="w-1/2">
               <label class="block text-gray-700">Category</label>
               <select
@@ -136,13 +135,11 @@
                 class="mt-1 block w-full rounded p-2"
                 required
               >
-                <option value="" disabled selected>Select a category</option>
-               <% category.forEach((category) => { %>
+                <option value="<%=product.category.categoryName%>"> <%=product.category.categoryName%></option>
+                 <% category.forEach((category) => { %>
                 <option value="<%= category.categoryName%>"><%= category.categoryName%></option>
               <% }) %>
-                
               </select>
-              <% } %>
             </div>
             <div class="w-1/2">
               <label class="block text-gray-700">Size</label>
@@ -152,12 +149,12 @@
                 class="mt-1 block w-full rounded p-2"
                 required
               >
-                <option value="" disabled selected>Select a size</option>
+                <option value="<%= product.size%>" selected> <%= product.size%></option>
                 <option value="S">Small (S)</option>
                 <option value="M">Medium (M)</option>
                 <option value="L">Large (L)</option>
               </select>
-            </div>
+            </div>  
             <div class="w-1/2">
               <label class="block text-gray-700">Stock</label>
               <input
@@ -182,34 +179,55 @@
               <button
                 type="button"
                 id="crop-button"
-                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200 hidden"
-              >
-             
+                class="bg-blue-500 text-white mt-5 px-4 py-2 rounded hover:bg-blue-700 transition duration-200 hidden"
+                >
                 Crop Image
               </button>
               <button
               type="button"
               id="cancel-button"
+              onclick="removeNewImage()"
               class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-200 hidden"
             >
               Cancel
             </button>
-              
-              <input type="hidden" id="cropped-image-data1" name="croppedImages" />
+           
+              <!-- <input type="hidden" id="cropped-image-data1" name="croppedImages" />
               <input type="hidden" id="cropped-image-data2" name="croppedImages" />
-              <input type="hidden" id="cropped-image-data3" name="croppedImages" />
+              <input type="hidden" id="cropped-image-data3" name="croppedImages" /> -->
             </div>
           </div>
-          
+    
           <div id="image-preview-container" class="flex flex-wrap mt-4">
+            <% product.images.forEach((imgUrl, index) => { %>
+              <div>
+                <img src="<%= imgUrl%> " alt="image preview" style="max-width: 150px;margin-right: 20px;">
+                <button
+                type="button"
+                id="remove-button"
+                onclick="removeImage('<%= imgUrl%>')"
+                class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-700 transition duration-200 "
+              >
+                Remove
+              </button>
+              <input type="hidden" value="<%= imgUrl%>" id="cropped-image-data<%= index+1%>" name="croppedImages" />
+
+              
+            </div>
+            
+            <% }) %>
           </div>
-          
-          <input type="hidden" id="cropped-image-data" />
-          
+          <!-- <input type="hidden"  id="prev-image-data1" name="croppedImages" /> -->
+          <!-- <input type="hidden"  id="prev-image-data2" name="croppedImages" /> -->
+          <!-- <input type="hidden"  id="prev-image-data3" name="croppedImages" /> -->
+
           <div class="flex justify-center mt-4">
             <a href="/admin/products" class="bg-gray-300 text-black px-4 py-2 rounded mr-2">Cancel</a>
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Product</button>
           </div>
+
+          <% } %>
+          
         </form>
       </div>
     </div>
@@ -253,7 +271,8 @@
     />
 
     <script src="https://unpkg.com/cropperjs@1.5.13/dist/cropper.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="/javascript/addProducts.js"></script>
+    <script src="/javascript/editProducts.js"></script>
   </body>
 </html>

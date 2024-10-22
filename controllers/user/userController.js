@@ -13,8 +13,7 @@ export const userSignup = async (req, res) => {
     const otp = generateOTP();
     console.log(`first otp ${otp}`);
     const { firstName, lastName, email, phoneNumber, password } = req.body;
-    // req.session.email = email;
-    // console.log(req.session.email);
+
     const userExist = await Users.findOne({ email });
     if (userExist) {
       return res.status(200).render("user/userSignup", {

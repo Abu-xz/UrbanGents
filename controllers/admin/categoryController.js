@@ -9,7 +9,7 @@ export const loadCategory = async (req, res) => {
 export const addCategory = async (req, res) => {
   try {
     const { categoryName } = req.body;
-    console.log("axios route reached for add category");
+    // console.log("axios route reached for add category");
     if (!categoryName) {
       return res
         .status(400)

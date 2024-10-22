@@ -18,20 +18,23 @@ Category Management: [X]
 Build the category management page.
 Implement add, edit, and soft delete functionality for categories.
 
-Product Management: []
+Product Management: [X]
 Create the product management page
 Implement add, block, edit, and soft delete functionality for products.
 Ensure the products have a minimum of 3 images and handle image uploads.
+form validation when adding and editing products
 
 Single Sign-On (Google/Facebook): []
 Integrate Google for login/sign-up.
 
+[IMP]
 List Products on User Side: []
 Implement the product listing page that fetches products from the backend.
 Ensure that the products display relevant information.
 
-Product Details View:
-Create the product details page with features like: []
+[IMP]
+Product Details View:[]
+Create the product details page with features like: 
 Breadcrumbs
 Ratings
 Price
@@ -43,6 +46,10 @@ Highlights/specs of the product
 Related product recommendations
 Implement image zoom functionality.
 Test the product details view.
+
+Last Week Pending []
+tempData make it like ttl indexing
+otp handling
 
 Testing and Adjustments:
 Thoroughly test all features implemented over the week.

@@ -20,7 +20,10 @@ import {
 import {
   addProducts,
   loadAddProducts,
+  loadEditProduct,
   loadProducts,
+  productBlockUnblock,
+  updateProduct,
 } from "../controllers/admin/productsController.js";
 
 import upload from "../config/multer.js";
@@ -49,7 +52,8 @@ adminRouter.post("/editCategory", editCategory);
 adminRouter.get("/products", loadProducts);
 adminRouter.get("/products/add", loadAddProducts);
 adminRouter.post('/products/add', upload.array('croppedImages'), addProducts);
-adminRouter.post('products/block', )
-
+adminRouter.post('/products/block', productBlockUnblock)
+adminRouter.get('/products/edit/:id', loadEditProduct);
+adminRouter.post('/products/edit', upload.array('croppedImages'), updateProduct)
 
 export default adminRouter;
