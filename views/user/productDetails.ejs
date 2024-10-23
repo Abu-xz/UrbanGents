@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Landing page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/zoom.css">
+  </head>
+  <body>
+
+    <!-- Header -->
+    
+    <header class="bg-stone-950 py-5 px-8 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="logo">
+          <a href="/user/home">
+            <h1 class="text-2xl text-white font-bold uppercase">UrbanGents</h1>
+          </a>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <a href="/user/profile" class="text-white mx-4">
+            <span class="material-icons">person</span>
+          </a>
+          <a href="/user/cart" class="text-white mx-4">
+            <span class="material-icons">shopping_cart</span>
+          </a>
+          <a href="/user/wishlist" class="text-white mx-4">
+            <span class="material-icons">favorite</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+<!-- Main Content -->
+    <% if(typeof product !== 'undefined' && product) { %>
+
+      <div class="container mx-auto px-4 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 h-full">
+          <!-- Product Image and Thumbnails -->
+          <div id="img-zoom-container" class="flex flex-col items-center">
+            <!-- Main Product Image -->
+            <img id="product-image" src="<%=product.images[0]%>"
+            data-zoom-image="<%=product.images[0]%>"
+            alt="Product Image" 
+            class="w-4/4 h-96 object-cover rounded-lg border shadow-md mb-4">
+            
+            
+            <!-- Alternative Images (Thumbnails) -->
+            <div id='thumbnail' class="flex space-x-4">
+              <% product.images.forEach((image)=> {%>
+                <img id='thumbnail' src="<%=image%>" data-zoom-image="<%=image%>" alt="Alt Image 1" class="w-24 h-24 object-cover rounded-lg border shadow-md cursor-pointer thumbnail">
+                <% }) %>
+              </div>
+              
+            </div>
+
+          <!-- Product Info -->
+          <div class="flex flex-col justify-center">
+            <h1 class="text-3xl font-bold text-gray-900 mb-4 uppercase"><%=product.productName%></h1>
+            <p class="text-gray-600 mb-6"><%=product.description%></p>
+      
+            <div class="flex items-center space-x-4 mb-6">
+              <% if( product.discount > 0){ %>
+                <%const price = product.price - (product.price * product.discount / 100) %>
+                <span class="text-gray-900 font-bold text-2xl">₹<%=Math.trunc(price)%></span>
+                <span class="text-lg text-gray-500 line-through">₹<%=product.price%></span> 
+                <p class="text-rose-700 text-xl font-semibold">(<span class="font-medium text-md text-rose-700"><%=product.discount%>% OFF</span>)</p>
+              <% }else{ %>
+                <span class="text-gray-900 font-bold text-xl">₹<%=product.price%></span>
+              <% } %>
+          
+            </div>
+    
+
+            <!-- product rating here -->
+            <div class="flex  space-x-2 mb-5">
+              <svg class="w-4 fill-[#facc15]" viewBox="0 0 14 13" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+              </svg>
+              <svg class="w-4 fill-[#facc15]" viewBox="0 0 14 13" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+              </svg>
+              <svg class="w-4 fill-[#facc15]" viewBox="0 0 14 13" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+              </svg>
+              <svg class="w-4 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+              </svg>
+              <svg class="w-4 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+              </svg>
+            </div>
+      
+            <!-- Size Selection -->
+            <div class="mb-6">
+              <h3 class="text-lg font-semibold text-gray-900 mb-2">Select Size</h3>
+              <div class="flex space-x-4">
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none">S</button>
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none">M</button>
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none">L</button>
+                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none">XL</button>
+              </div>
+            </div>
+      
+            <!-- Add to Cart Button -->
+            <div class="flex items-center space-x-4">
+              <button class="px-6 py-3 bg-rose-500 text-white font-semibold rounded-lg hover:bg-rose-700 transition duration-300">Wishlist</button>
+              <button class="px-6 py-3 bg-sky-900 text-amber-100 font-semibold rounded-lg hover:bg-sky-950 transition duration-300">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+      <% } %>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-4">
+      <div class="text-center mt-4">
+        <p>&copy; 2024 UrbanGents</p>
+      </div>
+    </footer>
+    
+    <script src="/javascript/productDetails.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        // Initialize zoom on the main product image
+        $('#product-image').elevateZoom({
+          zoomType: "lens",
+          lensShape: "square",
+          lensSize: 150,
+          zoomLevel: 2
+        });
+    
+        // When a thumbnail is clicked
+        $('.thumbnail').on('click', function() {
+          var newImageSrc = $(this).attr('src');        // Get the new image src
+          var newZoomImageSrc = $(this).attr('data-zoom-image');  // Get the new zoom image
+    
+          // Update the main image's src
+          $('#product-image').attr('src', newImageSrc);
+    
+          // Remove the previous zoom instance
+          $('.zoomContainer').remove();  // Remove the zoom container (ElevateZoom adds this)
+    
+          // Reinitialize the zoom with the new image
+          $('#product-image').data('zoom-image', newZoomImageSrc).elevateZoom({
+            zoomType: "lens",
+            lensShape: "square",
+            lensSize: 150,
+            zoomLevel: 2
+          });
+        });
+      });
+    </script>
+    
+
+  </body>
+</html>

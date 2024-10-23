@@ -1,65 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body>
-  
-  
-<!-- views/partials/header.ejs -->
-<header class="bg-gray-800 text-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center py-6">
-      <!-- Logo -->
-      <div class="flex-shrink-0">
-        <a href="/" class="text-2xl font-bold">UrbanGents</a>
-      </div>
-
-      <!-- Navigation Links (Desktop) -->
-      <nav class="hidden md:flex space-x-8">
-        <a href="/" class="text-gray-300 hover:text-white">Home</a>
-        <a href="/shop" class="text-gray-300 hover:text-white">Shop</a>
-        <a href="/about" class="text-gray-300 hover:text-white">About</a>
-        <a href="/contact" class="text-gray-300 hover:text-white">Contact</a>
-      </nav>
-
-      <!-- Mobile Menu Button -->
-      <div class="md:hidden">
-        <button id="mobile-menu-button" class="text-gray-300 hover:text-white focus:outline-none">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </div>
+<header class="bg-orange-100 p-4 shadow-md">
+  <div class="container mx-auto flex justify-between items-center">
+    <div class="logo">
+      <img src="/images/logo.png" alt="Logo" class="w-12 h-12">
+    </div>
+    <div class="search-bar flex-1 mx-8">
+      <input type="text" placeholder="What are you looking for?" class="w-full p-2 border rounded-lg">
+    </div>
+    <div class="flex items-center space-x-4">
+      <a href="/login" class="text-gray-700">Login</a>
+      <a href="/cart" class="text-gray-700">
+        <i class="fas fa-heart"></i>
+      </a>
     </div>
   </div>
-
-  <!-- Mobile Menu -->
-  <nav id="mobile-menu" class="md:hidden hidden bg-gray-800 px-2 pt-2 pb-3 space-y-1 sm:px-3">
-    <a href="/" class="block text-gray-300 hover:text-white">Home</a>
-    <a href="/shop" class="block text-gray-300 hover:text-white">Shop</a>
-    <a href="/about" class="block text-gray-300 hover:text-white">About</a>
-    <a href="/contact" class="block text-gray-300 hover:text-white">Contact</a>
-  </nav>
 </header>
-
-<script>
-  // Toggle mobile menu visibility
-  document.getElementById('mobile-menu-button').addEventListener('click', function () {
-    var menu = document.getElementById('mobile-menu');
-    if (menu.classList.contains('hidden')) {
-      menu.classList.remove('hidden');
-    } else {
-      menu.classList.add('hidden');
-    }
-  });
-</script>
-
-
-</body>
-</html>
-
-

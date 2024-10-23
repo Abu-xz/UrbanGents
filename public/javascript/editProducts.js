@@ -43,7 +43,9 @@ imageInput.addEventListener("change", (event) => {
       }
       cropper = new Cropper(imagePreview, {
         aspectRatio: 1,
-        viewMode: 2,
+        viewMode: 1,
+        autoCropArea: 1,
+
       });
     };
     reader.readAsDataURL(file);

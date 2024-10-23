@@ -55,11 +55,11 @@ productForm.addEventListener("submit", (e) => {
     return;
   }
 
-  // if (typeof size !== "string" || size.length < 1) {
-  //   Swal.fire("Invalid size !");
-  //   e.preventDefault();
-  //   return;
-  // }
+  if (typeof size !== "string" || size.length < 1) {
+    Swal.fire("Invalid size !");
+    e.preventDefault();
+    return;
+  }
 
   if (
     typeof description !== "string" ||

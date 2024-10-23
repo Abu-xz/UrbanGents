@@ -1,156 +1,163 @@
-  <!DOCTYPE html>
-  <html lang="en">
-      <head>
-          <meta charset="UTF-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <title>Document</title>
-          <title>UrbanGents Landing Page</title>
-          <script src="https://cdn.tailwindcss.com"></script>
-        </head>
-        <body class="bg-gray-50">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+</head>
+<body>
 
-            <!-- Header -->
-            <header class="bg-white shadow-lg py-4">
-                <div class="container mx-auto flex items-center justify-between px-4 lg:px-8">
-                    <div class="flex items-center">
-                        <a href="#" class="text-2xl font-bold text-gray-800 hover:text-gray-600">
-                            <span class="text-red-950">URBAN</span><span class="text-blue-950">GENTS</span>
+    <header class="bg-stone-950 py-5 px-8 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+          <div class="logo">
+            <a href="/user/home">
+              <h1 class="text-2xl text-white font-bold uppercase">UrbanGents</h1>
+            </a>
+          </div>
+          
+          <div class="flex justify-between items-center">
+            <a href="/user/profile" class="text-white mx-4">
+              <span class="material-icons">person</span> 
+            </a>
+            <a href="/user/cart" class="text-white mx-4">
+              <span class="material-icons">shopping_cart</span> 
+            </a>
+            <a href="/user/wishlist" class="text-white mx-4">
+              <span class="material-icons">favorite</span> 
+            </a>
+          </div>
+          
+        </div>
+      </header>
+
+
+<!-- Hero Section -->
+<section >
+  <div class="relative font-sans before:absolute before:w-full before:h-full before:inset-0 before:bg-black before:opacity-50 before:z-10">
+    <img src="/images/banner1.webp" alt="Banner Image" class="absolute inset-0 w-full h-full object-cover" />
+
+    <div class="min-h-[350px] relative z-50 h-full max-w-6xl mx-auto flex flex-col justify-center items-center text-center text-white p-6">
+      <h1 class="text-4xl font-bold">Mens Casual Style Trend</h1>
+      <p class="sm:text-lg text-base text-center text-gray-200">Embark on unforgettable journeys. Book your dream vacation today!</p>
+
+      <a
+       href="/user/all-products"
+        class="mt-12 bg-transparent text-white text-base py-3 px-6 border border-white rounded-lg hover:bg-white hover:text-black transition duration-300">
+        Book Now
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Categories -->
+<section class="py-12">
+  <div class="container mx-auto text-center">
+    <h2 class="text-3xl font-bold mb-8 uppercase">Top Rated Product</h2>
+    <div class="flex flex-wrap align-center justify-center">
+
+      <% if(typeof product !== 'undefined' && product) { %>
+        <% product.forEach((product, index) => { %>
+            <div class="category mx-8 hover:-translate-y-2 transition-all">
+                <div class="max-w-xs mx-auto my-10">
+                    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                        <a href="/user/product-details/<%=product._id%>">
+                            <img class="w-full h-64 object-cover" src="<%=product.images[0]%>" alt="Product Image">
                         </a>
+                      <p></p>
+                      <div class="p-5">
+                          <h3 class="text-gray-700 text-xl font-semibold"><%=product.productName%></h3>
+                        <p class="text-gray-500 mt-2"><%=product.description%></p>
+                        <div class="flex items-center justify-between mt-4">
+                          <% if( product.discount > 0){ %>
+                            <%const price = product.price - (product.price * product.discount / 100) %>
+                            <span class="text-gray-900 font-bold text-xl">₹<%=Math.trunc(price)%></span>
+                          <% }else{ %>
+                            <span class="text-gray-900 font-bold text-xl">₹<%=product.price%></span>
+                          <% } %>
+                          <button class="px-4 py-2 bg-sky-900 text-white text-xs font-bold uppercase rounded hover:bg-sky-950">Add to Cart</button>
+                        </div>
+                      </div>
                     </div>
-    
-                    <div class="hidden lg:flex flex-1 mx-4">
-                        <form class="flex w-full">
-                            <input type="text" placeholder="Search for products..." class="flex-grow border border-gray-300 rounded-l-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                            <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-r-md">Search</button>
-                        </form>
+                  </div>
+              </div> 
+        <%})%>
+    <% } %>
+
+    </div>
+  </div>
+</section>
+
+</section>
+
+  <!-- Products in Spotlight -->
+  <section class="py-12 bg-gray-100">
+    <div class="container mx-auto text-center">
+      <h2 class="text-3xl font-bold mb-8">Products In The <span class="text-red-800">Spotlight</span></h2>
+      <div class="flex flex-wrap align-center justify-center">
+
+        <% if(typeof spotlight !== 'undefined' && spotlight) { %>
+            <% spotlight.forEach((spotlight, index) => { %>
+               
+         <div class="product mx-8">
+            <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <a href="/user/product-details/<%=spotlight._id%>">
+                    <img class="p-8 rounded-t-lg" src="<%=spotlight.images[0]%>" alt="product image" />
+                </a>
+                <div class="px-5 pb-5">
+                        <h4 class="text-xl mb-5 font-semibold tracking-tight text-gray-900 dark:text-white"><%=spotlight.productName%></h4>
+                    <div class="flex items-center mt-2.5 mb-5">
+                        <div class="flex items-center space-x-1 rtl:space-x-reverse">
+                            <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                            </svg>
+                            <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                            </svg>
+                            <svg class="w-4 h-4 text-gray-200 dark:text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                            </svg>
+                        </div>
+                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-3">5.0</span>
                     </div>
-    
-                    <nav class="hidden lg:flex items-center space-x-6 mr-5">
-                        <a href="#" class="text-gray-600 hover:text-blue-700 font-medium">Home</a>
-                        <a href="#" class="text-gray-600 hover:text-blue-700 font-medium">Shop</a>
-                        <a href="#" class="text-gray-600 hover:text-blue-700 font-medium">About</a>
-                    </nav>
-    
-                    <div class="flex items-center space-x-4">
-                        <a href="#" class="hidden lg:inline-block text-gray-600 hover:text-blue-700 font-medium">Login</a>
-                        <div class="relative">
-                            <button class="flex items-center bg-gray-100 text-gray-800 hover:bg-gray-200 rounded-full px-3 py-1">
-                                <span class="material-icons">person</span>
-                                <span class="ml-2">Profile</span>
-                            </button>
-                        </div>
-                    </div>
-    
-                    <button class="lg:hidden flex items-center">
-                        <span class="material-icons">menu</span>
-                    </button>
-                </div>
-            </header>
-    
-            <!-- Hero Banner -->
-            <section class="bg-cover bg-center h-96" style="background-image: url('https://via.placeholder.com/1500x500');">
-                <div class="flex items-center justify-center h-full bg-black bg-opacity-50">
-                    <div class="text-center">
-                        <h1 class="text-white text-4xl font-bold">Style That Defines You</h1>
-                        <p class="text-white mt-4 text-lg">Explore the latest trends in men's fashion</p>
-                        <a href="#shop" class="mt-6 inline-block bg-red-700 text-white py-2 px-4 rounded-full hover:bg-red-800">Shop Now</a>
-                    </div>
-                </div>
-            </section>
-    
-            <!-- Featured Products -->
-            <section id="shop" class="py-12">
-                <div class="container mx-auto px-4 lg:px-8">
-                    <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">Featured Products</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                        <!-- Product 1 -->
-                        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                            <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-56 object-cover">
-                            <div class="p-4">
-                                <h3 class="text-lg font-bold text-gray-800">Product 1</h3>
-                                <p class="text-gray-600">$49.99</p>
-                                <a href="#" class="mt-2 inline-block bg-blue-700 text-white py-1 px-3 rounded hover:bg-blue-800">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- Product 2 -->
-                        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                            <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-56 object-cover">
-                            <div class="p-4">
-                                <h3 class="text-lg font-bold text-gray-800">Product 2</h3>
-                                <p class="text-gray-600">$59.99</p>
-                                <a href="#" class="mt-2 inline-block bg-blue-700 text-white py-1 px-3 rounded hover:bg-blue-800">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- Product 3 -->
-                        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                            <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-56 object-cover">
-                            <div class="p-4">
-                                <h3 class="text-lg font-bold text-gray-800">Product 3</h3>
-                                <p class="text-gray-600">$69.99</p>
-                                <a href="#" class="mt-2 inline-block bg-blue-700 text-white py-1 px-3 rounded hover:bg-blue-800">Buy Now</a>
-                            </div>
-                        </div>
-                        <!-- Product 4 -->
-                        <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                            <img src="https://via.placeholder.com/300x300" alt="Product" class="w-full h-56 object-cover">
-                            <div class="p-4">
-                                <h3 class="text-lg font-bold text-gray-800">Product 4</h3>
-                                <p class="text-gray-600">$79.99</p>
-                                <a href="#" class="mt-2 inline-block bg-blue-700 text-white py-1 px-3 rounded hover:bg-blue-800">Buy Now</a>
-                            </div>
-                        </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-3xl font-bold text-gray-900 dark:text-white">₹<%=spotlight.price%></span>
+                        <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
                     </div>
                 </div>
-            </section>
+            </div>
+        </div>
+
+            <%})%>
+        <% } %>
+
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="bg-gray-900 text-white py-4">
+    <div class="text-center mt-4">
+      <p>&copy; 2024 UrbanGents</p>
+    </div>
+  </footer>
+<script>
+
+</script>
     
-            <!-- Categories Section -->
-            <section class="py-12 bg-gray-100">
-                <div class="container mx-auto px-4 lg:px-8">
-                    <h2 class="text-3xl font-bold text-gray-800 text-center mb-8">Categories</h2>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Category 1 -->
-                        <div class="relative">
-                            <img src="https://via.placeholder.com/600x400" alt="Category" class="w-full h-64 object-cover rounded-lg shadow-lg">
-                            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
-                                <a href="#" class="text-white text-2xl font-bold">Shirts</a>
-                            </div>
-                        </div>
-                        <!-- Category 2 -->
-                        <div class="relative">
-                            <img src="https://via.placeholder.com/600x400" alt="Category" class="w-full h-64 object-cover rounded-lg shadow-lg">
-                            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
-                                <a href="#" class="text-white text-2xl font-bold">Suits</a>
-                            </div>
-                        </div>
-                        <!-- Category 3 -->
-                        <div class="relative">
-                            <img src="https://via.placeholder.com/600x400" alt="Category" class="w-full h-64 object-cover rounded-lg shadow-lg">
-                            <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
-                                <a href="#" class="text-white text-2xl font-bold">Accessories</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-    
-            <!-- Promo Banner -->
-            <section class="py-12">
-                <div class="container mx-auto px-4 lg:px-8">
-                    <div class="bg-blue-700 text-white py-20 rounded-lg shadow-lg text-center">
-                        <h2 class="text-4xl font-bold mb-4">Exclusive Offer for UrbanGents Members</h2>
-                        <p class="text-lg">Join our mailing list and get 20% off your next purchase</p>
-                        <a href="#" class="mt-6 inline-block bg-red-700 text-white py-2 px-4 rounded-full hover:bg-red-800">Sign Up Now</a>
-                    </div>
-                </div>
-            </section>
-    
-            <!-- Footer -->
-        <%- include('../partials/footer') %>  
-    
-            <!-- Material Icons -->
-            <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-        </body>
-    </html>
-  </body>
+</body>
 </html>
