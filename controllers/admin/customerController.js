@@ -2,7 +2,10 @@ import Users from "../../models/userModel.js";
 
 //dashboard routes
 export const loadDashboard = (req, res) => {
-  res.status(200).render("admin/dashboard");
+  if (!req.session.admin) {
+    return res.status(401).redirect('/admin/login'); 
+  }
+  res.render('admin/dashboard'); 
 };
 
 // customer management

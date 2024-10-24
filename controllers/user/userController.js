@@ -95,13 +95,19 @@ export const verifyOtp = async (req, res) => {
     });
 
     await newUser.save();
+
     req.session.email = null;
     req.session.userId = null;
-    console.log("user created and session cleared");
+    //session creation
+    
+    console.log("user and session cleared");
+    
     return res
       .status(200)
       .json({ success: true, message: "User sign-up successfully" });
-  } catch (error) {}
+  } catch (error) {
+    console.log('Error login failed', error);
+  }
 };
 
 export const resendOtp = async (req, res) => {
@@ -156,7 +162,12 @@ export const verifyUser = async (req, res) => {
         message: "Invalid email or password",
       });
     }
-    res.status(200).render("user/userHome");
+
+    req.session.user ={
+      id : user._id,
+      email: user.email
+    }
+    res.status(200).redirect("/user/home");
   } catch (error) {
     // return res.status(500).render("user/userLogin");
     console.error(error);
@@ -268,3 +279,17 @@ export const resetPassword = async (req, res) => {
     console.error(error);
   }
 };
+
+
+
+export const logout = (req, res) =>{
+  req.session.destroy((err) => {
+    if (err) {
+      console.log("Error logging out");
+    }
+    res.clearCookie("connect.sid");
+    res.redirect("/user/login");
+    console.log('user logout reached and success')
+    });
+}
+

@@ -17,7 +17,7 @@ export const loadProducts = async (req, res) => {
 };
 
 export const loadAddProducts = async (req, res) => {
-  const category = await Category.find();
+  const category = await Category.find({isActive:true});
   if (!category) {
     res.status(400).redirect("/admin/products");
   }

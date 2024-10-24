@@ -39,9 +39,12 @@
 
 <!-- Main Content -->
     <% if(typeof product !== 'undefined' && product) { %>
-
-      <div class="container mx-auto px-4 py-12">
+      <div class="p-2">
+        <a href="/user/home" class="ml-10">Home / Product</a>
+      </div>
+      <div class="container mx-auto px-4 py-12 mb-5">
         <div class="grid grid-cols-1 md:grid-cols-2 h-full">
+
           <!-- Product Image and Thumbnails -->
           <div id="img-zoom-container" class="flex flex-col items-center">
             <!-- Main Product Image -->
@@ -125,11 +128,48 @@
             </div>
           </div>
         </div>
+        <hr>
       </div>
       
 
       <% } %>
 
+        <!-- Related Products -->
+<section class="py-12">
+  <div class="container mx-auto text-center">
+    <h2 class="text-3xl font-bold mb-8 uppercase">Related Product</h2>
+    <div class="flex flex-wrap align-center justify-center">
+
+      <% if(typeof relatedProduct !== 'undefined' && relatedProduct) { %>
+        <% relatedProduct.forEach((product, index) => { %>
+            <div class="category mx-8 hover:-translate-y-2 transition-all">
+                <div class="max-w-xs mx-auto my-10">
+                    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                        <a href="/user/product-details/<%=product._id%>">
+                            <img class="w-full h-64 object-cover" src="<%=product.images[0]%>" alt="Product Image">
+                        </a>
+                      <p></p>
+                      <div class="p-5">
+                          <h3 class="text-gray-700 text-xl font-semibold"><%=product.productName%></h3>
+                        <div class="flex items-center justify-between mt-4">
+                          <% if( product.discount > 0){ %>
+                            <%const price = product.price - (product.price * product.discount / 100) %>
+                            <span class="text-gray-900 font-bold text-xl">₹<%=Math.trunc(price)%></span>
+                          <% }else{ %>
+                            <span class="text-gray-900 font-bold text-xl">₹<%=product.price%></span>
+                          <% } %>
+                          <button class="px-4 py-2 bg-sky-900 text-white text-xs font-bold uppercase rounded hover:bg-sky-950">Add to Cart</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div> 
+        <%})%>
+    <% } %>
+
+    </div>
+  </div>
+</section>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-4">

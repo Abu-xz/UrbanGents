@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landing page</title>
+    <title>Home page</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -34,6 +34,7 @@
             <a href="/user/wishlist" class="text-white mx-4">
               <span class="material-icons">favorite</span> 
             </a>
+            <a href="/user/logout" class="text-white">Logout</a>
           </div>
           
         </div>
@@ -58,7 +59,7 @@
   </div>
 </section>
 
-<!-- Categories -->
+<!-- Products -->
 <section class="py-12">
   <div class="container mx-auto text-center">
     <h2 class="text-3xl font-bold mb-8 uppercase">Top Rated Product</h2>
@@ -75,7 +76,6 @@
                       <p></p>
                       <div class="p-5">
                           <h3 class="text-gray-700 text-xl font-semibold"><%=product.productName%></h3>
-                        <p class="text-gray-500 mt-2"><%=product.description%></p>
                         <div class="flex items-center justify-between mt-4">
                           <% if( product.discount > 0){ %>
                             <%const price = product.price - (product.price * product.discount / 100) %>

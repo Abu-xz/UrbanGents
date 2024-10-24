@@ -2,6 +2,7 @@ import express from "express";
 import {
   loadLogin,
   isValidAdmin,
+  logout,
 } from "../controllers/admin/loginController.js";
 import {
   loadCustomer,
@@ -27,33 +28,43 @@ import {
 } from "../controllers/admin/productsController.js";
 
 import upload from "../config/multer.js";
+import { adminAuth } from "../middleware/adminAuth.js";
+
+
+const noCache = (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+};
+
 
 const adminRouter = express.Router();
 
+adminRouter.use(noCache);
 //login routes
 adminRouter.get("/login", loadLogin);
 adminRouter.post("/login", isValidAdmin);
 
 //dashboard routes
-adminRouter.get("/dashboard", loadDashboard);
+adminRouter.get("/dashboard", adminAuth, loadDashboard);
 
 //customers routes
-adminRouter.get("/customers", loadCustomer);
-adminRouter.get("/customers/:action/:userId", customerAction);
-
+adminRouter.get("/customers", adminAuth, loadCustomer);
+adminRouter.get("/customers/:action/:userId", adminAuth, customerAction);
+ 
 // Category routes
-adminRouter.get("/category", loadCategory);
-adminRouter.post("/addCategory", addCategory);
-adminRouter.post("/blockCategory", blockCategory);
-adminRouter.post("/unblockCategory", unblockCategory);
-adminRouter.post("/editCategory", editCategory);
+adminRouter.get("/category", adminAuth, loadCategory);
+adminRouter.post("/addCategory", adminAuth, addCategory);
+adminRouter.post("/blockCategory", adminAuth, blockCategory);
+adminRouter.post("/unblockCategory", adminAuth, unblockCategory);
+adminRouter.post("/editCategory", adminAuth, editCategory);
 
 // Products routes here ....
-adminRouter.get("/products", loadProducts);
-adminRouter.get("/products/add", loadAddProducts);
-adminRouter.post('/products/add', upload.array('croppedImages'), addProducts);
-adminRouter.post('/products/block', productBlockUnblock)
-adminRouter.get('/products/edit/:id', loadEditProduct);
-adminRouter.post('/products/edit', upload.array('croppedImages'), updateProduct)
+adminRouter.get("/products", adminAuth, loadProducts);
+adminRouter.get("/products/add", adminAuth, loadAddProducts);
+adminRouter.post('/products/add', upload.array('croppedImages'), adminAuth, addProducts);
+adminRouter.post('/products/block', adminAuth, productBlockUnblock)
+adminRouter.get('/products/edit/:id', adminAuth, loadEditProduct);
+adminRouter.post('/products/edit', upload.array('croppedImages'), adminAuth, updateProduct);
+adminRouter.get('/logout', logout)
 
 export default adminRouter;

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
 </head>
 
 <% if (typeof error !== 'undefined' && error) { %>  
@@ -63,10 +64,12 @@
 
                 <!-- Sign up with Google -->
                 <div class="mt-6 flex justify-center">
-                    <button class="flex items-center px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-md hover:bg-gray-100 transition duration-300">
-                        <!-- <img src="path-to-google-icon/google.png" alt="Google" class="h-5 w-5 mr-2"> -->
-                        Sign up with Google
-                    </button>
+                    <a href="/auth/google">
+                    <button class="flex items-center justify-center w-full px-4 py-2 bg-white border border-gray-300 text-gray-600 rounded-md hover:bg-gray-100 transition duration-300">
+                           <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google" class="h-5 w-5 mr-2">
+                           Sign up with Google
+                        </button>
+                    </a> 
                 </div>
 
                 <!-- Log In Link -->
@@ -77,6 +80,9 @@
 </div>
 
 <script type="module" src="/javascript/signupForm.js"></script>
+
+
+
 <!-- Toast closing script here...-->
 <script>
     function dismissToast() {
