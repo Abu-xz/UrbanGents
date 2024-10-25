@@ -34,7 +34,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(cookieParser());
 app.use(
   session({
-    secret: "xdv14nmjad",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     store: MongoStore.create({
       mongoUrl: "mongodb://localhost:27017/session-db",
@@ -52,10 +52,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-console.log('Google client secret' ,process.env.GOOGLE_CLIENT_SECRET)
-console.log( 'Google CALLBACK UrL',process.env.GOOGLE_CALLBACK_URL)
-console.log( 'google  client id', process.env.GOOGLE_CLIENT_ID)
-
 passport.use(
   new GoogleStrategy(
     {
@@ -67,8 +63,8 @@ passport.use(
       try {
         let user = await Users.findOne({ googleId: profile.id });
         if(user){
-          console.log('profile here',profile)
-          return done(null, user);
+          // console.log('profile here',profile)
+          return done(null, user); 
         }else{
           user = new Users({
             googleId: profile.id,

@@ -223,7 +223,7 @@
 
           <div class="flex justify-center mt-4">
             <a href="/admin/products" class="bg-gray-300 text-black px-4 py-2 rounded mr-2">Cancel</a>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Product</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Update Product</button>
           </div>
 
           <% } %>
@@ -241,7 +241,7 @@
         icon: "success",
         text: "Product updated successfully!",
         confirmButtonText: "Ok",
-      }).then((result) => {
+      }).then((result) => { 
         if (result.isConfirmed) {
           window.location.href = "/admin/products";
         }
@@ -253,11 +253,11 @@
       Swal.fire({
         title: "Error!",
         icon: "error",
-        text: "<%= errorMessage || 'Failed to add product!' %>",
+        text:  'Failed to update product!'  ,
         confirmButtonText: "Ok",
       }).then((result) => {
         if (result.isConfirmed) {
-          window.location.href = "/admin/products/add";
+          window.location.href = "/admin/products";
         }
       });
       

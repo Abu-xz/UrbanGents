@@ -43,7 +43,7 @@
         <a href="/user/home" class="ml-10">Home / Product</a>
       </div>
       <div class="container mx-auto px-4 py-12 mb-5">
-        <div class="grid grid-cols-1 md:grid-cols-2 h-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 h-full mb-5">
 
           <!-- Product Image and Thumbnails -->
           <div id="img-zoom-container" class="flex flex-col items-center">
@@ -119,6 +119,16 @@
                 <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none">L</button>
                 <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none">XL</button>
               </div>
+                <% if(product.stock != 0 && product.stock > 10) { %>
+                  <p class="text-lg text-grey-950 font-semibold">Available stock <%=product.stock%></p>
+                  <% }else if(product.stock <= 10 && product.stock > 0){ %>
+                    <p class="text-lg text-red-600 font-bold mt-4">Only <%=product.stock%> more left in  Stock</p>
+                    <%} else {%> 
+                      <p class="text-lg text-red-600 font-bold mt-4">Stock Unavailable</p>
+                  <%  }%>
+              <div>
+              </div>
+
             </div>
       
             <!-- Add to Cart Button -->

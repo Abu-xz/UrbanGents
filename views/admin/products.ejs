@@ -13,63 +13,84 @@
   <body class="bg-gray-100 pr-8">
     <div class="flex">
 
-  <!-- Sidebar -->
-  <aside class="w-64 bg-white p-6 shadow-lg">
-    <div class="fixed flex flex-col">
-      <div class="text-2xl font-bold mb-10">Admin Dashboard</div>
+   <!-- Sidebar (same as before) -->
+      <aside class="w-64 bg-white p-6 shadow-lg">
+        <div class="fixed flex flex-col">
+          <div class="text-2xl font-bold mb-10">Admin Dashboard</div>
 
-      <!-- Navigation Menu -->
-      <nav class=" space-y-4">
-        <a href="/admin/dashboard" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
-          <span class="material-icons">dashboard</span>
-          <span class="ml-2">Dashboard</span>
-        </a>
-        <a href="/admin/products" class="flex items-center text-red-700 hover:bg-red-200 p-2 rounded">
-          <span class="material-icons">inventory</span>
-          <span class="ml-2">Products</span>
-        </a>
-        <a href="/admin/category" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
-          <span class="material-icons">category</span>
-          <span class="ml-2">Category</span>
-        </a>
-        <a href="/admin/orders" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
-          <span class="material-icons">shopping_cart</span>
-          <span class="ml-2">Orders</span>
-        </a>
-        <a href="/admin/coupons" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
-          <span class="material-icons">redeem</span>
-          <span class="ml-2">Coupons</span>
-        </a>
-        <a href="/admin/offers" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
-          <span class="material-icons">local_offer</span>
-          <span class="ml-2">Offers</span>
-        </a>
-        <a href="/admin/banner" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
-          <span class="material-icons">campaign</span>
-          <span class="ml-2">Banner</span>
-        </a>
-        <a href="/admin/customers" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
-          <span class="material-icons">people</span>
-          <span class="ml-2">Customers</span>
-        </a>
-      </nav>
-
-      <!-- Logout -->
-      <div class="mt-2">
-        <a href="/admin/logout" class="flex items-center text-red-600 hover:bg-red-100 p-2 rounded">
-          <span class="material-icons">logout</span>
-          <span class="ml-2">Logout</span>
-        </a>
-      </div>
-      
-    </div>
-  </aside>
-
+          <!-- Navigation Menu -->
+          <nav class="space-y-4">
+            <a
+              href="/admin/dashboard"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">dashboard</span>
+              <span class="ml-2">Dashboard</span>
+            </a>
+            <a
+              href="/admin/Products"
+              class="flex items-center text-red-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">inventory</span>
+              <span class="ml-2">Products</span>
+            </a>
+            <a
+              href="/admin/category"
+              class="flex items-center text-grey-700 hover:bg-red-200 p-2 rounded"
+            >
+              <span class="material-icons">category</span>
+              <span class="ml-2">Category</span>
+            </a>
+            <a
+              href="/admin/orders"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">shopping_cart</span>
+              <span class="ml-2">Orders</span>
+            </a>
+            <a
+              href="/admin/coupons"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">redeem</span>
+              <span class="ml-2">Coupons</span>
+            </a>
+            <a
+              href="/admin/offers"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">local_offer</span>
+              <span class="ml-2">Offers</span>
+            </a>
+            <a
+              href="/admin/banner"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">campaign</span>
+              <span class="ml-2">Banner</span>
+            </a>
+            <a
+              href="/admin/customers"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">people</span>
+              <span class="ml-2">Customers</span>
+            </a>
+            <a
+              href="/admin/logout"
+              class="flex items-center text-red-600 hover:bg-red-100 p-2 rounded mt-10"
+            >
+              <span class="material-icons">logout</span>
+              <span class="ml-2">Logout</span>
+            </a>
+          </nav>
+        </div>
+      </aside>
 
         
   
   <div class="flex-1 px-10">
-    <div class="container mx-auto py-8">
+    <div class="container mx-auto pt-6 mb-3">
       <h1 class="text-3xl font-bold mb-1 text-center">Product Management</h1>
 
       <!-- Navigate to the add product page -->
@@ -134,12 +155,72 @@
                 </td>
               </tr>
               <% } %>
+
+
+              <% if(typeof success !== 'undefined' && success){ %>
+                <script>
+                  Swal.fire({
+                    title: "Success!",
+                    icon: "success",
+                    text: "Product updated successfully!",
+                    confirmButtonText: "Ok",
+                  }).then((result) => { 
+                    if (result.isConfirmed) {
+                      window.location.href = "/admin/products";
+                    }
+                  });
+                </script>
+            
+                <% }else if(typeof success !== 'undefined' && !success){ %>
+                <script>
+                  Swal.fire({
+                    title: "Error!",
+                    icon: "error",
+                    text:  'Failed to update product!'  ,
+                    confirmButtonText: "Ok",
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      window.location.href = "/admin/products";
+                    }
+                  });
+                  
+                </script>
+                <% } %>
           
 
          
         </tbody>
       </table>
     </div>
+    <nav >
+      <div class=" flex justify-center items-center space-x-2 ">
+        <!-- Previous Button -->
+         <a href="?page=<%=currentPage - 1 %>&limit=<%=limit %>">
+           <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 <%=currentPage === 1 ? 'disabled' : '' %>">
+               Prev
+           </button>
+         </a>
+    
+        <!-- Page Numbers -->
+         <% for(let i = 1; i <= totalPages; i++){ %>
+          <a href="?page=<%= i %>&limit=<%= limit %>">
+            <button class="px-4 py-2 <%=currentPage === i?'bg-blue-900 text-white':'bg-white text-gray-700' %> rounded-lg ">
+                <%=i %>
+            </button>
+          </a>
+          <% } %>
+
+         <!-- Next Button -->
+         <a <% if(currentPage !== totalPages) { %>
+          href="?page=<%= currentPage + 1 %>&limit=<%= limit %>">
+          <% } %> 
+          <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+            Next
+          </button>
+        </a>
+      </div>
+    </nav>
+
   </div>
 </div>
   

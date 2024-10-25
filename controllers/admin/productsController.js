@@ -3,13 +3,20 @@ import Product from "../../models/productModel.js";
 
 export const loadProducts = async (req, res) => {
   try {
-    const products = await Product.find().populate("category");
 
-    // console.log('populated product -',products);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 6;
+    const skip = (page - 1) * limit;
+    const totalProducts = await Product.countDocuments();
+    const totalPages = Math.ceil(totalProducts / limit);
+    
+    if(page > totalPages) return res.status(200).redirect(`/admin/products?page=${totalPages}&limit=${limit}`);
+    
+    const products = await Product.find().populate("category").skip(skip).limit(limit);
     if (!products) {
       return res.status(500).json({ message: "Internal server error" });
     } else {
-      return res.status(200).render("admin/products", { products });
+      return res.status(200).render("admin/products", { products , currentPage :page, totalPages, limit});
     }
   } catch (error) {
     console.log(error);
@@ -151,7 +158,7 @@ export const updateProduct = async (req, res) => {
       size,
       croppedImages,
     } = req.body;
-    console.log(croppedImages);
+    // console.log(croppedImages);
     if (
       !productId||
       !productName ||
@@ -197,11 +204,11 @@ export const updateProduct = async (req, res) => {
 
     updatedProduct.save();
     console.log(" product updated");
-    console.log(updatedProduct);
-    res.status(200).render("admin/addProducts", { success: true });
+    // console.log(updatedProduct);
+    res.status(200).render("admin/products", { success: true,});
   } catch (error) {
     console.error(error);
-    res.status(500).render("admin/addProducts", {
+    res.status(500).render("admin/products", {
       success: false,
       errorMessage: "Failed to add product. Please try again.",
     });

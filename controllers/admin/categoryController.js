@@ -1,10 +1,20 @@
 import Category from "../../models/categoryModel.js";
 
 export const loadCategory = async (req, res) => {
-  const categories = await Category.find();
-  //   console.log(categories);
-  res.status(200).render("admin/category", { categories });
+  const page =  parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 8;
+  const skip = (page - 1) * limit; 
+  const categories = await Category.find().skip(skip).limit(limit);
+  const totalCategories = await Category.countDocuments();
+  const totalPages = Math.ceil(totalCategories / limit);
+  console.log(totalPages)
+
+  if(page > totalPages){
+    res.status(200).redirect(`/admin/category?page=${totalPages}&limit=${limit}`)
+  }
+  res.status(200).render("admin/category", { categories, currentPage:page, totalCategories, limit, totalPages });
 };
+
 
 export const addCategory = async (req, res) => {
   try {

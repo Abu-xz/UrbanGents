@@ -33,7 +33,7 @@ userRouter.use(noCache);
 userRouter.get("/signup", isUser, loadSignup);
 userRouter.post("/signup", isUser, userSignup);
 
-// logout route
+// logout routepage
 userRouter.get("/logout", logout);
 
 // OTP route management

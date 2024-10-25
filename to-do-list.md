@@ -7,7 +7,8 @@ bg-rose-500 //wishlist
 bg-sky-900 //add to cart
 
 
-//===================================//
+//========================= Week 8 Project 1 task ============================//
+
 Admin Sign-In:  [X]
 Set up the admin sign-in page.
 
@@ -49,27 +50,79 @@ Discounts/Coupons applied [x]
 Reviews [x]
 Stock availability [x]
 Proper error handling for sold out/unavailable items []
-pagination []
+pagination [x]
 Highlights/specs of the product [x]
 Related product recommendations [x]
 Implement image zoom functionality. [x]
 Test the product details view
 
 Last Week Pending & Code to change: []
+Google auth code explanation [x]
 Home [X]
 session management [x]
-session secret key replace with env variable later []
+admin login error message displayed [x]
+session secret key replace with env variable later [x]
 product model size field change to enum like s , m , l , xl  []
 product management delete action change with confirm button []
 Display some random product in product details page like similar products [x]
 if the category is blocked don't show it on category selection [x]
-Remove tempData and add the user data to session []
-otp handling []
+Remove tempData and add the user data actual collection and set a field like verified true/false []
 color options []
-brand []
-admin aside fix design []
+brand ? optional []
+update product sweet-alert fix [x]
+add slug [x]
+admin aside fix design [x]
+Home page add link to all product page [x]
+stock management hide 'add to cart ' button for out of stock products
 
-Testing and Adjustments:
-Thoroughly test all features implemented over the week.
-Fix any bugs or issues discovered during testing.
-Ensure smooth navigation and usability across both admin and user sides.
+
+
+
+//========================= Week 8 Project 2 task ============================//
+
+October 25-26: Complete Pending Tasks + Basic User Profile Setup [] ------------//
+
+Set up User Profile page structure: Show details, address, and orders.
+Implement View/Edit Profile CRUD operations.
+
+
+October 27-28: Address Management + Basic Cart Setup [] ---------------//
+
+Address Management in Profile: []
+Implement multiple address functionality: Add, Edit, and Delete.
+
+Cart Management: []
+Implement Add to Cart and List Products in Cart.
+Control qty based on stock availability.
+Set maximum quantity per user for each product.
+
+
+October 29-30: Advanced Cart and Search Functionality [] ---------------//
+Out-of-Stock Handling: []
+Display/hide out-of-stock products with a filter toggle.
+
+Advanced Search and Sorting: []
+Implement search functionality with sorting:
+Popularity, Price (low-high, high-low), Average ratings, Featured, New Arrivals, A-Z, Z-A.
+
+
+October 31: Inventory, Checkout, and Order Placement [] ---------------[]
+
+Inventory and Stock Management: []
+Manage stock levels and display them in listings and product details.
+
+Checkout Page: []
+Implement checkout with address selection and edit options.
+
+Order Placement (COD) : []
+Complete COD-based order placement with address selection.
+
+
+November 1: Finalize User and Admin Order Management [] ---------------//
+
+Order Management - User Side: []
+Enable order history, status tracking, and cancellation options.
+
+Order Management - Admin Side: []
+List orders, update order status, and manage cancellations.
+Display remaining stock on product listing and details pages.

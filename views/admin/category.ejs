@@ -8,85 +8,86 @@
   </head>
   <body class="bg-gray-100">
     <!-- Main Container -->
-    <div class="flex">
+    <div class="flex ">
      
-      <!-- Sidebar (same as before) -->
-      <aside class="w-64 bg-white p-6 shadow-lg">
-        <div class="fixed flex flex-col">
-          <div class="text-2xl font-bold mb-10">Admin Dashboard</div>
+     
+   <!-- Sidebar (same as before) -->
+   <aside class="w-64 bg-white p-6 shadow-lg h-screen">
+    <div class="fixed flex flex-col">
+      <div class="text-2xl font-bold mb-10">Admin Dashboard</div>
 
-          <!-- Navigation Menu -->
-          <nav class="space-y-4">
-            <a
-              href="/admin/dashboard"
-              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
-            >
-              <span class="material-icons">dashboard</span>
-              <span class="ml-2">Dashboard</span>
-            </a>
-            <a
-              href="/admin/Products"
-              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
-            >
-              <span class="material-icons">inventory</span>
-              <span class="ml-2">Products</span>
-            </a>
-            <a
-              href="/admin/category"
-              class="flex items-center text-red-700 hover:bg-red-200 p-2 rounded"
-            >
-              <span class="material-icons">category</span>
-              <span class="ml-2">Category</span>
-            </a>
-            <a
-              href="/admin/orders"
-              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
-            >
-              <span class="material-icons">shopping_cart</span>
-              <span class="ml-2">Orders</span>
-            </a>
-            <a
-              href="/admin/coupons"
-              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
-            >
-              <span class="material-icons">redeem</span>
-              <span class="ml-2">Coupons</span>
-            </a>
-            <a
-              href="/admin/offers"
-              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
-            >
-              <span class="material-icons">local_offer</span>
-              <span class="ml-2">Offers</span>
-            </a>
-            <a
-              href="/admin/banner"
-              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
-            >
-              <span class="material-icons">campaign</span>
-              <span class="ml-2">Banner</span>
-            </a>
-            <a
-              href="/admin/customers"
-              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
-            >
-              <span class="material-icons">people</span>
-              <span class="ml-2">Customers</span>
-            </a>
-            <a
-              href="/admin/logout"
-              class="flex items-center text-red-600 hover:bg-red-100 p-2 rounded mt-10"
-            >
-              <span class="material-icons">logout</span>
-              <span class="ml-2">Logout</span>
-            </a>
-          </nav>
-        </div>
-      </aside>
+      <!-- Navigation Menu -->
+      <nav class="space-y-4">
+        <a
+          href="/admin/dashboard"
+          class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+        >
+          <span class="material-icons">dashboard</span>
+          <span class="ml-2">Dashboard</span>
+        </a>
+        <a
+          href="/admin/Products"
+          class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+        >
+          <span class="material-icons">inventory</span>
+          <span class="ml-2">Products</span>
+        </a>
+        <a
+          href="/admin/category"
+          class="flex items-center text-red-700 hover:bg-red-200 p-2 rounded"
+        >
+          <span class="material-icons">category</span>
+          <span class="ml-2">Category</span>
+        </a>
+        <a
+          href="/admin/orders"
+          class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+        >
+          <span class="material-icons">shopping_cart</span>
+          <span class="ml-2">Orders</span>
+        </a>
+        <a
+          href="/admin/coupons"
+          class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+        >
+          <span class="material-icons">redeem</span>
+          <span class="ml-2">Coupons</span>
+        </a>
+        <a
+          href="/admin/offers"
+          class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+        >
+          <span class="material-icons">local_offer</span>
+          <span class="ml-2">Offers</span>
+        </a>
+        <a
+          href="/admin/banner"
+          class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+        >
+          <span class="material-icons">campaign</span>
+          <span class="ml-2">Banner</span>
+        </a>
+        <a
+          href="/admin/customers"
+          class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+        >
+          <span class="material-icons">people</span>
+          <span class="ml-2">Customers</span>
+        </a>
+        <a
+          href="/admin/logout"
+          class="flex items-center text-red-600 hover:bg-red-100 p-2 rounded mt-10"
+        >
+          <span class="material-icons">logout</span>
+          <span class="ml-2">Logout</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
 
       <!-- Main Content -->
       <div class="flex-1 p-6">
-        <div class="container mx-auto py-10">
+        <div class="container mx-auto py-5">
             <!-- Page Header -->
             <div class="mb-8 flex justify-between items-center">
               <h1 class="text-3xl font-bold text-gray-800">Category Management</h1>
@@ -149,9 +150,39 @@
                 </tbody>
               </table>
             </div>
+
+            <nav >
+              <div class=" flex justify-center items-center space-x-2 mt-4">
+                <!-- Previous Button -->
+                 <a href="?page=<%=currentPage - 1 %>&limit=<%=limit %>">
+                   <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 <%=currentPage === 1 ? 'disabled' : '' %>">
+                       Prev
+                   </button>
+                 </a>
+            
+                <!-- Page Numbers -->
+                 <% for(let i = 1; i <= totalPages; i++){ %>
+                  <a href="?page=<%= i %>&limit=<%= limit %>">
+                    <button class="px-4 py-2 <%=currentPage === i?'bg-slate-900 text-white':'bg-white text-gray-700' %> rounded-lg ">
+                        <%=i %>
+                    </button>
+                  </a>
+                  <% } %>
+
+                 <!-- Next Button -->
+                 <a <% if(currentPage !== totalPages) { %>
+                  href="?page=<%= currentPage + 1 %>&limit=<%= limit %>">
+                  <% } %> 
+                   <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+                       Next
+                   </button>
+                 </a>
+              </div>
+            </nav>
+
           </div>
       </div>
-      
+    </div>
 
     <!-- Google Material Icons -->
     <link
