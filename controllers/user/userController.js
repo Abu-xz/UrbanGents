@@ -91,7 +91,7 @@ export const verifyOtp = async (req, res) => {
       email,
       phoneNumber,
       password,
-      status:true
+      status: true,
     });
 
     await newUser.save();
@@ -99,14 +99,14 @@ export const verifyOtp = async (req, res) => {
     req.session.email = null;
     req.session.userId = null;
     //session creation
-    
+
     console.log("user and session cleared");
-    
+
     return res
       .status(200)
       .json({ success: true, message: "User sign-up successfully" });
   } catch (error) {
-    console.log('Error login failed', error);
+    console.log("Error login failed", error);
   }
 };
 
@@ -150,7 +150,7 @@ export const verifyUser = async (req, res) => {
   console.log("user login route reached");
   try {
     const user = await Users.findOne({ email });
-    console.log(user)
+    console.log(user);
     if (!user) {
       return res
         .status(200)
@@ -163,10 +163,10 @@ export const verifyUser = async (req, res) => {
       });
     }
 
-    req.session.user ={
-      id : user._id,
-      email: user.email
-    }
+    req.session.user = {
+      id: user._id,
+      email: user.email,
+    };
     res.status(200).redirect("/user/home");
   } catch (error) {
     // return res.status(500).render("user/userLogin");
@@ -272,24 +272,24 @@ export const resetPassword = async (req, res) => {
     const { newPassword, confirmPassword } = req.body;
     const { email } = req.session.forgotData;
     const password = await bcrypt.hash(newPassword, 10);
-    const user = await Users.findOneAndUpdate({ email }, { password: password });
+    const user = await Users.findOneAndUpdate(
+      { email },
+      { password: password }
+    );
     user.save();
-    res.status(200).redirect('/user/login');
+    res.status(200).redirect("/user/login");
   } catch (error) {
     console.error(error);
   }
 };
 
-
-
-export const logout = (req, res) =>{
+export const logout = (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.log("Error logging out");
     }
     res.clearCookie("connect.sid");
     res.redirect("/user/login");
-    console.log('user logout reached and success')
-    });
-}
-
+    console.log("user logout reached and success");
+  });
+};

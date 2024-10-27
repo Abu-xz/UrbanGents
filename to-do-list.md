@@ -1,4 +1,6 @@
  <script src="https://cdn.tailwindcss.com"></script> 
+ <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
+
  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -56,6 +58,8 @@ Related product recommendations [x]
 Implement image zoom functionality. [x]
 Test the product details view
 
+
+
 Last Week Pending & Code to change: []
 Google auth code explanation [x]
 Home [X]
@@ -67,20 +71,25 @@ product management delete action change with confirm button []
 Display some random product in product details page like similar products [x]
 if the category is blocked don't show it on category selection [x]
 Remove tempData and add the user data actual collection and set a field like verified true/false []
+user side ui when hover add text under the logo
 color options []
-brand ? optional []
+brand ? option
+al []
 update product sweet-alert fix [x]
 add slug [x]
 admin aside fix design [x]
 Home page add link to all product page [x]
-stock management hide 'add to cart ' button for out of stock products
+stock management hide 'add to cart ' button for out of stock products []
+google sign-in full name store to db [] 
+create input for gender when sign-up []
+dynamic image for google and normal user [] 
 
 
 
 
-//========================= Week 8 Project 2 task ============================//
+//========================= Week 9 Project 2 task ============================//
 
-October 25-26: Complete Pending Tasks + Basic User Profile Setup [] ------------//
+October 25-26: Complete Pending Tasks + Basic User Profile Setup [x] ------------//
 
 Set up User Profile page structure: Show details, address, and orders.
 Implement View/Edit Profile CRUD operations.

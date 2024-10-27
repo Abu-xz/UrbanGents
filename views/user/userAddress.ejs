@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Header  -->
+    <header class="bg-black py-5 px-8 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="logo">
+          <a href="/user/home">
+            <h1 class="text-2xl text-white font-bold uppercase">UrbanGents</h1>
+          </a>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <a href="/user/profile" class="text-white mx-4">
+            <span class="material-icons">person</span>
+          </a>
+          <a href="/user/cart" class="text-white mx-4">
+            <span class="material-icons">shopping_cart</span>
+          </a>
+          <a href="/user/wishlist" class="text-white mx-4">
+            <span class="material-icons">favorite</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <!-- Main Container -->
+    <% if(user !== 'undefined' && user){ %>
+
+    <div class="container mx-auto mt-3 p-4 flex flex-col lg:flex-row">
+      <!-- Sidebar -->
+      <aside
+        class="w-full lg:w-1/6 bg-white p-4 rounded-lg shadow-md mb-4 lg:mb-0"
+      >
+        <div class="text-center">
+          <div class="w-24 h-24 mx-auto rounded-full bg-gray-300 mb-2">
+            <img
+              src="https://avatar.iran.liara.run/public/boy?username=Ash"
+              alt="User Avatar"
+              class="w-full h-full rounded-full object-cover"
+            />
+          </div>
+          <h2 class="text-lg font-semibold uppercase"><%= user.firstName%></h2>
+          <% if(user.phoneNumber){ %>
+          <p class="text-gray-600">+91 <%=user.phoneNumber %></p>
+          <% } %>
+        </div>
+        <!-- Navigation Menu -->
+        <nav class="text-center mt-5 space-y-4">
+          <a
+            href="/user/profile"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Person Info"
+          >
+            <span class="material-icons text-lg leading-none">person</span>
+            <span class="ml-2">Person Info</span>
+          </a>
+          <a
+            href="/user/profile/coupons"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Coupons"
+          >
+            <span class="material-icons text-lg leading-none">redeem</span>
+            <span class="ml-2">Coupons</span>
+          </a>
+          <a
+            href="/user/profile/address"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Person Info"
+          >
+            <span class="material-icons text-lg leading-none"> home </span>
+            <span class="ml-2">Address</span>
+          </a>
+          <a
+            href="/user/wishlist"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Wishlist"
+          >
+            <span class="material-icons text-lg leading-none">favorite</span>
+            <span class="ml-2">Wishlist</span>
+          </a>
+          <a
+            href="/user/profile/orders"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Orders"
+          >
+            <span class="material-icons text-lg leading-none">inventory_2</span>
+            <span class="ml-2">Orders</span>
+          </a>
+          <a
+            href="/user/wallet"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Wallet"
+          >
+            <span class="material-icons text-lg leading-none"
+              >account_balance_wallet</span
+            >
+            <span class="ml-2">Wallet</span>
+          </a>
+          <a
+            href="/user/offers"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Offers"
+          >
+            <span class="material-icons text-lg leading-none">local_offer</span>
+            <span class="ml-2">Offers</span>
+          </a>
+          <a
+            href="/user/logout"
+            class="flex items-center justify-center text-red-600 bg-grey-100 p-2 rounded mt-10"
+            aria-label="Logout"
+          >
+            <span class="material-icons text-lg leading-none">logout</span>
+            <span class="ml-2">Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Profile Details -->
+      <main class="w-full lg:w-3/4 lg:ml-4 bg-white p-6 rounded-lg shadow-md">
+        <span href="/user/home" class="text-black mb-5"
+          ><a href="/user/home">Home</a> >
+          <a href="/user/address"><strong>Address</strong></a></span
+        >
+        <h1 class="text-2xl font-bold text-gray-800 my-4">
+          Hello, <%=user.firstName %> <%=user.lastName%>!
+        </h1>
+
+        <!-- Address Form Section -->
+        <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
+            <h2 class="text-2xl font-bold mb-6 text-center">Add Address</h2>
+            <form>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">First Name</label>
+                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="First Name" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Last Name</label>
+                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Last Name" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
+                    <input type="tel" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Mobile Number" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Address</label>
+                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Address" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Pincode</label>
+                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Pincode" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">State</label>
+                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="State" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Address Line</label>
+                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Address Line" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">City/District</label>
+                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="City/District" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700">Landmark</label>
+                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Landmark" required>
+                </div>
+                <fieldset class="mb-4">
+                    <legend class="text-sm font-medium text-gray-700">Address Type</legend>
+                    <div class="mt-2">
+                        <label class="inline-flex items-center">
+                            <input type="radio" class="form-radio" name="addressType" value="home" required>
+                            <span class="ml-2">Home</span>
+                        </label>
+                        <label class="inline-flex items-center ml-6">
+                            <input type="radio" class="form-radio" name="addressType" value="office">
+                            <span class="ml-2">Office</span>
+                        </label>
+                    </div>
+                </fieldset>
+                <div class="flex items-center mb-4">
+                    <input type="checkbox" id="setDefault" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+                    <label for="setDefault" class="ml-2 block text-sm text-gray-900">Set this as default address</label>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200">Save Address</button>
+            </form>
+        </div>
+      </main>
+
+      <% } %>
+    </div>
+   
+  </body>
+  
+
+  <script src="/javascript/addressForm.js"></script>
+</html>

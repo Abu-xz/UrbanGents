@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Header  -->
+    <header class="bg-black py-5 px-8 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="logo">
+          <a href="/user/home">
+            <h1 class="text-2xl text-white font-bold uppercase">UrbanGents</h1>
+          </a>
+        </div>
+
+        <div class="flex justify-between items-center">
+          <a href="/user/profile" class="text-white mx-4">
+            <span class="material-icons">person</span>
+          </a>
+          <a href="/user/cart" class="text-white mx-4">
+            <span class="material-icons">shopping_cart</span>
+          </a>
+          <a href="/user/wishlist" class="text-white mx-4">
+            <span class="material-icons">favorite</span>
+          </a>
+        </div>
+      </div>
+    </header>
+    <!-- Main Container -->
+    <% if(user !== 'undefined' && user){ %>
+
+    <div class="container mx-auto mt-3 p-4 flex flex-col lg:flex-row">
+      <!-- Sidebar -->
+      <aside
+        class="w-full lg:w-1/6 bg-white p-4 rounded-lg shadow-md mb-4 lg:mb-0"
+      >
+        <div class="text-center">
+          <div class="w-24 h-24 mx-auto rounded-full bg-gray-300 mb-2">
+            <img
+              src="https://avatar.iran.liara.run/public/boy?username=Ash"
+              alt="User Avatar"
+              class="w-full h-full rounded-full object-cover"
+            />
+          </div>
+          <h2 class="text-lg font-semibold uppercase"><%= user.firstName%></h2>
+          <% if(user.phoneNumber){ %>
+          <p class="text-gray-600">+91 <%=user.phoneNumber %></p>
+          <% } %>
+        </div>
+        <!-- Navigation Menu -->
+        <nav class="text-center mt-5 space-y-4">
+          <a
+            href="/user/profile"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Person Info"
+          >
+            <span class="material-icons text-lg leading-none">person</span>
+            <span class="ml-2">Person Info</span>
+          </a>
+          <a
+            href="/user/profile/coupons"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Coupons"
+          >
+            <span class="material-icons text-lg leading-none">redeem</span>
+            <span class="ml-2">Coupons</span>
+          </a>
+          <a
+            href="/user/profile/address"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Person Info"
+          >
+            <span class="material-icons text-lg leading-none"> home </span>
+            <span class="ml-2">Address</span>
+          </a>
+          <a
+            href="/user/wishlist"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Wishlist"
+          >
+            <span class="material-icons text-lg leading-none">favorite</span>
+            <span class="ml-2">Wishlist</span>
+          </a>
+          <a
+            href="/user/profile/orders"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Orders"
+          >
+            <span class="material-icons text-lg leading-none">inventory_2</span>
+            <span class="ml-2">Orders</span>
+          </a>
+          <a
+            href="/user/wallet"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Wallet"
+          >
+            <span class="material-icons text-lg leading-none"
+              >account_balance_wallet</span
+            >
+            <span class="ml-2">Wallet</span>
+          </a>
+          <a
+            href="/user/offers"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Offers"
+          >
+            <span class="material-icons text-lg leading-none">local_offer</span>
+            <span class="ml-2">Offers</span>
+          </a>
+          <a
+            href="/user/logout"
+            class="flex items-center justify-center text-red-600 bg-grey-100 p-2 rounded mt-10"
+            aria-label="Logout"
+          >
+            <span class="material-icons text-lg leading-none">logout</span>
+            <span class="ml-2">Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Profile Details -->
+      <main class="w-full lg:w-3/4 lg:ml-4 bg-white p-6 rounded-lg shadow-md">
+        <span href="/user/home" class="text-black mb-5"
+          ><a href="/user/home">Home</a> >
+          <a href="/user/profile"><strong>Profile</strong></a></span
+        >
+        <h1 class="text-2xl font-bold text-gray-800 my-4">
+          Hello, <%=user.firstName %> <%=user.lastName%>!
+        </h1>
+
+        <!-- Profile Form Section -->
+        <div class="container mx-auto mt-10 p-4">
+          <div class="bg-white rounded-lg shadow-md p-8">
+            <!-- Header -->
+            <div class="flex items-center justify-between">
+              <div class="mb-6">
+                <h1 class="text-3xl font-bold text-gray-900">My Account</h1>
+                <p class="text-gray-500">Personal Information</p>
+              </div>
+              <% if(user.password){ %>
+              <div>
+                <a href="/user/profile/change-Passowrd ">
+                  <button
+                    class="bg-black text-white py-2 px-6 rounded-md hover:bg-gray-800 transition"
+                  >
+                    Change Password
+                  </button>
+                </a>
+              </div>
+              <% } %>
+            </div>
+
+            <!-- Form Fields -->
+            <form
+              action="/user/profile/edit?email=<%=user.email %>"
+              method="POST"
+              id="edit-form"
+            >
+              <!-- First Name and Last Name -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    for="first-name"
+                    >First Name</label
+                  >
+                  <input
+                    id="first-name"
+                    type="text"
+                    name="firstName"
+                    placeholder="<%=user.firstName%>"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+                  />
+                  <span
+                    class="text-red-600 text-sm hidden"
+                    id="first-name-error"
+                  ></span>
+                </div>
+                <div>
+                  <label
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                    for="last-name"
+                    >Last Name</label
+                  >
+                  <input
+                    id="last-name"
+                    type="text"
+                    name="lastName"
+                    placeholder="<%=user.lastName %>"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+                  />
+                  <span
+                    class="text-red-600 text-sm hidden"
+                    id="last-name-error"
+                  ></span>
+                </div>
+              </div>
+
+              <!-- Mobile Number -->
+              <% if(user.phoneNumber){ %>
+              <!--check if the user have phone number -->
+              <div class="mb-6">
+                <label
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  for="mobile"
+                  >Primary Mobile Number</label
+                >
+                <div class="relative">
+                  <input
+                    id="phone-number"
+                    type="text"
+                    name="phoneNumber"
+                    placeholder="<%=user.phoneNumber%>"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
+                  />
+                  <span
+                    class="text-red-600 text-sm hidden"
+                    id="phone-number-error"
+                  ></span>
+                </div>
+              </div>
+              <% } %>
+
+              <!-- Email ID -->
+              <div class="mb-6">
+                <label
+                  class="block text-sm font-medium text-gray-700 mb-2"
+                  for="email"
+                  >Email ID</label
+                >
+                <div class="relative">
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="<%=user.email%>"
+                    readonly
+                    class="w-full px-3 py-2 border bg-stone-200 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
+                  />
+                </div>
+              </div>
+
+              <!-- Save Buttons -->
+              <div class="flex justify-start space-x-4">
+                <button
+                  type="submit"
+                  class="bg-black text-white py-2 px-6 rounded-md hover:bg-gray-800 transition"
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+
+      <% } %>
+    </div>
+   
+  </body>
+  
+
+  <script src="/javascript/profileForm.js"></script>
+</html>

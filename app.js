@@ -12,6 +12,7 @@ import userRouter from "./routes/userRoute.js";
 import passport from "passport";
 import Users from "./models/userModel.js";
 import pkg from "passport-google-oauth20";
+import flash from 'connect-flash'
 
 
 const { Strategy: GoogleStrategy } = pkg;
@@ -48,6 +49,16 @@ app.use(
   })
 );
 
+//flash setting 
+app.use(flash())
+
+// Middleware to pass flash messages to the views
+app.use((req, res, next) => {
+  res.locals.successMessage = req.flash('success');
+  res.locals.errorMessage = req.flash('error');
+  next();
+});
+
 //Google authentication
 app.use(passport.initialize());
 app.use(passport.session());
@@ -66,9 +77,15 @@ passport.use(
           // console.log('profile here',profile)
           return done(null, user); 
         }else{
+          console.log(profile)
           user = new Users({
             googleId: profile.id,
             email: profile.emails[0].value,
+            firstName:profile.name.givenName,
+            lastName:profile.name.familyName,
+            displayName:profile.displayName,
+            photo:profile.photos[0].value,
+            status:true
           });
           await user.save();
           return done(null, user);
@@ -102,7 +119,7 @@ app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/user/login" }),
   (req, res) => {
-    req.session.user = req.user;
+    req.session.user = req.user.googleId;
     res.redirect("/user/home");
   }
 );

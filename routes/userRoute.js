@@ -20,6 +20,8 @@ import {
 import { loadHome } from "../controllers/user/userHomeController.js";
 import { loadProductDetails } from "../controllers/user/userProductController.js";
 import { isUser, userAuth } from "../middleware/userAuth.js";
+import { loadProfile, updateProfile } from "../controllers/user/profileController.js";
+
 
 const noCache = (req, res, next) => {
   res.setHeader("Cache-Control", "no-store");
@@ -33,7 +35,7 @@ userRouter.use(noCache);
 userRouter.get("/signup", isUser, loadSignup);
 userRouter.post("/signup", isUser, userSignup);
 
-// logout routepage
+// logout route page
 userRouter.get("/logout", logout);
 
 // OTP route management
@@ -68,6 +70,9 @@ userRouter.get("/all-products", userAuth, (req, res) => {
 // Individual product routes
 userRouter.get("/product-details/:productId", loadProductDetails);
 
+// Profile page
+userRouter.get('/profile',userAuth, loadProfile);
+userRouter.post('/profile/edit', userAuth, updateProfile)
 
 
 export default userRouter;

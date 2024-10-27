@@ -4,11 +4,9 @@ const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      
     },
     lastName: {
       type: String,
-
     },
     email: {
       type: String,
@@ -28,6 +26,9 @@ const userSchema = new mongoose.Schema(
     },
     displayName:{
         type: String
+    } ,
+    photo:{
+      type: String
     }
   },
   { timestamps: true }
