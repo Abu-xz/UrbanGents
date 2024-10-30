@@ -3,14 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profile Page</title>
+    <title>Address Page</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body class="bg-gray-100">
     <!-- Header  -->
@@ -22,7 +21,7 @@
           </a>
         </div>
 
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center hidden md:flex">
           <a href="/user/profile" class="text-white mx-4">
             <span class="material-icons">person</span>
           </a>
@@ -35,8 +34,9 @@
         </div>
       </div>
     </header>
+
     <!-- Main Container -->
-    <% if(user !== 'undefined' && user){ %>
+    <% if(typeof user !== 'undefined' && user) {%>
 
     <div class="container mx-auto mt-3 p-4 flex flex-col lg:flex-row">
       <!-- Sidebar -->
@@ -51,10 +51,7 @@
               class="w-full h-full rounded-full object-cover"
             />
           </div>
-          <h2 class="text-lg font-semibold uppercase"><%= user.firstName%></h2>
-          <% if(user.phoneNumber){ %>
-          <p class="text-gray-600">+91 <%=user.phoneNumber %></p>
-          <% } %>
+          <h2 class="text-lg font-semibold uppercase"><%=user.firstName%></h2>
         </div>
         <!-- Navigation Menu -->
         <nav class="text-center mt-5 space-y-4">
@@ -83,7 +80,7 @@
             <span class="ml-2">Address</span>
           </a>
           <a
-            href="/user/wishlist"
+            href="/user/profile/wishlist"
             class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
             aria-label="Wishlist"
           >
@@ -99,7 +96,7 @@
             <span class="ml-2">Orders</span>
           </a>
           <a
-            href="/user/wallet"
+            href="/user/profile/wishlist"
             class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
             aria-label="Wallet"
           >
@@ -109,7 +106,7 @@
             <span class="ml-2">Wallet</span>
           </a>
           <a
-            href="/user/offers"
+            href="/user/profile/offers"
             class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
             aria-label="Offers"
           >
@@ -126,84 +123,264 @@
           </a>
         </nav>
       </aside>
+      <% } %>
 
       <!-- Profile Details -->
-      <main class="w-full lg:w-3/4 lg:ml-4 bg-white p-6 rounded-lg shadow-md">
-        <span href="/user/home" class="text-black mb-5"
+      <main
+        class="w-full lg:w-3/4 lg:ml-4 bg-white px-6 pb-5 rounded-lg shadow-md"
+      >
+        <span href="/user/home" class="text-black mt-5"
           ><a href="/user/home">Home</a> >
-          <a href="/user/address"><strong>Address</strong></a></span
-        >
-        <h1 class="text-2xl font-bold text-gray-800 my-4">
-          Hello, <%=user.firstName %> <%=user.lastName%>!
-        </h1>
+          <a href="/user/profile/address"><strong>Address</strong></a>
+        </span>
 
         <!-- Address Form Section -->
-        <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-6 text-center">Add Address</h2>
-            <form>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">First Name</label>
-                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="First Name" required>
+        <div class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-8 mt-6">
+          <div
+            class="p-4 border border-gray-200 rounded-lg shadow-lg space-y-2 bg-white hidden"
+            id="add-address-form"
+          >
+            <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">
+              Add Your Address
+            </h2>
+            <form id="address-form">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >First Name</label
+                    >
+                    <input
+                      type="text"
+                      name="firstName"
+                      id="first-name"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="First Name"
+                    />
+                    <span id="first-name-error" class="text-red-600"></span>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >Pincode</label
+                    >
+                    <input
+                      type="number"
+                      name="pincode"
+                      id="pincode"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="Pincode"
+                    />
+                    <span id="pincode-error" class="text-red-600"></span>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >Mobile Number</label
+                    >
+                    <input
+                      type="number"
+                      name="phoneNumber"
+                      id="phone-number"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="Mobile Number"
+                    />
+                    <span id="phone-number-error" class="text-red-600"></span>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >Landmark</label
+                    >
+                    <input
+                      type="text"
+                      name="landmark"
+                      id="landmark"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="Landmark"
+                    />
+                    <span id="landmark-error" class="text-red-600"></span>
+                  </div>
                 </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Last Name</label>
-                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Last Name" required>
+
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >Last Name</label
+                    >
+                    <input
+                      type="text"
+                      name="lastName"
+                      id="last-name"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="Last Name"
+                    />
+                    <span id="last-name-error" class="text-red-600"></span>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >State</label
+                    >
+                    <input
+                      type="text"
+                      name="state"
+                      id="state"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="State"
+                    />
+                    <span id="state-error" class="text-red-600"></span>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >City</label
+                    >
+                    <input
+                      type="text"
+                      name="city"
+                      id="city"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="City"
+                    />
+                    <span id="city-error" class="text-red-600"></span>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >District</label
+                    >
+                    <input
+                      type="text"
+                      id="district"
+                      name="district"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="District"
+                    />
+                    <span id="district-error" class="text-red-600"></span>
+                  </div>
                 </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Mobile Number</label>
-                    <input type="tel" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Mobile Number" required>
+              </div>
+              <!-- Address session here... -->
+              <div class="flex flex-col mt-5">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >Address</label
+                  >
+                  <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter you Address"
+                  />
+                  <span id="address-error" class="text-red-600"></span>
                 </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Address</label>
-                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Address" required>
+              </div>
+
+              <fieldset class="mt-4">
+                <legend class="text-sm font-medium text-gray-700">
+                  Address Type
+                </legend>
+                <div class="mt-2">
+                  <label class="inline-flex items-center mr-6">
+                    <input
+                      type="radio"
+                      class="form-radio text-blue-600"
+                      name="addressType"
+                      value="Home"
+                    />
+                    <span class="ml-2">Home</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input
+                      type="radio"
+                      class="form-radio text-blue-600"
+                      name="addressType"
+                      value="Office"
+                      required
+                    />
+                    <span class="ml-2">Office</span>
+                  </label>
                 </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Pincode</label>
-                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Pincode" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">State</label>
-                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="State" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Address Line</label>
-                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Address Line" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">City/District</label>
-                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="City/District" required>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Landmark</label>
-                    <input type="text" class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-300" placeholder="Landmark" required>
-                </div>
-                <fieldset class="mb-4">
-                    <legend class="text-sm font-medium text-gray-700">Address Type</legend>
-                    <div class="mt-2">
-                        <label class="inline-flex items-center">
-                            <input type="radio" class="form-radio" name="addressType" value="home" required>
-                            <span class="ml-2">Home</span>
-                        </label>
-                        <label class="inline-flex items-center ml-6">
-                            <input type="radio" class="form-radio" name="addressType" value="office">
-                            <span class="ml-2">Office</span>
-                        </label>
-                    </div>
-                </fieldset>
-                <div class="flex items-center mb-4">
-                    <input type="checkbox" id="setDefault" class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
-                    <label for="setDefault" class="ml-2 block text-sm text-gray-900">Set this as default address</label>
-                </div>
-                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-200">Save Address</button>
+              </fieldset>
+              <div class="flex items-center mt-4">
+                <input
+                  type="checkbox"
+                  id="setDefault"
+                  class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label for="setDefault" class="ml-2 block text-sm text-gray-900"
+                  >Set this as default address</label
+                >
+              </div>
+              <button
+                type="submit"
+                class="mt-6 w-2/4 bg-black text-white py-2 rounded-md transition duration-200"
+              >
+                Save Address
+              </button>
+              <button
+                class="mt-6 w-1/6 bg-slate-300 text-black py-2 rounded-md transition duration-200"
+                id="cancel-btn"
+              >
+                Cancel
+              </button>
             </form>
+          </div>
+
+          <div class="p-6 max-w-4xl bg-blue-500 rounded mx-auto space-y-4">
+            <!-- Add New Address Button at the Top -->
+            <div class="flex justify-end">
+              <button
+                class="py-2 px-4 bg-black text-white font-semibold rounded-lg shadow"
+                id="add-address-btn"
+              >
+                Add New Address
+              </button>
+            </div>
+
+            <!-- Address Cards Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              <% user.addresses.forEach((address) => { %>
+              <div
+                class="p-4 border border-gray-200 rounded-lg shadow-lg space-y-2 bg-white"
+              >
+                <h2 class="text-lg font-semibold text-gray-700">
+                  <%=address.addressType %>
+                </h2>
+                <p class="text-sm text-gray-600"><%=address.address%></p>
+                <p class="text-sm text-gray-600">
+                  <%=address.city%>, <%=address.district%>, <%=address.state%>
+                </p>
+                <p class="text-sm text-gray-600"><%=address.pincode%></p>
+                <p class="text-sm text-gray-600">Phone: <%=address.number%></p>
+                <input type="hidden" value="<%=address._id%>" id="addressId">
+                <div class="flex item-center justify-between">
+                  <a 
+                  href="/user/profile/address/edit?id=<%=address._id%>"
+                  >
+                    <button class="text-sky-500 hover:underline mt-2">
+                      Edit
+                    </button>
+                  </a>
+                  <a
+                    class="text-center delete-address-btn"
+                  >
+                  <button>
+                    <span
+                      class="material-icons text-xl leading-none text-red-600 mt-3"
+                      >delete</span
+                    >
+                  </button>
+                  </a>
+                </div>
+              </div>
+              <%}) %>
+            </div>
+          </div>
         </div>
       </main>
-
-      <% } %>
     </div>
-   
   </body>
-  
 
   <script src="/javascript/addressForm.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- Include SweetAlert2 from a CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </html>
+ 

@@ -59,31 +59,34 @@ Implement image zoom functionality. [x]
 Test the product details view
 
 
-
+//===================================================================//
 Last Week Pending & Code to change: []
 Google auth code explanation [x]
 Home [X]
 session management [x]
 admin login error message displayed [x]
 session secret key replace with env variable later [x]
-product model size field change to enum like s , m , l , xl  []
-product management delete action change with confirm button []
 Display some random product in product details page like similar products [x]
 if the category is blocked don't show it on category selection [x]
-Remove tempData and add the user data actual collection and set a field like verified true/false []
-user side ui when hover add text under the logo
-color options []
-brand ? option
-al []
 update product sweet-alert fix [x]
 add slug [x]
 admin aside fix design [x]
 Home page add link to all product page [x]
+Remove tempData and add the user data actual collection and set a field like verified true/false []
+user side ui when hover add text under the logo  with line animation []
+color options []
+brand ? option []
+product model size field change to enum like s , m , l , xl  []
+product management delete action change with confirm button []
 stock management hide 'add to cart ' button for out of stock products []
 google sign-in full name store to db [] 
-create input for gender when sign-up []
+create input for gender when sign-up male, female, other with respective image[]
 dynamic image for google and normal user [] 
+edit product page og price to next line instead of all in oneline
 
+
+
+//================== Doubt ========================//
 
 
 
@@ -97,7 +100,7 @@ Implement View/Edit Profile CRUD operations.
 
 October 27-28: Address Management + Basic Cart Setup [] ---------------//
 
-Address Management in Profile: []
+Address Management in Profile: [x]
 Implement multiple address functionality: Add, Edit, and Delete.
 
 Cart Management: []

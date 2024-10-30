@@ -20,7 +20,7 @@ import {
 import { loadHome } from "../controllers/user/userHomeController.js";
 import { loadProductDetails } from "../controllers/user/userProductController.js";
 import { isUser, userAuth } from "../middleware/userAuth.js";
-import { loadProfile, updateProfile } from "../controllers/user/profileController.js";
+import { addAddress, deleteAddress, editAddress, loadAddress, loadEditAddress, loadProfile, updateProfile } from "../controllers/user/profileController.js";
 
 
 const noCache = (req, res, next) => {
@@ -72,7 +72,16 @@ userRouter.get("/product-details/:productId", loadProductDetails);
 
 // Profile page
 userRouter.get('/profile',userAuth, loadProfile);
-userRouter.post('/profile/edit', userAuth, updateProfile)
+userRouter.post('/profile/edit', userAuth, updateProfile);
+
+// Address page
+userRouter.get('/profile/address', userAuth, loadAddress);
+userRouter.post('/profile/address/add', userAuth, addAddress);
+userRouter.get('/profile/address/edit', userAuth, loadEditAddress);
+userRouter.post('/profile/address/edit', userAuth, editAddress);
+userRouter.delete('/profile/address/delete',userAuth, deleteAddress)
+
+
 
 
 export default userRouter;

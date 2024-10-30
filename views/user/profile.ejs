@@ -83,7 +83,7 @@
             <span class="ml-2">Address</span>
           </a>
           <a
-            href="/user/wishlist"
+            href="/user/profile/wishlist"
             class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
             aria-label="Wishlist"
           >
@@ -99,7 +99,7 @@
             <span class="ml-2">Orders</span>
           </a>
           <a
-            href="/user/wallet"
+            href="/user/profile/wallet"
             class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
             aria-label="Wallet"
           >
@@ -109,7 +109,7 @@
             <span class="ml-2">Wallet</span>
           </a>
           <a
-            href="/user/offers"
+            href="/user/profile/offers"
             class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
             aria-label="Offers"
           >
@@ -177,7 +177,7 @@
                     id="first-name"
                     type="text"
                     name="firstName"
-                    placeholder="<%=user.firstName%>"
+                    value="<%=user.firstName%>"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
                   />
                   <span
@@ -195,7 +195,7 @@
                     id="last-name"
                     type="text"
                     name="lastName"
-                    placeholder="<%=user.lastName %>"
+                    value="<%=user.lastName %>"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
                   />
                   <span
@@ -219,7 +219,7 @@
                     id="phone-number"
                     type="text"
                     name="phoneNumber"
-                    placeholder="<%=user.phoneNumber%>"
+                    value="<%=user.phoneNumber%>"
                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none"
                   />
                   <span

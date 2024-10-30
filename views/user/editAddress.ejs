@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Address Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    
+  </head>
+  <body class="bg-gray-100">
+    <!-- Header  -->
+    <header class="bg-black py-5 px-8 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="logo">
+          <a href="/user/home">
+            <h1 class="text-2xl text-white font-bold uppercase">UrbanGents</h1>
+          </a>
+        </div>
+
+        <div class="flex justify-between items-center hidden md:flex">
+          <a href="/user/profile" class="text-white mx-4">
+            <span class="material-icons">person</span>
+          </a>
+          <a href="/user/cart" class="text-white mx-4">
+            <span class="material-icons">shopping_cart</span>
+          </a>
+          <a href="/user/wishlist" class="text-white mx-4">
+            <span class="material-icons">favorite</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <% if(typeof user !== 'undefined' && user) {%>
+
+    <div class="container mx-auto mt-3 p-4 flex flex-col lg:flex-row">
+      <!-- Sidebar -->
+      <aside
+        class="w-full lg:w-1/6 bg-white p-4 rounded-lg shadow-md mb-4 lg:mb-0"
+      >
+        <div class="text-center">
+          <div class="w-24 h-24 mx-auto rounded-full bg-gray-300 mb-2">
+            <img
+              src="https://avatar.iran.liara.run/public/boy?username=Ash"
+              alt="User Avatar"
+              class="w-full h-full rounded-full object-cover"
+            />
+          </div>
+          <h2 class="text-lg font-semibold uppercase"><%=user.firstName%></h2>
+        </div>
+        <!-- Navigation Menu -->
+        <nav class="text-center mt-5 space-y-4">
+          <a
+            href="/user/profile"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Person Info"
+          >
+            <span class="material-icons text-lg leading-none">person</span>
+            <span class="ml-2">Person Info</span>
+          </a>
+          <a
+            href="/user/profile/coupons"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Coupons"
+          >
+            <span class="material-icons text-lg leading-none">redeem</span>
+            <span class="ml-2">Coupons</span>
+          </a>
+          <a
+            href="/user/profile/address"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Person Info"
+          >
+            <span class="material-icons text-lg leading-none"> home </span>
+            <span class="ml-2">Address</span>
+          </a>
+          <a
+            href="/user/profile/wishlist"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Wishlist"
+          >
+            <span class="material-icons text-lg leading-none">favorite</span>
+            <span class="ml-2">Wishlist</span>
+          </a>
+          <a
+            href="/user/profile/orders"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Orders"
+          >
+            <span class="material-icons text-lg leading-none">inventory_2</span>
+            <span class="ml-2">Orders</span>
+          </a>
+          <a
+            href="/user/profile/wishlist"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Wallet"
+          >
+            <span class="material-icons text-lg leading-none"
+              >account_balance_wallet</span
+            >
+            <span class="ml-2">Wallet</span>
+          </a>
+          <a
+            href="/user/profile/offers"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Offers"
+          >
+            <span class="material-icons text-lg leading-none">local_offer</span>
+            <span class="ml-2">Offers</span>
+          </a>
+          <a
+            href="/user/logout"
+            class="flex items-center justify-center text-red-600 bg-grey-100 p-2 rounded mt-10"
+            aria-label="Logout"
+          >
+            <span class="material-icons text-lg leading-none">logout</span>
+            <span class="ml-2">Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Profile Details -->
+      <main
+        class="w-full lg:w-3/4 lg:ml-4 bg-white px-6 pb-5 rounded-lg shadow-md"
+      >
+        <span href="/user/home" class="text-black mt-5"
+          ><a href="/user/home">Home</a> >
+          <a href="/user/profile/address"><strong>Address</strong></a>
+        </span>
+
+        <% } %>  <!--user data end  here -->
+        <% if(typeof address !== undefined && address){ %>
+
+        <!-- Address Form Section -->
+        <div class="max-w-4xl  mx-auto bg-white shadow-lg rounded-lg p-8 mt-6" >    
+
+          <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">
+            Edit Address
+          </h2>
+
+
+          <form id="address-form" >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >First Name</label
+                  >
+                  <input
+                    type="text"
+                    name="firstName"
+                    id="first-name"
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                    value="<%=address.firstName%>"
+                    />
+                  <span id="first-name-error" class="text-red-600"></span>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >Pincode</label
+                  >
+                  <input
+                    type="number"
+                    name="pincode"
+                    id="pincode"
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                    value="<%=address.pincode%>"
+                  />
+                  <span id="pincode-error" class="text-red-600"></span>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >Mobile Number</label
+                  >
+                  <input
+                    type="number"
+                    name="phoneNumber"
+                    id="phone-number"
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                    value="<%=address.number%>"
+                  />
+                  <span id="phone-number-error" class="text-red-600"></span>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >Landmark</label
+                  >
+                  <input
+                    type="text"
+                    name="landmark"
+                    id="landmark"
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                    value="<%=address.landmark%>"
+                  />
+                  <span id="landmark-error" class="text-red-600"></span>
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >Last Name</label
+                  >
+                  <input
+                    type="text"
+                    name="lastName"
+                    id="last-name"
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                    value="<%=address.lastName%>"
+                  />
+                  <span id="last-name-error" class="text-red-600"></span>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >State</label
+                  >
+                  <input
+                    type="text"
+                    name="state"
+                    id="state"
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                    value="<%=address.state%>"
+                  />
+                  <span id="state-error" class="text-red-600"></span>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >City</label
+                  >
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                    value="<%=address.city%>"
+                  />
+                  <span id="city-error" class="text-red-600"></span>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >District</label
+                  >
+                  <input
+                    type="text"
+                    id="district"
+                    name="district"
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                    value="<%=address.district%>"
+                  />
+                  <span id="district-error" class="text-red-600"></span>
+                </div>
+              </div>
+            </div>
+            <!-- Address session here... -->
+            <div class="flex flex-col mt-5">
+              <div>
+                <label class="block text-sm font-medium text-gray-700"
+                  >Address</label
+                >
+                <input
+                  type="text"
+                  name="address"
+                  id="address"
+                  class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                  value="<%=address.address%>"
+                />
+                <span id="address-error" class="text-red-600"></span>
+              </div>
+            </div>
+
+            <fieldset class="mt-4">
+              <legend class="text-sm font-medium text-gray-700">
+                Address Type
+              </legend>
+              <div class="mt-2">
+                <label class="inline-flex items-center mr-6">
+                  <input
+                    type="radio"
+                    class="form-radio text-blue-600"
+                    name="addressType"
+                    value="home"
+                    <%=address.addressType === 'home' ? "checked" : ''%>
+                  />
+                  <span class="ml-2">Home</span>
+                </label>
+                <label class="inline-flex items-center">
+                  <input
+                    type="radio"
+                    class="form-radio text-blue-600"
+                    name="addressType"
+                    value="office"
+                    <%=address.addressType === 'office' ? "checked" : ''%>
+
+                    required
+                  />
+                  <span class="ml-2">Office</span>
+                </label>
+              </div>
+            </fieldset>
+            <div class="flex items-center mt-4">
+              <input
+                type="checkbox"
+                id="setDefault"
+                <%=address.isDefault? "checked" : ''%>
+                class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label for="setDefault" class="ml-2 block text-sm text-gray-900"
+                >Set this as default address</label
+              >
+            </div>
+            <button
+              type="submit"
+              class="mt-6 w-2/4 bg-black text-white py-2 rounded-md transition duration-200"
+            >
+              Save Address
+            </button>
+            <button
+            class="mt-6 w-1/6 bg-slate-300 text-black py-2 rounded-md transition duration-200 "
+            id="cancel-btn"
+            type="button">
+            Cancel
+            </button>
+            <input type="hidden" value="<%=address._id%>" id="address-id">
+
+          </form>
+
+          <% } %>
+
+      </div>
+    </main>
+    </div>
+  </body>
+
+  <script src="/javascript/editAddress.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</html>

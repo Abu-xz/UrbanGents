@@ -40,7 +40,7 @@ profileForm.addEventListener("submit", (e) => {
 
   if(phoneNumber){
     const value = phoneNumber.value.trim();
-    if (!/^\d{10}$/.test(value) || value === '') {
+    if (!/^\d{10}$/.test(value) || value === '' || value.length <10) {
         phoneNumberError.textContent = 'Invalid phone number!';
         phoneNumberError.classList.remove('hidden');
         hasError = true;

@@ -193,6 +193,8 @@
       </table>
     </div>
     <nav >
+      <% if(typeof currentPage !== "undefined" && typeof limit !== 'undefined' &&  typeof totalPages !== 'undefined') { %>
+
       <div class=" flex justify-center items-center space-x-2 ">
         <!-- Previous Button -->
          <a href="?page=<%=currentPage - 1 %>&limit=<%=limit %>">
@@ -219,6 +221,8 @@
           </button>
         </a>
       </div>
+      <%}%>
+
     </nav>
 
   </div>
