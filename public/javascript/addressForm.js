@@ -140,16 +140,19 @@ addressForm.addEventListener("submit", (event) => {
       setDefault,
     })
     .then((response) => {
-      Swal.fire("hell world");
+      // Swal.fire("hell world");
       if (response.data.success) {
-        console.log("Address added successfully: ", response.data);
+        // console.log("Address added successfully: ", response.data);
         Swal.fire({
           icon: "success",
           text: response.data.message,
           title: "Address Added",
-        });
+        }).then((result) => {
+          if(result.isConfirmed){
+            window.location.reload();
+          }
+        })
       }
-      addressForm.reset();
     })
     .catch((error) => {
       Swal.fire({
@@ -171,7 +174,7 @@ cancelBtn.addEventListener("click", (e) => {
 });
 
 const deleteButtons = document.querySelectorAll(".delete-address-btn");
-console.log(deleteButtons);
+// console.log(deleteButtons);
 
 deleteButtons.forEach((btn) => {
   btn.addEventListener("click", (event) => {

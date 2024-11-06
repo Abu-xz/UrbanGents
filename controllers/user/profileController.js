@@ -35,29 +35,47 @@ export const loadProfile = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    // console.log('update profile route reached');
-    const email = req.query.email;
-    // console.log(email);
-    const { firstName, lastName, phoneNumber } = req.body;
-    // console.log(firstName, lastName, phoneNumber);
+    console.log("update profile route reached");
+    const userData = req.session.user.email || req.session.user;
+    const user = await Users.findOne({
+      $or: [{ email: userData }, { googleId: userData }],
+    });
 
-    if (!firstName || !lastName || !phoneNumber) {
-      return res
-        .status(400)
-        .json({ success: false, message: "All field are required!" });
+    if (!user) {
+      res.status(500).redirect("/user/profile");
+    }
+
+    if (user.googleId) {
+      const { firstName, lastName } = req.body;
+
+      // if (!firstName || !lastName) {
+      //   return res
+      //     .status(400)
+      //     .json({ success: false, message: "All field are required!" });
+      // }
+
+      user.firstName = firstName;
+      user.lastName = lastName;
+      user.save();
+      return res.status(200).redirect("/user/profile");
+
     } else {
-      const updatedUser = await Users.findOneAndUpdate(
-        { email: email },
-        { firstName, lastName, phoneNumber }
-      );
-      await updatedUser.save();
-      // console.log(updatedUser);
-      req.flash("success", "Profile updates successfully!");
+      const { firstName, lastName, phoneNumber } = req.body;
+      // console.log(firstName, lastName, phoneNumber);
+
+      // if (!firstName || !lastName || !phoneNumber) {
+      //   return res
+      //     .status(400)
+      //     .json({ success: false, message: "All field are required!" });
+      // }
+
+      user.firstName = firstName;
+      user.lastName = lastName;
+      await user.save();
       return res.status(200).redirect("/user/profile");
     }
   } catch (error) {
     console.log("Error", error);
-    req.flash("error", "Failed to update profile. Please try again.");
     res.redirect("/user/profile");
   }
 };
@@ -136,13 +154,13 @@ export const addAddress = async (req, res) => {
       setDefault,
     };
 
-    if(setDefault){
-      const defaultAddress = user.addresses.find(addr => addr.isDefault);
+    if (setDefault) {
+      const defaultAddress = user.addresses.find((addr) => addr.isDefault);
       console.log(defaultAddress);
-     if(defaultAddress){
-      defaultAddress.isDefault = false;
-     }
-    };
+      if (defaultAddress) {
+        defaultAddress.isDefault = false;
+      }
+    }
 
     user.addresses.push(newAddress);
     await user.save();
@@ -168,7 +186,6 @@ export const loadEditAddress = async (req, res) => {
     if (!user) {
       return res.status(500).redirect("/user/profile/address");
     } else {
-      
       const address = user.addresses.id(addressId);
       res.status(200).render("user/editAddress", { user, address });
     }
@@ -228,13 +245,15 @@ export const editAddress = async (req, res) => {
       isDefault: setDefault,
     };
 
-   if(setDefault){
-    const defaultAddress = user.addresses.find(addr => addr.isDefault && addr._id.toString() !== addressId);
-    console.log(defaultAddress)
-    if(defaultAddress){
-      defaultAddress.isDefault = false;
+    if (setDefault) {
+      const defaultAddress = user.addresses.find(
+        (addr) => addr.isDefault && addr._id.toString() !== addressId
+      );
+      console.log(defaultAddress);
+      if (defaultAddress) {
+        defaultAddress.isDefault = false;
+      }
     }
-   }
 
     const addressToUpdate = user.addresses.id(addressId);
     if (addressToUpdate) {
@@ -257,7 +276,7 @@ export const editAddress = async (req, res) => {
 export const deleteAddress = async (req, res) => {
   try {
     const { addressId } = req.body;
-    console.log(addressId)
+    console.log(addressId);
 
     let user;
     const userData = req.session?.user?.email || req.session?.user;
@@ -286,7 +305,8 @@ export const deleteAddress = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Internal Server Error!" });
 
-    return res.status(200).json({success: true, message: 'Address deleted Successfully!'})    
-
+    return res
+      .status(200)
+      .json({ success: true, message: "Address deleted Successfully!" });
   } catch (error) {}
 };

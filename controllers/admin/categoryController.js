@@ -25,8 +25,12 @@ export const addCategory = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Oops! Category name is required" });
     }
+    if(!/^[a-zA-Z]+$/.test(Category)){
+      return res.status(400).json({success: false, message: 'Invalid Category Name!'});
+    }
+
     const isExist = await Category.findOne({ categoryName: categoryName });
-    // console.log(isExist)
+
     if (!isExist) {
       const newCategory = new Category({
         categoryName,

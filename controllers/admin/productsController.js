@@ -9,12 +9,13 @@ export const loadProducts = async (req, res) => {
     const skip = (page - 1) * limit;
     const totalProducts = await Product.countDocuments();
     const totalPages = Math.ceil(totalProducts / limit);
-    
+
     if(page > totalPages) return res.status(200).redirect(`/admin/products?page=${totalPages}&limit=${limit}`);
     
-    const products = await Product.find().populate("category").skip(skip).limit(limit);
+    const products = await Product.find().populate("category").skip(skip).limit(limit); 
+    console.log(products)
     if (!products) {
-      return res.status(500).json({ message: "Internal server error" });
+      return res.render('admin/product');
     } else {
       return res.status(200).render("admin/products", { products , currentPage :page, totalPages, limit});
     }
@@ -73,18 +74,25 @@ export const addProducts = async (req, res) => {
     }
     console.log("category available");
 
-    const categoryId = categoryDetails._id;
+    //create an object for the size and stock array 
+    const arrayOfObjects = size.map((size, index) => ({
+      size: size,
+      stock: stock[index]
+    }));
+
+    console.log(arrayOfObjects)
+
+    const categoryId   = categoryDetails._id;
 
     const newProduct = new Product({
       productName,
       category: categoryId,
       price,
       discount,
-      stock,
+      variant:arrayOfObjects,
       images: croppedImages,
       description,
       isActive: true,
-      size,
     });
 
     await newProduct.save();
@@ -158,7 +166,7 @@ export const updateProduct = async (req, res) => {
       size,
       croppedImages,
     } = req.body;
-    // console.log(croppedImages);
+    console.log(croppedImages);
     if (
       !productId||
       !productName ||
@@ -187,6 +195,10 @@ export const updateProduct = async (req, res) => {
       });
     }
     console.log("category available");
+    const arrayOfObjects = size.map((size, index) => ({
+      size: size,
+      stock: stock[index]
+    }));
 
     const categoryId = categoryDetails._id;
     const updatedProduct = await Product.findByIdAndUpdate(productId, {
@@ -194,10 +206,9 @@ export const updateProduct = async (req, res) => {
       category:categoryId,
       price:price,
       discount:discount,
-      stock:stock,
       images:croppedImages,
       description:description,
-      size:size,
+      variant: arrayOfObjects
     },{
       new:true
     });

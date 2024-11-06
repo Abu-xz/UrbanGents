@@ -9,31 +9,30 @@ const croppedImageData3 = document.getElementById("cropped-image-data3");
 let uploadedImages = [];
 let cropper;
 
+
+
 productForm.addEventListener("submit", (e) => {
   const name = document.getElementById("product-name").value.trim();
   const price = document.getElementById("price").value.trim();
   const description = document.getElementById("description").value.trim();
   const category = document.getElementById("category").value.trim();
-  const size = document.getElementById("size").value.trim();
-  const stock = document.getElementById("stock").value.trim();
   const discount = document.getElementById("discount").value.trim();
+  
+  const sizeSelect = document.querySelectorAll('.size-select');
+  const stockInput = document.querySelectorAll('.stock-input');
 
-  if (
-    !name ||
-    !price ||
-    !description ||
-    !category ||
-    !stock ||
-    !size ||
-    !discount
-  ) {
-    Swal.fire("All field required!");
+  // Collect values for sizes and stocks
+  const sizes = Array.from(sizeSelect).map(input => input.value.trim());
+  const stocks = Array.from(stockInput).map(input => input.value.trim());
+
+  if (!name || !price || !description || !category || !discount || sizes.includes("") || stocks.includes("")) {
+    Swal.fire("All fields are required!");
     e.preventDefault();
     return;
   }
 
   if (typeof name !== "string" || name.length < 3 || name.length > 100) {
-    Swal.fire("Product name  must be between 3 and 100 characters.");
+    Swal.fire("Product name must be between 3 and 100 characters.");
     e.preventDefault();
     return;
   }
@@ -43,54 +42,50 @@ productForm.addEventListener("submit", (e) => {
     e.preventDefault();
     return;
   }
-  if (isNaN(discount) || discount <= 0) {
-    Swal.fire("Invalid Product discount");
+
+  if (isNaN(discount) || discount < 0) {
+    Swal.fire("Invalid Product Discount");
     e.preventDefault();
     return;
   }
 
-  if (!Number.isInteger(Number(stock))) {
-    Swal.fire("Invalid stock quantity");
-    e.preventDefault();
-    return;
-  }
-
-  if (typeof size !== "string" || size.length < 1) {
-    Swal.fire("Invalid size !");
-    e.preventDefault();
-    return;
-  }
-
-  if (
-    typeof description !== "string" ||
-    description.length < 10 ||
-    description.length > 300
-  ) {
+  if (typeof description !== "string" || description.length < 10 || description.length > 300) {
     Swal.fire("Description must be between 10 and 300 characters.");
     e.preventDefault();
     return;
   }
 
-  // console.log(category);
-
-  if (uploadedImages.length === 0) {
-    Swal.fire({
-      icon: "error",
-      title: "No images uploaded",
-      text: "Please upload images.",
-    });
-    e.preventDefault();
-  }
-  if (uploadedImages.length < 3) {
-    Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: "Please upload 3 images !",
-    });
+  // Ensure sizes and stocks are properly filled
+  if (sizes.length === 0 || stocks.length === 0) {
+    Swal.fire("Please add at least one size and stock value.");
     e.preventDefault();
     return;
   }
+
+  const hasDuplicates = sizes.length !== new Set(sizes).size;
+
+if (hasDuplicates) {
+  Swal.fire("Invalid size, Please remove Duplicate size");
+  e.preventDefault();
+  return;
+}
+
+  // Check image uploads
+  if (uploadedImages.length === 0) {
+    Swal.fire("Please upload images.");
+    e.preventDefault();
+    return;
+  }
+
+  if (uploadedImages.length < 3) {
+    Swal.fire("Please upload at least 3 images.");
+    e.preventDefault();
+    return;
+  }
+
+  
 });
+
 
 // Handle image input change
 imageInput.addEventListener("change", (event) => {
@@ -194,7 +189,7 @@ cropButton.addEventListener("click", () => {
       cropper.destroy(); // Destroy the cropper instance
     } catch (error) {
       console.error(error); // Log the error for debugging
-      let errorMessage = "There was an error uploading your image.";
+      // let errorMessage = "There was an error uploading your image.";
       if (error.response && error.response.data && error.response.data.error) {
         errorMessage = error.response.data.error.message; // Get specific error message from Cloudinary
       }
@@ -206,3 +201,48 @@ cropButton.addEventListener("click", () => {
     }
   });
 });
+
+
+ // Function to add a new size-quantity field
+ let variantCount = 2; //balance here
+ function addSizeField() {
+  // console.log(variantCount)
+  if(variantCount == 4){
+   return Swal.fire('Maximum variants reached')
+  }
+  const container = document.getElementById('size-quantity-container');
+  const newSizeField = document.createElement('div');
+  newSizeField.className = 'flex items-center mt-2 space-x-5';
+  newSizeField.innerHTML = `
+    <select
+      name="size[]"
+      id ="size-${variantCount}"
+      class="mr-2 w-1/3 rounded p-2 size-select"
+      required
+    >
+      <option value="" disabled selected>Select a size</option>
+      <option value="S">Small (S)</option>
+      <option value="M">Medium (M)</option>
+      <option value="L">Large (L)</option>
+    </select>
+    <input
+      type="number"
+      name="stock[]"
+      id = "stock-${variantCount}"
+      class="w-1/3 rounded p-2 stock-input"
+      placeholder="stock"
+      min="0"
+      value= '30'
+      required
+    />
+    <button type="button" onclick="removeSize(this)" class="ml-2 text-white rounded bg-red-600 p-2">Remove</button>
+  `;
+  container.appendChild(newSizeField);
+  variantCount++
+ }
+
+
+  // Function to remove a size-quantity field
+  function removeSize(button) {
+    button.parentElement.remove();
+  }

@@ -18,10 +18,18 @@ import {
 } from "../controllers/user/userController.js";
 
 import { loadHome } from "../controllers/user/userHomeController.js";
-import { loadProductDetails } from "../controllers/user/userProductController.js";
+import { loadAllProduct, loadProductDetails } from "../controllers/user/userProductController.js";
 import { isUser, userAuth } from "../middleware/userAuth.js";
-import { addAddress, deleteAddress, editAddress, loadAddress, loadEditAddress, loadProfile, updateProfile } from "../controllers/user/profileController.js";
-
+import {
+  addAddress,
+  deleteAddress,
+  editAddress,
+  loadAddress,
+  loadEditAddress,
+  loadProfile,
+  updateProfile,
+} from "../controllers/user/profileController.js";
+import { addItemToCart, checkStock, deleteItem, loadCart, updateQuantity, updateSize } from "../controllers/user/cartController.js";
 
 const noCache = (req, res, next) => {
   res.setHeader("Cache-Control", "no-store");
@@ -63,25 +71,29 @@ userRouter.get("/changePassword", isUser, resetPassword);
 userRouter.get("/home", userAuth, loadHome);
 
 // All product route //
-userRouter.get("/all-products", userAuth, (req, res) => {
-  res.render("user/shop");
-}); // Next week task
+userRouter.get("/all-products", userAuth, loadAllProduct)
 
 // Individual product routes
 userRouter.get("/product-details/:productId", loadProductDetails);
 
 // Profile page
-userRouter.get('/profile',userAuth, loadProfile);
-userRouter.post('/profile/edit', userAuth, updateProfile);
+userRouter.get("/profile", userAuth, loadProfile);
+userRouter.post("/profile/edit", userAuth, updateProfile);
 
 // Address page
-userRouter.get('/profile/address', userAuth, loadAddress);
-userRouter.post('/profile/address/add', userAuth, addAddress);
-userRouter.get('/profile/address/edit', userAuth, loadEditAddress);
-userRouter.post('/profile/address/edit', userAuth, editAddress);
-userRouter.delete('/profile/address/delete',userAuth, deleteAddress)
+userRouter.get("/profile/address", userAuth, loadAddress);
+userRouter.post("/profile/address/add", userAuth, addAddress);
+userRouter.get("/profile/address/edit", userAuth, loadEditAddress);
+userRouter.post("/profile/address/edit", userAuth, editAddress);
+userRouter.delete("/profile/address/delete", userAuth, deleteAddress);
 
-
+// Add-To-Cart page route
+userRouter.get('/cart', userAuth, loadCart)
+userRouter.post("/cart/add",userAuth, addItemToCart);
+userRouter.patch('/cart/add', userAuth, updateSize)
+userRouter.put('/cart', userAuth, updateQuantity);
+userRouter.delete('/cart', userAuth, deleteItem);
+userRouter.post('/cart/check-stock', userAuth, checkStock)
 
 
 export default userRouter;

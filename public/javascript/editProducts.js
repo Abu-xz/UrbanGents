@@ -6,18 +6,18 @@ const productForm = document.getElementById("product-form");
 const croppedImageData1 = document.getElementById("cropped-image-data1");
 const croppedImageData2 = document.getElementById("cropped-image-data2");
 const croppedImageData3 = document.getElementById("cropped-image-data3");
-// const prevImageData1 = document.getElementById("prev-image-data1").value;
-// const prevImageData2 = document.getElementById("prev-image-data2").value;
-// const prevImageData3 = document.getElementById("prev-image-data3").value;
 
 let uploadedImages = [];
 let cropper;
-//user for loop when area is empty in future ! //
-
+//use for loop when area is empty in future ! //
+// for(let i = 0; i < 3; i++){
+//   if()
+// }
 // console.log(uploadedImages)
 // console.log(prevImageData1,prevImageData2,prevImageData3);
 
 //this is from top
+
 uploadedImages[0] = croppedImageData1.value;
 uploadedImages[1] = croppedImageData2.value;
 uploadedImages[2] = croppedImageData3.value;
@@ -45,7 +45,6 @@ imageInput.addEventListener("change", (event) => {
         aspectRatio: 1,
         viewMode: 1,
         autoCropArea: 1,
-
       });
     };
     reader.readAsDataURL(file);
@@ -97,6 +96,7 @@ cropButton.addEventListener("click", () => {
         formData
       );
       const imageUrl = response.data.secure_url; // The response is image URL from Cloudinary
+      console.log(imageUrl);
       uploadedImages.push(imageUrl);
 
       // Create a new div to wrap the image and the remove button
@@ -183,19 +183,24 @@ productForm.addEventListener("submit", (e) => {
   const price = document.getElementById("price").value.trim();
   const description = document.getElementById("description").value.trim();
   const category = document.getElementById("category").value.trim();
-  const size = document.getElementById("size").value.trim();
-  const stock = document.getElementById("stock").value.trim();
   const discount = document.getElementById("discount").value.trim();
   // console.log(uploadedImages);
 
-  if (
+  const sizeSelect = document.querySelectorAll(".size-select");
+  const stockInput = document.querySelectorAll(".stock-input");
+
+  // Collect values for sizes and stocks
+  const sizes = Array.from(sizeSelect).map((input) => input.value.trim());
+  const stocks = Array.from(stockInput).map((input) => input.value.trim());
+
+  if (  
     !name ||
     !price ||
     !description ||
     !category ||
-    !stock ||
-    !size ||
-    !discount
+    !discount ||
+    sizes.includes("") ||
+    stocks.includes("")
   ) {
     Swal.fire("All field required!");
     e.preventDefault();
@@ -219,17 +224,13 @@ productForm.addEventListener("submit", (e) => {
     return;
   }
 
-  if (!Number.isInteger(Number(stock))) {
-    Swal.fire("Invalid stock quantity");
+  const hasDuplicates = sizes.length !== new Set(sizes).size;
+
+  if (hasDuplicates) {
+    Swal.fire("Invalid size, Please remove Duplicate size");
     e.preventDefault();
     return;
   }
-
-  // if (typeof size !== "string" || size.length < 1) {
-  //   Swal.fire("Invalid size !");
-  //   e.preventDefault();
-  //   return;
-  // }
 
   if (
     typeof description !== "string" ||
@@ -277,3 +278,62 @@ function removeImage(imageUrl) {
 
   console.log("removed");
 }
+
+let count = document.querySelectorAll('.size-quantity-block').length;
+
+function addSizeField() {
+  if (count === 3) {
+    return Swal.fire("Maximum Variants Reached!");
+  }
+  count++;
+
+  const container = document.getElementById("size-quantity-container");
+
+  // Create a new div for the size-quantity block
+  const newBlock = document.createElement("div");
+  newBlock.className = "flex items-center space-x-5 space-y-5 size-quantity-block";
+
+  // Create the size <select> element
+  const select = document.createElement("select");
+  select.name = "size[]";
+  select.className = "mr-2 mt-5 w-1/3 rounded p-2 size-select";
+  select.required = true;
+  select.innerHTML = `
+    <option value="" disabled selected>Select a size</option>
+    <option value="S">Small (S)</option>
+    <option value="M">Medium (M)</option>
+    <option value="L">Large (L)</option>
+  `;
+
+  // Create the stock <input> element
+  const input = document.createElement("input");
+  input.type = "number";
+  input.name = "stock[]";
+  input.className = "w-1/3 rounded p-2 stock-input";
+  input.placeholder = "stock";
+  input.min = 0;
+  input.required = true;
+
+  // Create the remove button
+  const removeButton = document.createElement("button");
+  removeButton.type = "button";
+  removeButton.className = "ml-2 text-white rounded bg-red-600 p-2";
+  removeButton.textContent = "Remove";
+  removeButton.onclick = function () {
+    removeSize(removeButton);
+  };
+
+  // Append elements to the new size-quantity block
+  newBlock.appendChild(select);
+  newBlock.appendChild(input);
+  newBlock.appendChild(removeButton);
+
+  // Append the new block to the container
+  container.appendChild(newBlock);
+}
+
+function removeSize(button) {
+  const sizeQuantityBlock = button.parentNode;
+  sizeQuantityBlock.remove();
+  count--; // Decrease count when a block is removed
+} 

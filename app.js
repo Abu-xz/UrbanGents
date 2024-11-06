@@ -12,7 +12,9 @@ import userRouter from "./routes/userRoute.js";
 import passport from "passport";
 import Users from "./models/userModel.js";
 import pkg from "passport-google-oauth20";
-import flash from 'connect-flash'
+
+
+
 
 
 const { Strategy: GoogleStrategy } = pkg;
@@ -43,21 +45,13 @@ app.use(
     saveUninitialized: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // 1 day
-      sameSite: "lax", // Use 'none' for cross-origin, but remember to set 'secure: true' when using HTTPS
-      secure: false, // Set to true if using HTTPS
+      sameSite: 'lax', // Use 'none' for cross-origin, but remember to set 'secure: true' when using HTTPS
+      secure: false , // Set to true if using HTTPS
     },
   })
 );
+  
 
-//flash setting 
-app.use(flash())
-
-// Middleware to pass flash messages to the views
-app.use((req, res, next) => {
-  res.locals.successMessage = req.flash('success');
-  res.locals.errorMessage = req.flash('error');
-  next();
-});
 
 //Google authentication
 app.use(passport.initialize());

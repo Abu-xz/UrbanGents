@@ -56,11 +56,12 @@ pagination [x]
 Highlights/specs of the product [x]
 Related product recommendations [x]
 Implement image zoom functionality. [x]
-Test the product details view
 
 
-//===================================================================//
-Last Week Pending & Code to change: []
+
+//================================ Last Week Pending & Need Improvement ===================================//
+
+
 Google auth code explanation [x]
 Home [X]
 session management [x]
@@ -72,53 +73,77 @@ update product sweet-alert fix [x]
 add slug [x]
 admin aside fix design [x]
 Home page add link to all product page [x]
+google sign-in full name store to db [x] 
+USER PROFILE EDIT UPDATE FOR GOOGLE USER TO EDIT  [x]
+when user log with google ac email there is an issue with bcrypt [x]
 Remove tempData and add the user data actual collection and set a field like verified true/false []
 user side ui when hover add text under the logo  with line animation []
-color options []
-brand ? option []
 product model size field change to enum like s , m , l , xl  []
 product management delete action change with confirm button []
-stock management hide 'add to cart ' button for out of stock products []
-google sign-in full name store to db [] 
+stock management hide 'add to cart' button for out of stock products []
 create input for gender when sign-up male, female, other with respective image[]
 dynamic image for google and normal user [] 
-edit product page og price to next line instead of all in oneline
+edit product page og price to next line instead of all in online []
+[IMP]
+fix admin edit cropper issue [x]
+Add review below product page []
+Add proper zoom for product []
+make responsive navbar [] 
+sign-up issue in first name enter with space validation update []
+[IMP]
+IMPLEMENT PASSWORD CHANGE OPTION [] 
+while editing crop is not working [x]
+add different variants with a product [x]
+variants in edit product [x]
+breadCrumbs in all product page
+image zoom need improvement []
+product page complete [];
+product details page stock error [];    
+
+[NotImp]
+Wishlist complete []
+
+
+
 
 
 
 //================== Doubt ========================//
 
 
+//================== Doubt ========================//
 
-//========================= Week 9 Project 2 task ============================//
+
+//========================= Week 9 Project task ============================//
 
 October 25-26: Complete Pending Tasks + Basic User Profile Setup [x] ------------//
 
-Set up User Profile page structure: Show details, address, and orders.
-Implement View/Edit Profile CRUD operations.
+Set up User Profile page structure: Show details, address, and orders. [x]
+Implement View/Edit Profile CRUD operations.[x]
 
 
-October 27-28: Address Management + Basic Cart Setup [] ---------------//
+October 27-28: Address Management + Basic Cart Setup [x] ---------------//
 
 Address Management in Profile: [x]
-Implement multiple address functionality: Add, Edit, and Delete.
+Implement multiple address functionality: Add, Edit, and Delete.[x]
 
-Cart Management: []
+Cart Management: [x]
 Implement Add to Cart and List Products in Cart.
 Control qty based on stock availability.
 Set maximum quantity per user for each product.
 
 
 October 29-30: Advanced Cart and Search Functionality [] ---------------//
-Out-of-Stock Handling: []
-Display/hide out-of-stock products with a filter toggle.
+
+Out-of-Stock Handling: [x]
+Display/hide out-of-stock products with a filter toggle. []
 
 Advanced Search and Sorting: []
 Implement search functionality with sorting:
 Popularity, Price (low-high, high-low), Average ratings, Featured, New Arrivals, A-Z, Z-A.
 
 
-October 31: Inventory, Checkout, and Order Placement [] ---------------[]
+October 31: Inventory, Checkout, and Order Placement [] ---------------//
 
 Inventory and Stock Management: []
 Manage stock levels and display them in listings and product details.

@@ -156,7 +156,12 @@ export const verifyUser = async (req, res) => {
         .status(200)
         .render("user/userLogin", { message: "Invalid email or password!" });
     }
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    
+    if(user.googleId){
+      return res.status(400).render('user/userLogin', {message: 'Invalid email or password'})
+    }
+
+    const isValidPassword =await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       return res.status(401).render("user/userLogin", {
         message: "Invalid email or password",
@@ -165,7 +170,7 @@ export const verifyUser = async (req, res) => {
 
     req.session.user = {
       id: user._id,
-      email: user.email,
+      email: user.email,  
     };
     res.status(200).redirect("/user/home");
   } catch (error) {

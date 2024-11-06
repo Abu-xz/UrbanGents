@@ -9,12 +9,11 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/styles/zoom.css">
+    <link rel="stylesheet" href="/styles/zoom.css" />
   </head>
   <body>
-
     <!-- Header -->
-    
+
     <header class="bg-stone-950 py-5 px-8 shadow-md">
       <div class="container mx-auto flex justify-between items-center">
         <div class="logo">
@@ -37,149 +36,215 @@
       </div>
     </header>
 
-<!-- Main Content -->
+    <!-- Main Content -->
     <% if(typeof product !== 'undefined' && product) { %>
-      <div class="p-2">
-        <a href="/user/home" class="ml-10">Home / Product</a>
-      </div>
-      <div class="container mx-auto px-4 py-12 mb-5">
-        <div class="grid grid-cols-1 md:grid-cols-2 h-full mb-5">
-
-          <!-- Product Image and Thumbnails -->
-          <div id="img-zoom-container" class="flex flex-col items-center">
-            <!-- Main Product Image -->
-            <img id="product-image" src="<%=product.images[0]%>"
+    <div class="p-2">
+      <a href="/user/home" class="ml-10">Home / Product</a>
+    </div>
+    <div class="container mx-auto px-4 py-12 mb-5">
+      <div class="grid grid-cols-1 md:grid-cols-2 h-full mb-5">
+        <!-- Product Image and Thumbnails -->
+        <div id="img-zoom-container" class="flex flex-col items-center">
+          <!-- Main Product Image -->
+          <img
+            id="product-image"
+            src="<%=product.images[0]%>"
             data-zoom-image="<%=product.images[0]%>"
-            alt="Product Image" 
-            class="w-4/4 h-96 object-cover rounded-lg border shadow-md mb-4">
-            
-            
-            <!-- Alternative Images (Thumbnails) -->
-            <div id='thumbnail' class="flex space-x-4">
-              <% product.images.forEach((image)=> {%>
-                <img id='thumbnail' src="<%=image%>" data-zoom-image="<%=image%>" alt="Alt Image 1" class="w-24 h-24 object-cover rounded-lg border shadow-md cursor-pointer thumbnail">
-                <% }) %>
-              </div>
-              
-            </div>
+            alt="Product Image"
+            class="w-4/4 h-96 object-cover rounded-lg border shadow-md mb-4"
+          />
 
-          <!-- Product Info -->
-          <div class="flex flex-col justify-center">
-            <h1 class="text-3xl font-bold text-gray-900 mb-4 uppercase"><%=product.productName%></h1>
-            <p class="text-gray-600 mb-6"><%=product.description%></p>
-      
-            <div class="flex items-center space-x-4 mb-6">
-              <% if( product.discount > 0){ %>
-                <%const price = product.price - (product.price * product.discount / 100) %>
-                <span class="text-gray-900 font-bold text-2xl">₹<%=Math.trunc(price)%></span>
-                <p class="text-rose-700 text-xl font-semibold">(<span class="font-medium text-md text-rose-700"><%=product.discount%>% OFF</span>)</p>
-                <span class="text-lg text-gray-500 line-through">₹<%=product.price%></span> 
-                <% }else{ %>
-                  <span class="text-gray-900 font-bold text-xl">₹<%=product.price%></span>
-                  <% } %>
-                  
-            </div>
-    
-
-            <!-- product rating here -->
-            <div class="flex  space-x-2 mb-5">
-              <svg class="w-4 fill-[#facc15]" viewBox="0 0 14 13" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-4 fill-[#facc15]" viewBox="0 0 14 13" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-4 fill-[#facc15]" viewBox="0 0 14 13" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-4 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-              <svg class="w-4 fill-[#CED5D8]" viewBox="0 0 14 13" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-              </svg>
-            </div>
-      
-            <!-- Size Selection -->
-            <div class="mb-6">
-              <h3 class="text-lg font-semibold text-gray-900 mb-2">Select Size</h3>
-              <div class="flex space-x-4">
-                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none">S</button>
-                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none">M</button>
-                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none">L</button>
-                <button class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none">XL</button>
-              </div>
-                <% if(product.stock != 0 && product.stock > 10) { %>
-                  <p class="text-lg text-grey-950 font-semibold">Available stock <%=product.stock%></p>
-                  <% }else if(product.stock <= 10 && product.stock > 0){ %>
-                    <p class="text-lg text-red-600 font-bold mt-4">Only <%=product.stock%> more left in  Stock</p>
-                    <%} else {%> 
-                      <p class="text-lg text-red-600 font-bold mt-4">Stock Unavailable</p>
-                  <%  }%>
-              <div>
-              </div>
-
-            </div>
-      
-            <!-- Add to Cart Button -->
-            <div class="flex items-center space-x-4">
-              <button class="px-6 py-3 bg-rose-500 text-white font-semibold rounded-lg hover:bg-rose-700 transition duration-300">Wishlist</button>
-              <button class="px-6 py-3 bg-sky-900 text-amber-100 font-semibold rounded-lg hover:bg-sky-950 transition duration-300">Add to Cart</button>
-            </div>
+          <!-- Alternative Images (Thumbnails) -->
+          <div id="thumbnail" class="flex space-x-4">
+            <% product.images.forEach((image)=> {%>
+            <img
+              id="thumbnail"
+              src="<%=image%>"
+              data-zoom-image="<%=image%>"
+              alt="Alt Image 1"
+              class="w-24 h-24 object-cover rounded-lg border shadow-md cursor-pointer thumbnail"
+            />
+            <% }) %>
           </div>
         </div>
-        <hr>
+
+        <!-- Product Info -->
+        <div class="flex flex-col justify-center">
+          <h1 class="text-3xl font-bold text-gray-900 mb-4 uppercase">
+            <%=product.productName%>
+          </h1>
+          <p class="text-gray-600 mb-6"><%=product.description%></p>
+
+          <div class="flex items-center space-x-4 mb-6">
+            <% if( product.discount > 0){ %> <%const price = product.price -
+            (product.price * product.discount / 100) %>
+            <span class="text-gray-900 font-bold text-2xl"
+              >₹<%=Math.trunc(price)%></span
+            >
+            <p class="text-rose-700 text-xl font-semibold">
+              (<span class="font-medium text-md text-rose-700"
+                ><%=product.discount%>% OFF</span
+              >)
+            </p>
+            <span class="text-lg text-gray-500 line-through"
+              >₹<%=product.price%></span
+            >
+            <% }else{ %>
+            <span class="text-gray-900 font-bold text-xl"
+              >₹<%=product.price%></span
+            >
+            <% } %>
+          </div>
+
+          <!-- product rating here -->
+          <div class="flex space-x-2 mb-5">
+            <svg
+              class="w-4 fill-[#facc15]"
+              viewBox="0 0 14 13"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
+              />
+            </svg>
+            <svg
+              class="w-4 fill-[#facc15]"
+              viewBox="0 0 14 13"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
+              />
+            </svg>
+            <svg
+              class="w-4 fill-[#facc15]"
+              viewBox="0 0 14 13"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
+              />
+            </svg>
+            <svg
+              class="w-4 fill-[#CED5D8]"
+              viewBox="0 0 14 13"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
+              />
+            </svg>
+            <svg
+              class="w-4 fill-[#CED5D8]"
+              viewBox="0 0 14 13"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z"
+              />
+            </svg>
+          </div>
+
+          <!-- Size Selection -->
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">
+              Select Size
+            </h3>
+            <div class="flex space-x-4">
+  <% if (product.variant && product.variant.length > 0) { %> 
+    <% product.variant.forEach((variant, index) => { %>
+      <button
+        class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none variant-button <%= index === 0 ? 'bg-gray-300' : '' %>"
+        onclick="showStockStatusAndUpdateButton('<%= variant.size %>', '<%= variant.stock %>  ', this)"
+        data-stock="<%=variant.stock%>"
+      >
+        <%= variant.size %>
+      </button>
+    <% }) %>  
+  <% } %>
+</div>
+<!-- Stock Status Display -->
+<div id="stock-status" class="mt-4"></div>
+
+
+          <!-- Cart and wishlist button-->
+
+          <div class="flex items-center space-x-4">
+            <button
+              class="px-6 py-3 bg-rose-500 text-white font-semibold rounded-lg hover:bg-rose-700 transition duration-300"
+            >
+              Wishlist
+            </button>
+            <% if(product.variant.length > 0){ %>
+            <button
+              data-id="<%=product._id%>"
+              class="add-to-cart px-6 py-3 bg-sky-900 text-amber-100 font-semibold rounded-lg hover:bg-sky-950 transition duration-300"
+            >
+              Add to Cart
+            </button>
+            <% } %>
+          </div>
+        </div>
       </div>
-      
+      <hr />
+    </div>
 
-      <% } %>
-
-        <!-- Related Products -->
-<section class="py-12">
-  <div class="container mx-auto text-center">
-    <h2 class="text-3xl font-bold mb-8 uppercase">Related Product</h2>
-    <div class="flex flex-wrap align-center justify-center">
-
-      <% if(typeof relatedProduct !== 'undefined' && relatedProduct) { %>
-        <% relatedProduct.forEach((product, index) => { %>
-            <div class="category mx-8 hover:-translate-y-2 transition-all">
-                <div class="max-w-xs mx-auto my-10">
-                    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                        <a href="/user/product-details/<%=product._id%>">
-                            <img class="w-full h-64 object-cover" src="<%=product.images[0]%>" alt="Product Image">
-                        </a>
-                      <p></p>
-                      <div class="p-5">
-                          <h3 class="text-gray-700 text-xl font-semibold"><%=product.productName%></h3>
-                        <div class="flex items-center justify-between mt-4">
-                          <% if( product.discount > 0){ %>
-                            <%const price = product.price - (product.price * product.discount / 100) %>
-                            <span class="text-gray-900 font-bold text-xl">₹<%=Math.trunc(price)%></span>
-                          <% }else{ %>
-                            <span class="text-gray-900 font-bold text-xl">₹<%=product.price%></span>
-                          <% } %>
-                          <button class="px-4 py-2 bg-sky-900 text-white text-xs font-bold uppercase rounded hover:bg-sky-950">Add to Cart</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-              </div> 
-        <%})%>
     <% } %>
 
-    </div>
-  </div>
-</section>
+    <!-- Related Products -->
+    <section class="py-12">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-8 uppercase">Related Product</h2>
+        <div class="flex flex-wrap align-center justify-center">
+          <% if(typeof relatedProduct !== 'undefined' && relatedProduct) { %> <%
+          relatedProduct.forEach((product, index) => { %>
+          <div class="category mx-8 hover:-translate-y-2 transition-all">
+            <div class="max-w-xs mx-auto my-10">
+              <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                <a href="/user/product-details/<%=product._id%>">
+                  <img
+                    class="w-full h-64 object-cover"
+                    src="<%=product.images[0]%>"
+                    alt="Product Image"
+                  />
+                </a>
+                <p></p>
+                <div class="p-5">
+                  <h3 class="text-gray-700 text-xl font-semibold">
+                    <%=product.productName%>
+                  </h3>
+                  <div class="flex items-center justify-between mt-4">
+                    <% if( product.discount > 0){ %> <%const price =
+                    product.price - (product.price * product.discount / 100) %>
+                    <span class="text-gray-900 font-bold text-xl"
+                      >₹<%=Math.trunc(price)%></span
+                    >
+                    <% }else{ %>
+                    <span class="text-gray-900 font-bold text-xl"
+                      >₹<%=product.price%></span
+                    >
+                    <% } %>
+                    <button
+                      data-id="<%=product._id%>"
+                      data-variant="<%=product.variant[0].size%>"
+                      class="add-to-cart px-4 py-2 bg-sky-900 text-white text-xs font-bold uppercase rounded hover:bg-sky-950"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%})%> <% } %>
+        </div>
+      </div>
+    </section>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-4">
@@ -187,33 +252,35 @@
         <p>&copy; 2024 UrbanGents</p>
       </div>
     </footer>
-    
+
     <script src="/javascript/productDetails.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
     <script>
-      $(document).ready(function() {
+      $(document).ready(function () {
         // Initialize zoom on the main product image
-        $('#product-image').elevateZoom({
+        $("#product-image").elevateZoom({
           zoomType: "lens",
           lensShape: "square",
           lensSize: 150,
           // zoomLevel: 2
         });
-    
+
         // When a thumbnail is clicked
-        $('.thumbnail').on('click', function() {
-          var newImageSrc = $(this).attr('src');        // Get the new image src
-          var newZoomImageSrc = $(this).attr('data-zoom-image');  // Get the new zoom image
-    
+        $(".thumbnail").on("click", function () {
+          var newImageSrc = $(this).attr("src"); // Get the new image src
+          var newZoomImageSrc = $(this).attr("data-zoom-image"); // Get the new zoom image
+
           // Update the main image's src
-          $('#product-image').attr('src', newImageSrc);
-    
+          $("#product-image").attr("src", newImageSrc);
+
           // Remove the previous zoom instance
-          $('.zoomContainer').remove();  // Remove the zoom container (ElevateZoom adds this)
-    
+          $(".zoomContainer").remove(); // Remove the zoom container (ElevateZoom adds this)
+
           // Reinitialize the zoom with the new image
-          $('#product-image').data('zoom-image', newZoomImageSrc).elevateZoom({
+          $("#product-image").data("zoom-image", newZoomImageSrc).elevateZoom({
             zoomType: "lens",
             lensShape: "square",
             lensSize: 150,
@@ -222,7 +289,8 @@
         });
       });
     </script>
-    
 
+    
+   
   </body>
 </html>

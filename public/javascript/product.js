@@ -13,7 +13,7 @@ function blockProduct(productId) {
                     timer: 1000
                 });
                 setTimeout(() => {
-                    window.location.href = '/admin/products';
+                    window.location.reload();
                 }, 1100);
 
             } else {

@@ -11,11 +11,10 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body class="bg-gray-100 pr-8">
-    <div class="flex">
-
-   <!-- Sidebar (same as before) -->
-      <aside class="w-64 bg-white p-6 shadow-lg">
-        <div class="fixed flex flex-col">
+    <div class="flex ">
+      <!-- Sidebar (same as before) -->
+      <aside class="w-64 h-screen bg-white p-6 shadow-lg">
+        <d  iv class="flex flex-col">
           <div class="text-2xl font-bold mb-10">Admin Dashboard</div>
 
           <!-- Navigation Menu -->
@@ -84,7 +83,7 @@
               <span class="ml-2">Logout</span>
             </a>
           </nav>
-        </div>
+        </d>
       </aside>
 
         
@@ -106,7 +105,6 @@
             <th class="py-2 px-4 text-center">Product Name</th>
             <th class="py-2 px-4 text-center">Price</th>
             <th class="py-2 px-4 text-center">Category</th>
-            <th class="py-2 px-4 text-center">Stock</th>
             <th class="py-2 px-4 text-center">Discount</th>
             <th class="py-2 px-4 text-center">Status</th>
             <th class="py-2 px-4 text-center">Image</th>
@@ -117,11 +115,11 @@
           <% if(typeof products !== "undefined" && products){ %>
               <% products.forEach((product, index) => { %>                  
                 <tr class="border-b">
-                  <td class="py-2 px-4 text-center"><%= index + 1 %></td>
+                  <td class="py-2 px-4 text-center"><%= (currentPage - 1) * limit + index + 1 %></td>
                   <td class="py-2 px-4 text-center uppercase"><%= product.productName%></td>
                   <td class="py-2 px-4 text-center">₹<%= product.price%></td>
                   <td class="py-2 px-4 text-center uppercase"><%= product.category?.categoryName%></td>
-                  <td class="py-2 px-4 text-center"><%= product.stock%></td>
+                 
                   <td class="py-2 px-4 text-center"><%= product.discount%></td>
                   <td class="py-2 px-4 text-center ">
                     <span class="<%= product.isActive? 'bg-green-300 px-4':'bg-red-300 px-2' %> rounded  py-1">
@@ -156,14 +154,13 @@
               </tr>
               <% } %>
 
-
+            <!-- change this to a correct form -->
               <% if(typeof success !== 'undefined' && success){ %>
                 <script>
                   Swal.fire({
                     title: "Success!",
                     icon: "success",
                     text: "Product updated successfully!",
-                    confirmButtonText: "Ok",
                   }).then((result) => { 
                     if (result.isConfirmed) {
                       window.location.href = "/admin/products";
@@ -197,10 +194,12 @@
 
       <div class=" flex justify-center items-center space-x-2 ">
         <!-- Previous Button -->
-         <a href="?page=<%=currentPage - 1 %>&limit=<%=limit %>">
+         <a <% if(currentPage !== 1 ) {%>
+           href="?page=<%=currentPage - 1 %>&limit=<%=limit %>">
+           <% } %>
            <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 <%=currentPage === 1 ? 'disabled' : '' %>">
-               Prev
-           </button>
+             Prev
+            </button>
          </a>
     
         <!-- Page Numbers -->

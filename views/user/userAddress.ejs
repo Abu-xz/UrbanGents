@@ -282,7 +282,7 @@
                       type="radio"
                       class="form-radio text-blue-600"
                       name="addressType"
-                      value="Home"
+                      value="home"
                     />
                     <span class="ml-2">Home</span>
                   </label>
@@ -291,7 +291,7 @@
                       type="radio"
                       class="form-radio text-blue-600"
                       name="addressType"
-                      value="Office"
+                      value="office"
                       required
                     />
                     <span class="ml-2">Office</span>
@@ -323,7 +323,7 @@
             </form>
           </div>
 
-          <div class="p-6 max-w-4xl bg-blue-500 rounded mx-auto space-y-4">
+          <div class="p-6 max-w-4xl rounded mx-auto space-y-4">
             <!-- Add New Address Button at the Top -->
             <div class="flex justify-end">
               <button
@@ -335,7 +335,7 @@
             </div>
 
             <!-- Address Cards Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 ">
               <% user.addresses.forEach((address) => { %>
               <div
                 class="p-4 border border-gray-200 rounded-lg shadow-lg space-y-2 bg-white"
