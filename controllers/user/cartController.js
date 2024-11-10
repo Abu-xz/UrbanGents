@@ -63,13 +63,13 @@ export const addItemToCart = async (req, res) => {
     const itemExists = cart.items.find((item) =>
       item.productId.equals(productId)
     );
-    console.log(variantSize);
+    // console.log(variantSize);
     const selectedVariant = product.variant.find((v) => v.size === variantSize);
-    console.log(selectedVariant);
+    // console.log(selectedVariant);
 
     if (selectedVariant.stock === 0) {
       return res
-        .status(500)
+        .status(200)
         .json({ success: false, message: "Product is Out of Stock!" });
     }
     const selectedSize = variantSize || selectedVariant.size;
@@ -119,7 +119,7 @@ export const updateSize = async (req, res) => {
 
     const userData = req.session.user.email || req.session.user;
     const { productId, variantSize } = req.body;
-    console.log(productId, variantSize);
+    // console.log(productId, variantSize);
     // Find product by ID
     const product = await Product.findById(productId);
     if (!product) {
@@ -200,7 +200,7 @@ export const updateQuantity = async (req, res) => {
     }
     // console.log(cart);
     const item = cart.items.find((obj) => obj._id.equals(itemId));
-    console.log(item);
+    // console.log(item);
 
     const product = await Product.findById(item.productId);
     if (!product) {
@@ -255,7 +255,7 @@ export const deleteItem = async (req, res) => {
         .json({ success: false, message: "Cart Not Found!" });
     }
 
-    console.log(cart);
+    // console.log(cart);
     //this will remove that specific item and return an array !
     cart.items = cart.items.filter((item) => item._id.toString() !== itemId);
 
@@ -266,7 +266,7 @@ export const deleteItem = async (req, res) => {
       0
     );
     await cart.save();
-    console.log(cart);
+    // console.log(cart);
     res.status(200).json({ success: true, message: "Item Removed From Cart!" });
   } catch (error) {
     console.log("Error", error);
@@ -292,9 +292,7 @@ export const checkStock = async (req, res) => {
         selectedVariant.stock === 0 ||
         selectedVariant.stock < item.quantity
       ) {
-        // console.log('item quantity',item.quantity)
-        // console.log('variant stock',selectedVariant.stock)
-        // console.log('out of stock')
+      
         return res
           .status(200)
           .json({

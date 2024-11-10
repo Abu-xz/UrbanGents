@@ -1,17 +1,16 @@
- <script src="https://cdn.tailwindcss.com"></script> 
+ <script src="https://cdn.tailwindcss.com"></script>
  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css" rel="stylesheet">
 
- <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+ <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 Button color
 bg-rose-500 //wishlist
 bg-sky-900 //add to cart
 
-
 //========================= Week 8 Project 1 task ============================//
 
-Admin Sign-In:  [X]
+Admin Sign-In: [X]
 Set up the admin sign-in page.
 
 User Sign-Up and Login: [X]
@@ -23,7 +22,7 @@ User Management [X]
 Create a user management page for listing users.
 Implement functionality to block/unblock users.
 
-Category Management: [X] 
+Category Management: [X]
 Build the category management page.
 Implement add, edit, and soft delete functionality for categories.
 
@@ -42,7 +41,7 @@ Implement the product listing page that fetches products from the backend.
 Ensure that the products display relevant information.
 
 [IMP]
-Product Details View:[]
+Product Details View:[x]
 Create the product details page with features like
 image zoom feature [x]
 Ratings [x]
@@ -51,16 +50,13 @@ Price [x]
 Discounts/Coupons applied [x]
 Reviews [x]
 Stock availability [x]
-Proper error handling for sold out/unavailable items []
+Proper error handling for sold out/unavailable items [x]
 pagination [x]
 Highlights/specs of the product [x]
 Related product recommendations [x]
 Implement image zoom functionality. [x]
 
-
-
 //================================ Last Week Pending & Need Improvement ===================================//
-
 
 Google auth code explanation [x]
 Home [X]
@@ -73,45 +69,54 @@ update product sweet-alert fix [x]
 add slug [x]
 admin aside fix design [x]
 Home page add link to all product page [x]
-google sign-in full name store to db [x] 
-USER PROFILE EDIT UPDATE FOR GOOGLE USER TO EDIT  [x]
+google sign-in full name store to db [x]
+USER PROFILE EDIT UPDATE FOR GOOGLE USER TO EDIT [x]
 when user log with google ac email there is an issue with bcrypt [x]
-Remove tempData and add the user data actual collection and set a field like verified true/false []
-user side ui when hover add text under the logo  with line animation []
-product model size field change to enum like s , m , l , xl  []
-product management delete action change with confirm button []
-stock management hide 'add to cart' button for out of stock products []
-create input for gender when sign-up male, female, other with respective image[]
-dynamic image for google and normal user [] 
-edit product page og price to next line instead of all in online []
-[IMP]
+product model size field change to enum like s , m , l , xl [x]
+product management delete action change with confirm button [x]
+stock management hide 'add to cart' button for out of stock products [x]
 fix admin edit cropper issue [x]
-Add review below product page []
-Add proper zoom for product []
-make responsive navbar [] 
+Add proper zoom for product [x]
+image edit control admin side [x]
+discount field validate admin side product edit [x]
 sign-up issue in first name enter with space validation update []
-[IMP]
-IMPLEMENT PASSWORD CHANGE OPTION [] 
-while editing crop is not working [x]
 add different variants with a product [x]
+while editing crop is not working [x]
+product details page stock error [x];  
 variants in edit product [x]
-breadCrumbs in all product page
-image zoom need improvement []
-product page complete [];
-product details page stock error [];    
-
-[NotImp]
-Wishlist complete []
-
-
-
+product page complete [x];
+breadCrumbs in all product page [x]
+image zoom need improvement [x]
+Remove tempData and add the user data actual collection and set a field like verified true/false []
+create input for gender when sign-up male, female, other with respective image[]
+edit product page og price to next line instead of all in online []
+user side ui when hover add text under the logo with line animation []
+dynamic image for google and normal user []
+make responsive navbar []
+IMPLEMENT PASSWORD CHANGE OPTION []
+checkout page address edit add []
+landing page with all product and product details []
+search, sort, filter need improvement []
+check user is blocked or not []
+after order don't go back []
+[IMP]
+Applied filter should be retained []
+Need pagination for all grids []
+Remove html validations [x]
+Check resend timer [x]
+Same product with different size is not possible to add to cart []
+Add address form in checkout page []
+add Cancel product button []
+Add return with an expiry []
+Avoid Blocked user login [x]
+Add proper comments for all functions []
 
 
 
 //================== Doubt ========================//
 
-
 //================== Doubt ========================//
+
 
 
 //========================= Week 9 Project task ============================//
@@ -120,7 +125,6 @@ October 25-26: Complete Pending Tasks + Basic User Profile Setup [x] -----------
 
 Set up User Profile page structure: Show details, address, and orders. [x]
 Implement View/Edit Profile CRUD operations.[x]
-
 
 October 27-28: Address Management + Basic Cart Setup [x] ---------------//
 
@@ -132,34 +136,91 @@ Implement Add to Cart and List Products in Cart.
 Control qty based on stock availability.
 Set maximum quantity per user for each product.
 
-
 October 29-30: Advanced Cart and Search Functionality [] ---------------//
 
 Out-of-Stock Handling: [x]
-Display/hide out-of-stock products with a filter toggle. []
+Display/hide out-of-stock products with a filter toggle. [x]
 
-Advanced Search and Sorting: []
+Advanced Search and Sorting: [x]
 Implement search functionality with sorting:
 Popularity, Price (low-high, high-low), Average ratings, Featured, New Arrivals, A-Z, Z-A.
 
-
 October 31: Inventory, Checkout, and Order Placement [] ---------------//
 
-Inventory and Stock Management: []
+Inventory and Stock Management: [x]
 Manage stock levels and display them in listings and product details.
 
-Checkout Page: []
+Checkout Page: [x]
 Implement checkout with address selection and edit options.
 
-Order Placement (COD) : []
+Order Placement (COD) : [x]
 Complete COD-based order placement with address selection.
 
+November 1: Finalize User and Admin Order Management [x] ---------------//
 
-November 1: Finalize User and Admin Order Management [] ---------------//
-
-Order Management - User Side: []
+Order Management - User Side: [x]
 Enable order history, status tracking, and cancellation options.
 
-Order Management - Admin Side: []
+Order Management - Admin Side: [x]
 List orders, update order status, and manage cancellations.
 Display remaining stock on product listing and details pages.
+
+//========================= Week 10 Project task ============================//
+
+Day 1: Monday
+User Side - Core Payment Functionality
+Set up and configure Razorpay or PayPal (choose one to start).
+Implement the API for processing payments.
+Test the payment flow to ensure it's smooth.
+Pending Topics
+Retain applied filters (focus on making this functional first).4
+
+Day 2: Tuesday
+User Side - Order Management
+Implement order status changes (cancel, return).
+Test order status functionality to ensure it works for different scenarios.
+Pending Topics
+Add pagination for product listing and all grids.
+Day 3: Wednesday
+
+User Side - Coupon and Wishlist Management
+Implement apply and remove coupon functionality.
+Create the wishlist feature (add and remove items).
+Test the coupon management to ensure discounts are applied correctly.
+Pending Topics
+Remove HTML validations and use server-side validation.
+Day 4: Thursday
+
+User Side - Search and Filtering
+Implement search functionality.
+Add category filtering to product listings.
+Ensure the search and filter features work together seamlessly.
+Admin Side - Offer Module
+Develop the offer module (product, category, referral).
+Day 5: Friday
+
+Admin Side - Coupon and Sales Report
+Implement coupon management (create and delete coupons).
+Start with basic sales report generation (daily, weekly, monthly).
+Add the ability to filter reports by date ranges.
+Pending Topics
+Check the resend timer functionality and debug if necessary.
+Day 6: Saturday
+
+Admin Side - Advanced Sales Report Features
+Show discounts and coupon deductions in the report.
+Calculate and display overall sales count, order amount, and discounts.
+Implement download functionality for the sales report (PDF, Excel).
+Pending Topics
+Resolve the issue of adding the same product with different sizes to the cart.
+Day 7: Sunday
+
+Final Touches and Testing
+Add the address form to the checkout page.
+Fix the product cancellation issue and add return functionality with expiry.
+Ensure blocked users cannot log in.
+Add proper comments to all functions for better code maintainability.
+Comprehensive Testing
+Conduct end-to-end testing for both the user and admin sides.
+Make sure all features are bug-free and functional.
+Review the code and do a final polish.

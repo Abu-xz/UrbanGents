@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Management</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body class="bg-gray-100 pr-8">
+    <div class="flex ">
+     <!-- Sidebar -->
+     <aside class="w-1/5 h-screen bg-white p-6 shadow-lg">
+        <div class="fixed flex flex-col">
+          <div class=" text-2xl font-bold mb-10 pr-5">Admin Dashboard</div>
+    
+          <!-- Navigation Menu -->
+          <nav class="space-y-4">
+            <a href="/admin/dashboard" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+              <span class="material-icons">dashboard</span>
+              <span class="ml-2">Dashboard</span>
+            </a>
+            <a href="/admin/products" class="flex items-center text-grey-700  hover:bg-gray-200  p-2 rounded">
+              <span class="material-icons">inventory</span>
+              <span class="ml-2">Products</span>
+            </a>
+            <a href="/admin/category" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+              <span class="material-icons">category</span>
+              <span class="ml-2">Category</span>
+            </a>
+            <a href="/admin/orders" class="flex items-center text-red-700 hover:bg-red-200 p-2 rounded">
+              <span class="material-icons">shopping_cart</span>
+              <span class="ml-2">Orders</span>
+            </a>
+            <a href="/admin/coupons" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+              <span class="material-icons">redeem</span>
+              <span class="ml-2">Coupons</span>
+            </a>
+            <a href="/admin/offers" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+              <span class="material-icons">local_offer</span>
+              <span class="ml-2">Offers</span>
+            </a>
+            <a href="/admin/banner" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+              <span class="material-icons">campaign</span>
+              <span class="ml-2">Banner</span>
+            </a>
+            <a href="/admin/customers" class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded">
+              <span class="material-icons">people</span>
+              <span class="ml-2">Customers</span>
+            </a>
+          </nav>
+    
+          <!-- Logout -->
+          <div class="mt-2">
+            <a href="/admin/logout" class="flex items-center text-red-600 hover:bg-red-100 p-2 rounded">
+              <span class="material-icons">logout</span>
+              <span class="ml-2">Logout</span>
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <% if(typeof orders !== 'undefined' && orders) { %>
+        <div class="container mx-auto p-4">
+            <table class="min-w-full bg-white border border-gray-200">
+              <thead>
+                <tr class="bg-gray-50 border-b">
+                  <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Order ID</th>
+                  <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Customer Name</th>
+                  <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Items</th>
+                  <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Status</th>
+                  <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% orders.forEach(order => { %>
+                  <% const itemCount = order.items.length; %> <!-- Get the number of items -->
+                  <% order.items.forEach((item, index) => { %>
+                    <tr class="border-b ">
+                      <!-- Only display the order ID and customer details for the first product row -->
+                      <% if (index === 0) { %>
+                        <td class="px-6 py-4 text-sm text-center font-medium" rowspan="<%= itemCount %>"><%= order._id %></td>
+                        <td class="px-6 py-4 text-md uppercase text-center" rowspan="<%= itemCount %>"><%= order.customerId.firstName %> <%= order.customerId.lastName %></td>
+                      <% } %>
+                      <!-- Product details -->
+                      <td class="px-6 py-4 text-sm">
+                        <%=item.productId.productName%>
+                      </td>
+                      <!-- Status dropdown -->
+                      <td class="px-6 py-4 text-sm text-center">
+                        <select
+                        id="status-select-<%=item._id%>" 
+                        class="bg-gray-100 border border-gray-300 text-gray-700 py-2 px-3 rounded focus:outline-none focus:ring focus:border-blue-300"
+                        onchange="updateStatus('<%=item._id%>', this, '<%=order._id%>')"
+                        >
+                          <option value="pending" <%= item.status === 'pending' ? 'selected' : '' %> disabled >Pending</option>
+                          <option value="shipped" <%= item.status === 'shipped' ? 'selected' : '' %>>Shipped</option>
+                          <option value="delivered" <%= item.status === 'delivered' ? 'selected' : '' %>>Delivered</option>
+                          <option value="cancelled" <%= item.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+                          <option value="returned" <%= item.status === 'returned' ? 'selected' : '' %>>Returned</option>
+                        </select>
+                      </td>
+                      <!-- Actions column with View More Details button -->
+                      <% if (index === 0) { %>
+                        <td class="px-6 py-4 text-sm text-center  " rowspan="<%= itemCount %>">
+                          <button data-orderId="<%=order._id%>"  class=" view-details bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600">View Details</button>
+                        </td>
+                      <% } %>
+                    </tr>
+                  <% }); %>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+          
+          
+    <% } %>
+  
+    </div>
+
+  
+   
+    
+    <!-- Google Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />  
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/javascript/order.js"></script>
+  </body>
+</html>

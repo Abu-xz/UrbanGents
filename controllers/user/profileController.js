@@ -1,3 +1,4 @@
+import Order from "../../models/orderModel.js";
 import Users from "../../models/userModel.js";
 
 export const loadProfile = async (req, res) => {
@@ -58,7 +59,6 @@ export const updateProfile = async (req, res) => {
       user.lastName = lastName;
       user.save();
       return res.status(200).redirect("/user/profile");
-
     } else {
       const { firstName, lastName, phoneNumber } = req.body;
       // console.log(firstName, lastName, phoneNumber);
@@ -175,6 +175,7 @@ export const addAddress = async (req, res) => {
 
 export const loadEditAddress = async (req, res) => {
   try {
+    console.log('edit address route reached ')
     let user;
     const addressId = req.query.id;
     const userData = req.session.user.email || req.session.user;
@@ -308,5 +309,50 @@ export const deleteAddress = async (req, res) => {
     return res
       .status(200)
       .json({ success: true, message: "Address deleted Successfully!" });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const loadOrders = async (req, res) => {
+  try {
+    console.log("profile order route reached");
+    const userData = req.session.user.email || req.session.user;
+
+    const user = await Users.findOne({
+      $or: [{ email: userData }, { googleId: userData }],
+    });
+
+    if (!user) {
+      return res
+        .status(500)
+        .json({ success: false, message: "User not Exists!" });
+    }
+
+    const orders = await Order.find({ customerId: user._id }).populate(
+      "items.productId"
+    );
+    // console.log(orders[0].items[0].productId.images[0]);
+    console.log(user);
+    
+    res.status(200).render("user/userOrders", { orders, user });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const orderDetails = async (req, res) => {
+  try {
+    console.log("User order details page reached");
+    const orderId = req.query.orderId;
+    console.log(orderId);
+    const orderDetails = await Order.findById(orderId).populate(
+      "items.productId"
+    );
+    if (!orderDetails) {
+      return res.status(404).redirect("/user/profile/orders");
+    }
+
+    res.status(200).render("user/userOrderDetails", { orderDetails });
   } catch (error) {}
 };

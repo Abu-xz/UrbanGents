@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Details</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <!-- Order Details Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <% if(typeof orderDetails !== 'undefined' && orderDetails) {%> 
+        
+        <!-- Order Details Card -->
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <!-- Order Header -->
+          <a href="/admin/orders" class="text-sm mb-3">Orders / Order-details </a>
+          <div class="flex items-center justify-between mb-6">
+          <h1 class="text-3xl font-semibold text-gray-900">Order Details</h1>
+          <div class="text-lg text-gray-600">Order-Id <%=orderDetails._id%></div>
+        </div>
+
+        <!-- Grid Layout for Payment and Shipping Information in Row -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <!-- Payment Method Section -->
+          <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">
+              Payment Method
+            </h2>
+            <div class="space-y-4">
+              <div>
+                <p class="font-medium text-gray-700">Card Type:</p>
+                <p class="text-blue-600 font-semibold"><%=orderDetails.paymentMethod%></p>
+              </div>
+              <div>
+                <p class="font-medium text-gray-700">Payment Status:</p>
+                <p class="text-green-500 font-medium"><%=orderDetails.status%></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipping Information -->
+          <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">
+              Shipping Information
+            </h2>
+            <div class="space-y-4">
+              <div>
+                <p class="font-medium text-gray-700">Name:</p>
+                <p class="text-gray-600"><%=orderDetails.address.firstName%> <%=orderDetails.address.lastName %></p>
+              </div>
+              <div>
+                <p class="font-medium text-gray-700">Address:</p>
+                <p class="text-gray-600">
+                 <%=orderDetails.address.address %>
+                </p>
+              </div>
+              <div>
+                <p class="font-medium text-gray-700">Phone:</p>
+                <p class="text-gray-600"><%=orderDetails.address.number%></p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+          <h2 class="text-xl font-semibold text-gray-800 mb-4">
+            Order Summary
+          </h2>
+
+          <!-- Product 1 -->
+           <% orderDetails.items.forEach((item) => { %>
+
+              <div class="flex justify-between items-center border-b py-4">
+                  <div class="flex items-center space-x-4">
+                      <img
+                      src=<%=item.productId.images[0] %>
+                  alt="Product"
+                  class="w-20 h-20 object-cover rounded-md"
+                  />
+                  <div>
+                      <p class="font-semibold text-gray-800"><%=item.productId.productName%></p>
+                      <p class="text-gray-600">Size: <%=item.selectedSize%></p>
+                      <p class="text-grey-600 ">Quantity: <%=item.quantity %></p>
+                      <p class="text-gray-500 font-semibold">Prize: <%=item.subTotal %></p>
+                      <!-- Quantity with distinct color -->
+                  </div>
+              </div>
+
+            <div class=" flex items-center space-x-2 p-2 rounded-lg bg-gray-100 shadow-md">
+                <label for="status1" class="font-semibold text-gray-700">Status:</label>
+                <p class="text-black font-medium"><%= item.status %></p>
+            </div>
+              
+    </div>
+    <% }) %>
+
+          <div
+            class="flex justify-between items-center border-t pt-4 text-xl font-semibold text-gray-900"
+          >
+            <span>Total</span>
+            <span>₹ <%=orderDetails.totalDiscount %></span>
+          </div>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </body>
+</html>

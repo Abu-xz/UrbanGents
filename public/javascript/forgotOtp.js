@@ -45,7 +45,7 @@ function displayError(message) {
  //timer function here .... 
   let timerDisplay = document.getElementById("timer");
   let resendBtn = document.getElementById("resend-btn");
-  let otpTimeOut = 20;
+  let otpTimeOut = 60;
   let timer;
   
   const formatTime = (seconds) => {

@@ -29,6 +29,8 @@ import {
 
 import upload from "../config/multer.js";
 import { adminAuth } from "../middleware/adminAuth.js";
+import { loadOrderDetails, loadOrders, updateStatus } from "../controllers/admin/ordercontroller.js";
+
 
 
 const noCache = (req, res, next) => {
@@ -65,6 +67,15 @@ adminRouter.post('/products/add', upload.array('croppedImages'), adminAuth, addP
 adminRouter.post('/products/block', adminAuth, productBlockUnblock)
 adminRouter.get('/products/edit/:id', adminAuth, loadEditProduct);
 adminRouter.post('/products/edit', upload.array('croppedImages'), adminAuth, updateProduct);
-adminRouter.get('/logout', logout)
 
+
+// Order route 
+adminRouter.get('/orders', loadOrders);
+adminRouter.put('/orders', updateStatus);
+
+//order - details page
+adminRouter.get('/order-details', loadOrderDetails)
+
+// admin logout route
+adminRouter.get('/logout', logout);
 export default adminRouter;

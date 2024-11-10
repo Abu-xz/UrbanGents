@@ -21,6 +21,12 @@ addToCartButtons.forEach((cartBtn) => {
             window.location.href = '/user/cart'
           }
         })
+      }else{
+        Swal.fire({
+          title: "Out of Stock",
+          icon: "warning",
+          text: response.data.message,
+        })
       }
     })
     .catch((error) => {

@@ -13,8 +13,7 @@ let cropper;
 // for(let i = 0; i < 3; i++){
 //   if()
 // }
-// console.log(uploadedImages)
-// console.log(prevImageData1,prevImageData2,prevImageData3);
+
 
 //this is from top
 
@@ -59,8 +58,20 @@ cancelButton.addEventListener("click", () => {
   document.getElementById("cancel-button").classList.add("hidden");
 });
 
+// Debouncing 
+cropButton.addEventListener('click', debounce(handleClick, 3000));
+
+function debounce(callback, delay){
+  let timeout;
+  return function(){
+    clearTimeout(timeout);
+    timeout = setTimeout(callback, delay)
+  } 
+}
+
 // Handle crop button click
-cropButton.addEventListener("click", () => {
+function handleClick () {
+
   if (!cropper) {
     Swal.fire({
       icon: "error",
@@ -69,6 +80,7 @@ cropButton.addEventListener("click", () => {
     });
     return;
   }
+  console.log(uploadedImages)
   if (uploadedImages.length >= 3) {
     Swal.fire({
       icon: "error",
@@ -176,7 +188,129 @@ cropButton.addEventListener("click", () => {
       });
     }
   });
-});
+}
+
+
+// // Handle crop button click
+
+// cropButton.addEventListener("click", () => {
+//   if (!cropper) {
+//     Swal.fire({
+//       icon: "error",
+//       title: "No cropper initialized",
+//       text: "Please upload an image first.",
+//     });
+//     return;
+//   }
+//   console.log(uploadedImages)
+//   if (uploadedImages.length >= 3) {
+//     Swal.fire({
+//       icon: "error",
+//       text: "You can only upload a maximum of 3 images.",
+//       title: "Limit Reached",
+//     });
+//     imagePreview.classList.add("hidden");
+//     cropButton.classList.add("hidden");
+//     cancelButton.classList.add("hidden");
+//     imageInput.value = "";
+
+//     cropper.destroy();
+//     return;
+//   }
+
+//   const canvas = cropper.getCroppedCanvas();
+//   canvas.toBlob(async (blob) => {
+//     const formData = new FormData();
+//     formData.append("file", blob);
+//     formData.append("upload_preset", "product-image");
+
+//     try {
+//       const response = await axios.post(
+//         "https://api.cloudinary.com/v1_1/de5vavykz/image/upload",
+//         formData
+//       );
+//       const imageUrl = response.data.secure_url; // The response is image URL from Cloudinary
+//       console.log(imageUrl);
+//       uploadedImages.push(imageUrl);
+
+//       // Create a new div to wrap the image and the remove button
+//       const div = document.createElement("div");
+
+//       // Create the remove button
+//       const removeBtn = document.createElement("button");
+//       removeBtn.id = "remove-button";
+//       removeBtn.onclick = () => {
+//         removeImage(imageUrl);
+//       };
+//       removeBtn.textContent = "Remove";
+//       removeBtn.classList.add(
+//         "bg-red-500",
+//         "text-white",
+//         "px-2",
+//         "py-1",
+//         "rounded",
+//         "hover:bg-red-700",
+//         "transition",
+//         "duration-200"
+//       );
+
+//       const imgElement = document.createElement("img");
+//       imgElement.src = imageUrl;
+//       imgElement.alt = "Uploaded Image";
+//       imgElement.style.maxWidth = "150px";
+//       imgElement.style.maxHeight = "150px";
+//       imgElement.style.marginRight = "20px";
+
+//       const inputElement = document.createElement("input");
+//       inputElement.type = "hidden";
+//       inputElement.value = imageUrl;
+//       inputElement.name = "croppedImages";
+
+//       div.appendChild(imgElement);
+//       div.appendChild(removeBtn);
+//       div.appendChild(inputElement);
+
+//       const container = document.getElementById("image-preview-container");
+//       container.appendChild(div);
+
+//       if (uploadedImages.length >= 1) {
+//         croppedImageData1.value = uploadedImages[0];
+//       }
+//       if (uploadedImages.length >= 2) {
+//         croppedImageData2.value = uploadedImages[1];
+//       }
+//       console.log("image 3 here start");
+//       if (uploadedImages.length >= 3) {
+//         croppedImageData3.value = uploadedImages[2];
+//       }
+//       console.log("image 3 here ends");
+//       console.log(uploadedImages);
+//       Swal.fire({
+//         title: "Image Uploaded!",
+//         text: "Your image has been uploaded successfully.",
+//         icon: "success",
+//       });
+
+//       // Clear the input and preview for the next image
+//       imageInput.value = "";
+//       imagePreview.classList.add("hidden");
+//       cropButton.classList.add("hidden");
+//       cancelButton.classList.add("hidden");
+//       cropper.destroy(); // Destroy the cropper instance
+//     } catch (error) {
+//       console.error(error); // Log the error for debugging
+//       let errorMessage = "There was an error uploading your image.";
+//       if (error.response && error.response.data && error.response.data.error) {
+//         errorMessage = error.response.data.error.message; // Get specific error message from Cloudinary
+//       }
+//       Swal.fire({
+//         icon: "error",
+//         title: "Upload Failed",
+//         text: errorMessage || "There was an error uploading your image.",
+//       });
+//     }
+//   });
+// });
 
 productForm.addEventListener("submit", (e) => {
   const name = document.getElementById("product-name").value.trim();
@@ -218,7 +352,7 @@ productForm.addEventListener("submit", (e) => {
     e.preventDefault();
     return;
   }
-  if (isNaN(discount) || discount < 0 || discount > 100) {
+  if (isNaN(discount) || discount < 0 || discount >=100) {
     Swal.fire("Invalid Product discount");
     e.preventDefault();
     return;

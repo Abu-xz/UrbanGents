@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+
+
+  <!-- Header -->
+  <header class="bg-black py-5 px-8 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <div class="logo">
+        <a href="/user/home">
+          <h1 class="text-2xl text-white font-bold uppercase">UrbanGents</h1>
+        </a>
+      </div>
+      <div class="flex items-center space-x-8 hidden md:flex">
+        <a href="/user/profile" class="text-white">
+          <span class="material-icons">person</span>
+        </a>
+        <a href="/user/cart" class="text-white">
+          <span class="material-icons">shopping_cart</span>
+        </a>
+        <a href="/user/wishlist" class="text-white">
+          <span class="material-icons">favorite</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="px-4 mt-5 ">
+    <span>
+      <h2><a href="/user/home"></a>Home<a href="/user/cart"> / Cart</a> <a href="/user/checkout"> / Checkout</a></h2>
+    </span>
+
+  </div>
+
+  <% if(typeof cart !== 'undefined' && cart){ %>
+
+  <!-- Main Checkout Section -->
+  <div class="container mx-auto flex flex-wrap lg:flex-nowrap bg-white p-4 shadow my-8">
+
+    <!-- Address and Payment Section -->
+    <div class="w-full lg:w-2/3 py-2 px-8 max-w-4xl">
+
+      <!-- Address Section -->
+      <h1 class="text-4xl font-bold mb-4">Checkout</h1>
+      <% if(typeof user !== 'undefined' && user) {%>
+        
+        <h2 class="text-xl font-semibold mb-4">Deliver To</h2>
+        <form id="checkout-form">
+        <% user.addresses.forEach((address) => { %>
+        <div class="bg-white p-6 mb-6 rounded-lg shadow">
+
+            <div class="flex items-center mb-4">
+              <input type="radio" name="address" data-addressId="<%=address._id%>" class="address-input w-5 h-5 text-indigo-600" <%=address.isDefault ? 'checked': '' %> >
+              <label for="address1" class="ml-4 text-gray-700">
+                <% if(address.isDefault){%>
+                  <span class="block font-bold">Default Address</span>
+                  <% } %>
+                  <span class="block text-sm"><%=address.firstName %> <%=address.lastName %>, <%=address.address%></span>
+                  <span><%=address.state%>, <%=address.district%>, <%=address.city%></span>
+                  <span class="block text-sm">Mobile Number : <%=address.number%></span>
+                  <span class="block text-sm">Pincode : <%=address.pincode%></span>
+                  <span class="text-sm bg-red-100 font-semibold text-red-700 p-1 rounded uppercase"> <%=address.addressType%></span>
+              </label>
+              <a href="/user/profile/address" class="ml-auto text-indigo-600 hover:underline">Edit</a>
+            </div>
+          </div>
+        <% }) %>
+      <% } %>
+
+      <!-- Choose Payment Option Section -->
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-4">Choose Payment Option</h2>
+          <!-- Payment Option 1 -->
+          <div class="flex items-center mb-4">
+            <input id="COD" type="radio" name="payment" class="w-5 h-5 text-indigo-600" >
+            <label for="payment1" class="ml-4 text-gray-700 font-medium">Cash On Delivery</label>
+          </div>
+          <!-- add more payment option for later -->
+        </div>
+      </div>
+
+    <!-- Order Summary Section -->
+     <% if(typeof cart !== 'undefined' && cart) {%>
+
+      <div class="w-full lg:w-1/3 p-4 mt-8 lg:mt-0">
+        <div class="bg-gray-50 p-4 rounded-md shadow-md">
+        <h2 class="text-xl font-bold mb-5">Order Summary</h2>
+        <div class="text-gray-600 mb-5">
+          <div class="flex justify-between mb-4">
+            <span class="font-semibold text-black">Cart Total (<%=cart.items.length %> items)</span>
+            <span class="text-black font-bold">₹<%=cart.totalPrice%></span>
+          </div>
+          <div class="flex justify-between mb-4">
+            <span>Product Savings:</span>
+            <% const savings = cart.totalPrice - cart.totalDiscount%>
+            <span class="text-green-700 font-bold">- ₹<%=savings %></span>
+          </div>
+          <div class="flex justify-between">
+            <span>Shipping</span>
+            <span>Free</span>
+          </div>
+        </div>
+        <hr class="my-5">
+        <div class="flex justify-between text-xl font-semibold">
+          <span>Payable Amount</span>
+          <span class="font-bold">₹<%=cart.totalDiscount %></span>
+        </div>
+        <button id="place-order-button" type="click"  class="w-full bg-black text-white text-center py-2 mt-4 rounded-md uppercase">
+          Place order
+        </button>
+      </form>
+      </div>
+    </div>
+    <% } %>
+
+  </div>  
+  <% } %>
+
+
+  <script src="/javascript/checkout.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>

@@ -20,20 +20,22 @@ export const loadCustomer = async (req, res) => {
   }
 };
 
+//block & unblock user 
 export const customerAction = async (req, res) => {
   try {
     console.log('customer action reached')
     const { action, userId } = req.params;
-    // console.log(action, userId);
+    console.log(action);
     const user = await Users.findById(userId);
     // console.log("hello",user.status)
     if (action === "block") {
-      user.status = false;
+      user.status = true 
       user.save();
       res.status(200).redirect("/admin/customers");
       return;
-    } else if (action === "unblock") {
-      user.status = true;
+    } 
+    else if (action === "unblock") {
+      user.status = false
       user.save();
       res.status(200).redirect('/admin/customers');
       return;

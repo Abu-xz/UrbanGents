@@ -14,7 +14,9 @@ addToCartButtons.forEach((button) => {
   button.addEventListener("click", (event) => {
     console.log("button clicked");
     const stockStatusDiv = document.getElementById("stock-status");
-    const variantSize = stockStatusDiv.querySelector('p').getAttribute('data-variant');
+    const variantSize = stockStatusDiv
+      .querySelector("p")
+      .getAttribute("data-variant");
     console.log(variantSize);
     const productId = button.getAttribute("data-id");
     console.log(productId);
@@ -54,13 +56,11 @@ addToCartButtons.forEach((button) => {
   });
 });
 
-
-
 const cartBtn = document.querySelector(".add-to-cart");
 
 // Function to update stock status and button color
 function showStockStatusAndUpdateButton(size, stock, button) {
-  const stockStatusDiv = document.getElementById('stock-status');
+  const stockStatusDiv = document.getElementById("stock-status");
 
   // Update stock status display
   if (stock > 10) {
@@ -75,24 +75,24 @@ function showStockStatusAndUpdateButton(size, stock, button) {
   }
 
   // Reset button styles
-  const buttons = document.querySelectorAll('.variant-button');
-  buttons.forEach(btn => {
-    btn.classList.remove('bg-gray-300'); // Remove highlight from all buttons
+  const buttons = document.querySelectorAll(".variant-button");
+  buttons.forEach((btn) => {
+    btn.classList.remove("bg-gray-300"); // Remove highlight from all buttons
   });
 
   // Highlight the selected button
-  button.classList.add('bg-gray-300'); // Add highlight to the clicked button
+  button.classList.add("bg-gray-300"); // Add highlight to the clicked button
 }
 
 // Function to initialize the stock status on page load
 function initializeStockStatus() {
-  const buttons = document.querySelectorAll('.variant-button');
+  const buttons = document.querySelectorAll(".variant-button");
   // console.log('hell')
   if (buttons.length > 0) {
     const firstButton = buttons[0];
     const size = firstButton.innerText; // Get size from button text
     // const variantId = firstButton.getAttribute('data-variant'); // Get variant ID from button data attribute
-    const stock = firstButton.getAttribute('data-stock') // Assuming product variant is available in the scope
+    const stock = firstButton.getAttribute("data-stock"); // Assuming product variant is available in the scope
     showStockStatusAndUpdateButton(size, stock, firstButton); // Call the function for the first variant
   }
 }

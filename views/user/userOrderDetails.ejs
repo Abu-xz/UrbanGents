@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Address Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <!-- Header  -->
+    <header class="bg-black py-5 px-8 shadow-md">
+      <div class="container mx-auto flex justify-between items-center">
+        <div class="logo">
+          <a href="/user/home">
+            <h1 class="text-2xl text-white font-bold uppercase">UrbanGents</h1>
+          </a>
+        </div>
+
+        <div class="flex justify-between items-center hidden md:flex">
+          <a href="/user/profile" class="text-white mx-4">
+            <span class="material-icons">person</span>
+          </a>
+          <a href="/user/cart" class="text-white mx-4">
+            <span class="material-icons">shopping_cart</span>
+          </a>
+          <a href="/user/wishlist" class="text-white mx-4">
+            <span class="material-icons">favorite</span>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+
+    <div class="container mx-auto mt-3 p-4 flex flex-col lg:flex-row">
+      <!-- Sidebar -->
+      <aside
+        class="w-full lg:w-1/6 bg-white p-4 rounded-lg shadow-md mb-4 lg:mb-0"
+      >
+        <div class="text-center">
+          <div class="w-24 h-24 mx-auto rounded-full bg-gray-300 mb-2">
+            <img
+              src="https://avatar.iran.liara.run/public/boy?username=Ash"
+              alt="User Avatar"
+              class="w-full h-full rounded-full object-cover"
+            />
+          </div>
+          <h2 class="text-lg font-semibold uppercase">user name</h2>
+        </div>
+        <!-- Navigation Menu -->
+        <nav class="text-center mt-5 space-y-4">
+          <a
+            href="/user/profile"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Person Info"
+          >
+            <span class="material-icons text-lg leading-none">person</span>
+            <span class="ml-2">Person Info</span>
+          </a>
+          <a
+            href="/user/profile/coupons"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Coupons"
+          >
+            <span class="material-icons text-lg leading-none">redeem</span>
+            <span class="ml-2">Coupons</span>
+          </a>
+          <a
+            href="/user/profile/address"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Person Info"
+          >
+            <span class="material-icons text-lg leading-none"> home </span>
+            <span class="ml-2">Address</span>
+          </a>
+          <a
+            href="/user/profile/wishlist"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Wishlist"
+          >
+            <span class="material-icons text-lg leading-none">favorite</span>
+            <span class="ml-2">Wishlist</span>
+          </a>
+          <a
+            href="/user/profile/orders"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Orders"
+          >
+            <span class="material-icons text-lg leading-none">inventory_2</span>
+            <span class="ml-2">Orders</span>
+          </a>
+          <a
+            href="/user/profile/wishlist"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Wallet"
+          >
+            <span class="material-icons text-lg leading-none"
+              >account_balance_wallet</span
+            >
+            <span class="ml-2">Wallet</span>
+          </a>
+          <a
+            href="/user/profile/offers"
+            class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
+            aria-label="Offers"
+          >
+            <span class="material-icons text-lg leading-none">local_offer</span>
+            <span class="ml-2">Offers</span>
+          </a>
+          <a
+            href="/user/logout"
+            class="flex items-center justify-center text-red-600 bg-grey-100 p-2 rounded mt-10"
+            aria-label="Logout"
+          >
+            <span class="material-icons text-lg leading-none">logout</span>
+            <span class="ml-2">Logout</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Profile Details -->
+      <main class="w-full lg:w-3/4 lg:ml-4 bg-white px-6 pb-5 rounded-lg shadow-md">
+           <!-- Order Details Container -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+       <p><a href="/user/profile">Profile/ </a><a href="/user/profile/orders">Orders/ </a>Details</p>
+        <% if(typeof orderDetails !== 'undefined' && orderDetails) {%> 
+            
+        <!-- Order Details Card -->
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+          <!-- Order Header -->
+          <div class="flex items-center justify-between mb-6">
+            <h1 class="text-3xl font-semibold text-gray-900">Order Details</h1>
+            <div class="text-lg text-gray-600">Order-Id <span class="text-black font-semibold"><%=orderDetails._id%></span></div>
+          </div>
+  
+          <!-- Grid Layout for Payment and Shipping Information in Row -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <!-- Payment Method Section -->
+            <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+              <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                Payment Method
+              </h2>
+              <div class="space-y-4">
+                <div>
+                  <p class="font-medium text-gray-700">Card Type:</p>
+                  <p class="text-blue-600 font-semibold"><%=orderDetails.paymentMethod%></p>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-700">Payment Status:</p>
+                  <p class="text-green-500 font-medium"><%=orderDetails.status%></p>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Shipping Information -->
+            <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+              <h2 class="text-xl font-semibold text-gray-800 mb-4">
+                Shipping Information
+              </h2>
+              <div class="space-y-4">
+                <div>
+                  <p class="font-medium text-gray-700">Name:</p>
+                  <p class="text-gray-600"><%=orderDetails.address.firstName%> <%=orderDetails.address.lastName %></p>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-700">Address:</p>
+                  <p class="text-gray-600">
+                   <%=orderDetails.address.address %>
+                  </p>
+                </div>
+                <div>
+                  <p class="font-medium text-gray-700">Phone:</p>
+                  <p class="text-gray-600"><%=orderDetails.address.number%></p>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <!-- Order Summary -->
+          <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">
+              Order Summary
+            </h2>
+  
+            <!-- Product 1 -->
+             <% orderDetails.items.forEach((item) => { %>
+  
+              <div class="flex justify-between items-center border-b py-4">
+                  <div class="flex items-center space-x-4">
+                      <img
+                      src=<%=item.productId.images[0] %>
+                  alt="Product"
+                  class="w-20 h-20 object-cover rounded-md"
+                  />
+                  <div>
+                      <p class="font-semibold text-gray-800"><%=item.productId.productName%></p>
+                      <p class="text-gray-600">Size: <%=item.selectedSize%></p>
+                      <p class="text-grey-600 ">Quantity: <%=item.quantity %></p>
+                      <p class="text-gray-500 font-semibold">Prize: <%=item.subTotal %></p>
+                      <!-- Quantity with distinct color -->
+                  </div>
+              </div>
+  
+              <div class=" flex items-center space-x-2 p-2 rounded-lg bg-gray-100 shadow-md">
+                  <label for="status1" class="font-semibold text-gray-700">Status:</label>
+                  <p class="text-black font-medium"><%= item.status %></p>
+              </div>
+                
+      </div>
+      <% }) %>
+  
+            <div
+              class="flex justify-between items-center border-t pt-4 text-xl font-semibold text-gray-900"
+            >
+              <span>Total</span>
+              <span>₹<%=orderDetails.totalDiscount %></span>
+            </div>
+          </div>
+        </div>
+        <% } %>
+      </div>
+      </main>
+    </div>
+  </body>
+
+  <script src="/javascript/userOrders.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- Include SweetAlert2 from a CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</html>

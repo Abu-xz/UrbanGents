@@ -6,13 +6,12 @@
     <title>Customers - Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  
+
   <body class="bg-gray-100">
     <!-- Main Container -->
     <div class="flex">
-
       <!-- Sidebar (same as before) -->
-      <aside class=" w-64 bg-white h-screen p-6 shadow-lg">
+      <aside class="w-64 bg-white h-screen p-6 shadow-lg">
         <div class="fixed flex flex-col">
           <div class="text-2xl font-bold mb-10">Admin Dashboard</div>
 
@@ -90,17 +89,32 @@
         <h1 class="text-2xl font-bold mb-6">Customers</h1>
 
         <!-- Custom modal for confirmation -->
-        <div id="confirmModal" class="hidden fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-            <div class="bg-white p-6 rounded-lg shadow-lg">
-              <h2 class="text-lg font-bold">Confirm Action</h2>
-              <p>Are you sure you want to <span id="actionText"></span> this user?</p>
-              <div class="mt-4 flex justify-end">
-                <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2" onclick="closeModal()">Cancel</button>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded" id="confirmBtn">Yes</button>
-              </div>
+        <div
+          id="confirmModal"
+          class="hidden fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50"
+        >
+          <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-lg font-bold">Confirm Action</h2>
+            <p>
+              Are you sure you want to <span id="actionText"></span> this user?
+            </p>
+            <div class="mt-4 flex justify-end">
+              <button
+                class="bg-gray-300 text-gray-700 px-4 py-2 rounded mr-2"
+                onclick="closeModal()"
+              >
+                Cancel
+              </button>
+              <button
+                class="bg-blue-500 text-white px-4 py-2 rounded"
+                id="confirmBtn"
+              >
+                Yes
+              </button>
             </div>
           </div>
-          
+        </div>
+
         <!-- Customers Table -->
         <div class="bg-white p-6 rounded-lg shadow-md">
           <table class="min-w-full table-auto">
@@ -114,8 +128,8 @@
               </tr>
             </thead>
             <tbody class="bg-white">
-              <% if(typeof users !== 'undefined' && users.length > 0) {%> 
-                <% users.forEach(user => { %>
+              <% if(typeof users !== 'undefined' && users.length > 0) {%> <%
+              users.forEach(user => { %>
               <tr class="text-center">
                 <td class="border px-4 py-2"><%= user.id %></td>
                 <td class="border px-4 py-2">
@@ -125,21 +139,23 @@
                 <td class="border px-4 py-2"><%= user.phoneNumber %></td>
                 <td class="border px-4 py-2">
                   <% if(user.status){ %>
-                    <button 
-                    class="bg-green-500 text-dark-600 text-xs font-semibold px-2 py-1 rounded"
-                    onclick="confirmAction('<%=user.id %>', 'block')"
-                    >ACTIVE</button>
-                    <% }else{%>
-                        <button 
+                  <button
                     class="bg-red-500 text-dark-600 text-xs font-semibold px-2 py-1 rounded"
                     onclick="confirmAction('<%=user.id %>', 'unblock')"
-                    >BLOCK</button>
-                    <% } %>
-                 
+                  >
+                    BLOCK
+                  </button>
+                  <% }else{%>
+                  <button
+                    class="bg-green-500 text-dark-600 text-xs font-semibold px-2 py-1 rounded"
+                    onclick="confirmAction('<%=user.id %>', 'block')"
+                  >
+                    ACTIVE
+                  </button>
+                  <% } %>
                 </td>
               </tr>
-              <% }) %>
-            <% } %>
+              <% }) %> <% } %>
             </tbody>
           </table>
         </div>

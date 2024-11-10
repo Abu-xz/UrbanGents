@@ -45,7 +45,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // 1 day
-      sameSite: 'lax', // Use 'none' for cross-origin, but remember to set 'secure: true' when using HTTPS
+       // Use 'none' for cross-origin, but remember to set 'secure: true' when using HTTPS
       secure: false , // Set to true if using HTTPS
     },
   })

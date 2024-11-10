@@ -42,7 +42,7 @@ document.getElementById("otp-form").addEventListener("submit", (e) => {
 
 let timerDisplay = document.getElementById("timer");
 let resendBtn = document.getElementById("resend-btn");
-let otpTimeOut = 30;
+let otpTimeOut = 60;
 let timer;
 
 const formatTime = (seconds) => {
