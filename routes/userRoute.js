@@ -48,7 +48,7 @@ import {
 } from "../controllers/user/cartController.js";
 
 import { loadCheckout, loadOrderPlaced, placeOrder } from "../controllers/user/checkoutController.js";
-import { loadOrderDetails } from "../controllers/admin/ordercontroller.js";
+// import { loadOrderDetails } from "../controllers/admin/ordercontroller.js";
 
 const noCache = (req, res, next) => {
   res.setHeader("Cache-Control", "no-store");

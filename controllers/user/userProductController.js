@@ -57,14 +57,16 @@ export const loadAllProduct = async (req, res) => {
       }
     }
 
-    if (query.category) {
-      delete query.productName;
-    }
+
+    // if (query.category) {
+    //   delete query.productName;
+    // }
 
     console.log("Query:", query);
     console.log("Sort Option:", sortOption);
 
     const allProduct = await Product.find(query).collation({ locale: "en", strength: 1 }).sort(sortOption);
+   
     let productNotFound = false;
     if (!allProduct || allProduct.length === 0) {
       productNotFound = true;
@@ -76,7 +78,7 @@ export const loadAllProduct = async (req, res) => {
     const categories = await Category.find();
 
     // Render the products and categories to the user interface
-    res.status(200).render("user/userAllProducts", { allProduct, categories, productNotFound });
+    res.status(200).render("user/userAllProducts", { allProduct, categories, productNotFound , sort, category, search});
   } catch (error) {
     console.error("Error fetching products:", error);
     res.status(500).json({ error: "An error occurred while fetching products" });

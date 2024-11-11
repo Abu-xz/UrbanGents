@@ -35,7 +35,7 @@
 
   <div class="px-4 mt-5 ">
     <span>
-      <h2><a href="/user/home"></a>Home<a href="/user/cart"> / Cart</a> <a href="/user/checkout"> / Checkout</a></h2>
+      <h2><a href="/user/home">Home</a><a href="/user/cart"> / Cart</a> <a href="/user/checkout"> / Checkout</a></h2>
     </span>
 
   </div>
@@ -48,8 +48,205 @@
     <!-- Address and Payment Section -->
     <div class="w-full lg:w-2/3 py-2 px-8 max-w-4xl">
 
-      <!-- Address Section -->
-      <h1 class="text-4xl font-bold mb-4">Checkout</h1>
+      <div>
+
+        <div class="flex justify-between">
+          <h1 class="text-4xl font-bold mb-4">Checkout</h1>
+          <button
+          class="p-2 bg-black text-white mt-4 font-semibold rounded-lg shadow"
+          id="add-address-btn"
+          >
+          Add New Address
+        </button> 
+       </div>
+       <div
+            class="p-4 border border-gray-200 rounded-lg shadow-lg space-y-2 my-5 bg-white hidden"
+            id="add-address-form"
+          >
+            <h2 class="text-2xl font-semibold text-center text-gray-800 mb-6">
+              Add Your Address
+            </h2>
+            <form id="address-form"> 
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >First Name</label
+                    >
+                    <input
+                      type="text"
+                      name="firstName"
+                      id="first-name"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="First Name"
+                    />
+                    <span id="first-name-error" class="text-red-600"></span>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >Pincode</label
+                    >
+                    <input
+                      type="number"
+                      name="pincode"
+                      id="pincode"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="Pincode"
+                    />
+                    <span id="pincode-error" class="text-red-600"></span>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >Mobile Number</label
+                    >
+                    <input
+                      type="number"
+                      name="phoneNumber"
+                      id="phone-number"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="Mobile Number"
+                    />
+                    <span id="phone-number-error" class="text-red-600"></span>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >Landmark</label
+                    >
+                    <input
+                      type="text"
+                      name="landmark"
+                      id="landmark"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="Landmark"
+                    />
+                    <span id="landmark-error" class="text-red-600"></span>
+                  </div>
+                </div>
+
+                <div class="space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >Last Name</label
+                    >
+                    <input
+                      type="text"
+                      name="lastName"
+                      id="last-name"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="Last Name"
+                    />
+                    <span id="last-name-error" class="text-red-600"></span>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >State</label
+                    >
+                    <input
+                      type="text"
+                      name="state"
+                      id="state"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="State"
+                    />
+                    <span id="state-error" class="text-red-600"></span>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >City</label
+                    >
+                    <input
+                      type="text"
+                      name="city"
+                      id="city"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="City"
+                    />
+                    <span id="city-error" class="text-red-600"></span>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700"
+                      >District</label
+                    >
+                    <input
+                      type="text"
+                      id="district"
+                      name="district"
+                      class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                      placeholder="District"
+                    />
+                    <span id="district-error" class="text-red-600"></span>
+                  </div>
+                </div>
+              </div>
+              <!-- Address session here... -->
+              <div class="flex flex-col mt-5">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700"
+                    >Address</label
+                  >
+                  <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    class="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter you Address"
+                  />
+                  <span id="address-error" class="text-red-600"></span>
+                </div>
+              </div>
+
+              <fieldset class="mt-4">
+                <legend class="text-sm font-medium text-gray-700">
+                  Address Type
+                </legend>
+                <div class="mt-2">
+                  <label class="inline-flex items-center mr-6">
+                    <input
+                      type="radio"
+                      class="form-radio text-blue-600"
+                      name="addressType"
+                      value="home"
+                    />
+                    <span class="ml-2">Home</span>
+                  </label>
+                  <label class="inline-flex items-center">
+                    <input
+                      type="radio"
+                      class="form-radio text-blue-600"
+                      name="addressType"
+                      value="office"
+                      required
+                    />
+                    <span class="ml-2">Office</span>
+                  </label>
+                </div>
+              </fieldset>
+              <div class="flex items-center mt-4">
+                <input
+                  type="checkbox"
+                  id="setDefault"
+                  class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label for="setDefault" class="ml-2 block text-sm text-gray-900"
+                  >Set this as default address</label
+                >
+              </div>
+              <button
+                type="submit"
+                class="mt-6 w-2/4 bg-black text-white py-2 rounded-md transition duration-200"
+              >
+                Save Address
+              </button>
+              <button
+                class="mt-6 w-1/6 bg-slate-300 text-black py-2 rounded-md transition duration-200"
+                id="cancel-btn"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+      </div>
+       
       <% if(typeof user !== 'undefined' && user) {%>
         
         <h2 class="text-xl font-semibold mb-4">Deliver To</h2>
@@ -69,8 +266,8 @@
                   <span class="block text-sm">Pincode : <%=address.pincode%></span>
                   <span class="text-sm bg-red-100 font-semibold text-red-700 p-1 rounded uppercase"> <%=address.addressType%></span>
               </label>
-              <a href="/user/profile/address" class="ml-auto text-indigo-600 hover:underline">Edit</a>
-            </div>
+              <a href="/user/profile/address/edit?id=<%=address._id%>" class="ml-auto text-indigo-600 hover:underline">Edit</a>
+            </div>  
           </div>
         <% }) %>
       <% } %>

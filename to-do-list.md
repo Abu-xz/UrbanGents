@@ -97,19 +97,18 @@ IMPLEMENT PASSWORD CHANGE OPTION []
 checkout page address edit add []
 landing page with all product and product details []
 search, sort, filter need improvement []
-check user is blocked or not []
 after order don't go back []
-[IMP]
-Applied filter should be retained []
 Need pagination for all grids []
+[IMP]
+Applied filter should be retained [x]
 Remove html validations [x]
 Check resend timer [x]
-Same product with different size is not possible to add to cart []
-Add address form in checkout page []
-add Cancel product button []
+Same product with different size is not possible to add to cart [x]
+Add address form in checkout page [x]
+add Cancel product button with func[x]
 Add return with an expiry []
 Avoid Blocked user login [x]
-Add proper comments for all functions []
+Add proper comments for all functions [x]
 
 
 
@@ -169,7 +168,7 @@ Display remaining stock on product listing and details pages.
 
 Day 1: Monday
 User Side - Core Payment Functionality
-Set up and configure Razorpay or PayPal (choose one to start).
+Set up and configure Razorpay 
 Implement the API for processing payments.
 Test the payment flow to ensure it's smooth.
 Pending Topics

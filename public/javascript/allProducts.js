@@ -52,3 +52,4 @@ sortSelect.addEventListener('change', () => {
   // Redirect with updated query
   window.location.href = `/user/all-products?${queryParams.toString()}`;
 });
+

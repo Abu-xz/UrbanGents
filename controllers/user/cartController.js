@@ -61,7 +61,7 @@ export const addItemToCart = async (req, res) => {
     }
 
     const itemExists = cart.items.find((item) =>
-      item.productId.equals(productId)
+      item.selectedSize === variantSize
     );
     // console.log(variantSize);
     const selectedVariant = product.variant.find((v) => v.size === variantSize);

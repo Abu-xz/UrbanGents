@@ -158,19 +158,19 @@
                         <p class="text-gray-600 ">TotalPrice: <%= item.subTotal %></p>
                         <% if(item.status === 'pending' || item.status === 'shipped'){ %>
                             <p class="mt-4">
-                                <span class="inline-block px-3 py-1 text-sm font-medium rounded bg-yellow-100 text-yellow-800">
+                                <span class="inline-block px-3 py-1 text-sm font-medium rounded bg-yellow-100 text-yellow-800 uppercase">
                                     <%= item.status %>
                                 </span>
                             </p>
                         <% } else if(item.status === 'cancelled' || item.status === 'returned'){ %>
                             <p class="mt-4">
-                                <span class="inline-block px-3 py-1 text-sm font-medium rounded bg-red-200 text-red-800">
+                                <span class="inline-block px-3 py-1 text-sm font-medium rounded bg-red-200 text-red-800 uppercase">
                                     <%= item.status %>
                                 </span>
                             </p>
                         <% } else { %>
                             <p class="mt-4">
-                                <span class="inline-block px-3 py-1 text-sm font-medium rounded bg-green-100 text-green-800">
+                                <span class="inline-block px-3 py-1 text-sm font-medium rounded bg-green-100 text-green-800 uppercase">
                                     <%= item.status %>
                                 </span>
                             </p>
@@ -179,13 +179,19 @@
                     </div>
                     <!-- Button Section -->
                     <div class="flex space-x-4 justify-end">
-                      <!-- Return Button -->
-                      <div class="order-actions text-right">
-                        <button class="return-button w-full bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600" data-itemId="<%=item._id%>" data-orderId="<%=order._id%>">Return</button>
-                      </div>
+                      <!-- Return & Cancel Button -->
+                       <% if(item.status === 'delivered') { %>
+                        <div class="order-actions text-right">
+                          <button class="return-button w-full bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400" data-itemId="<%=item._id%>" data-orderId="<%=order._id%>">Return</button>
+                        </div>
+                        <% } else if(item.status !== 'returned'){ %>
+                          <div class="order-actions text-right">
+                            <button class="cancel-button w-full bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400" data-itemId="<%=item._id%>" data-orderId="<%=order._id%>">Cancel</button>
+                          </div>
+                      <% } %>
                       <!-- View Details Button -->
                       <div class="order-actions text-right">
-                        <button class="view-details w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600" data-orderId="<%=order._id %>">View Details</button>
+                        <button class="view-details w-full bg-black text-white px-4 py-2 rounded-md " data-orderId="<%=order._id %>">View Details</button>
                       </div>
                     </div>
                   </div>

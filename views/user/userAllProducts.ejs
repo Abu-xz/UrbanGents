@@ -54,24 +54,34 @@
               <input
                 type="text"
                 id="search-input"
+                <%if(typeof search !== 'undefined' && search) { %>
+                  value="<%=search%>"
+                <% } %>
                 placeholder="Search products..."
                 class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
               />
               <svg class="w-5 h-5 absolute right-3 top-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                <line x1="21" y1="21" x2="17.65" y2="17.65"></line>
               </svg>
             </div> <!--search bar end-->
             
-            <div class=" flex flex-col text-center sm:flex-row items-center h-full justify-between gap-4">
+            <div class=" flex flex-col text-center sm:flex-row items-center h-full justify-between gap-6">
               <!-- Sort Dropdown -->
-              <div class="w-full sm:w-2/2">
+              <div class="w-full  w-2/2">
                 <select id="sort-select" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-500">
-                  <option value="default" selected>Sort by</option>
-                  <option value="priceLowHigh">Price: Low to High</option>
-                  <option value="priceHighLow">Price: High to Low</option>
-                  <option value="smallToLarge">Name: aA - zZ</option>
-                  <option value="largeToSmall">Name: zZ - aA</option>
+                  <% if(typeof sort !== 'undefined' && sort){ %>
+                    <option value="priceLowHigh" <%=sort === 'priceLowHigh' ? "selected" : '' %>>Price: Low to High</option>
+                    <option value="priceHighLow" <%=sort === 'priceHighLow' ? "selected" : '' %>>Price: High to Low</option>
+                    <option value="smallToLarge" <%=sort === 'smallToLarge' ? "selected" : '' %>>Name: aA - zZ</option>
+                    <option value="largeToSmall" <%=sort === 'largeToSmall' ? "selected" : '' %>>Name: zZ - aA</option>
+                    <% } else {%>
+                      <option value="default" selected>Sort by</option>
+                      <option value="priceLowHigh">Price: Low to High</option>
+                      <option value="priceHighLow">Price: High to Low</option>
+                      <option value="smallToLarge">Name: aA - zZ</option>
+                      <option value="largeToSmall">Name: zZ - aA</option>
+                    <% } %>
               </select>
             </div>
       
@@ -111,13 +121,25 @@
                   </a>
                 </div>
     
-                <div class="p-6 bg-white">
+                <div class="p-6 bg-white space-y-4">
                   <h3 class="text-lg font-bold text-gray-800"><%= product.productName %></h3>
                   <h4 class="text-lg text-gray-800 font-bold mt-2">₹<%= Math.trunc(product.price - (product.price * product.discount / 100)) %></h4>
                   <p class="text-gray-600 text-sm mt-2"><%= product.description %></p>
     
-                  <div class="flex space-x-2 mt-4">
+                  <div class="flex space-x-3">
                     <!-- Star Ratings -->
+                    <svg class="w-4 fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                    </svg>
+                    <svg class="w-4 fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                    </svg>
+                    <svg class="w-4 fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
+                    </svg>
                     <svg class="w-4 fill-[#facc15]" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />

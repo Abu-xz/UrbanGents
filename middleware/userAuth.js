@@ -6,7 +6,6 @@ export const userAuth = async (req, res, next) => {
     const user = await Users.findOne({
       $or: [{ email: userData }, { googleId: userData }],
     });
-    console.log(user.status)
     if(user.status)
       {
         req.session.user= null

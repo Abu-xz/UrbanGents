@@ -354,5 +354,14 @@ export const orderDetails = async (req, res) => {
     }
 
     res.status(200).render("user/userOrderDetails", { orderDetails });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error )
+  }
 };
+
+
+
+
+
+
+
