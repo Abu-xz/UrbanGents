@@ -87,6 +87,14 @@ variants in edit product [x]
 product page complete [x];
 breadCrumbs in all product page [x]
 image zoom need improvement [x]
+Applied filter should be retained [x]
+Remove html validations [x]
+Check resend timer [x]
+Same product with different size is not possible to add to cart [x]
+Add address form in checkout page [x]
+add Cancel product button with func[x]
+Avoid Blocked user login [x]
+Add proper comments for all functions [x]
 Remove tempData and add the user data actual collection and set a field like verified true/false []
 create input for gender when sign-up male, female, other with respective image[]
 edit product page og price to next line instead of all in online []
@@ -97,18 +105,11 @@ IMPLEMENT PASSWORD CHANGE OPTION []
 checkout page address edit add []
 landing page with all product and product details []
 search, sort, filter need improvement []
-after order don't go back []
 Need pagination for all grids []
 [IMP]
-Applied filter should be retained [x]
-Remove html validations [x]
-Check resend timer [x]
-Same product with different size is not possible to add to cart [x]
-Add address form in checkout page [x]
-add Cancel product button with func[x]
 Add return with an expiry []
-Avoid Blocked user login [x]
-Add proper comments for all functions [x]
+landing page []
+create 404 page []
 
 
 
@@ -167,12 +168,12 @@ Display remaining stock on product listing and details pages.
 //========================= Week 10 Project task ============================//
 
 Day 1: Monday
-User Side - Core Payment Functionality
+User Side - Core Payment Functionality [x]
 Set up and configure Razorpay 
 Implement the API for processing payments.
 Test the payment flow to ensure it's smooth.
-Pending Topics
-Retain applied filters (focus on making this functional first).4
+Pending Topics [x]
+Retain applied filters (focus on making this functional first)
 
 Day 2: Tuesday
 User Side - Order Management

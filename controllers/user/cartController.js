@@ -60,8 +60,9 @@ export const addItemToCart = async (req, res) => {
       cart = new Cart({ userId: user._id, items: [] });
     }
 
+    // check the item is already in the cart, but can add same item with different size !
     const itemExists = cart.items.find((item) =>
-      item.selectedSize === variantSize
+      item.productId.equals(productId) && item.selectedSize === variantSize
     );
     // console.log(variantSize);
     const selectedVariant = product.variant.find((v) => v.size === variantSize);

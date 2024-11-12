@@ -107,7 +107,7 @@ app.get(
     scope: ["profile", "email"],
     prompt: 'select_account'
   })
-);
+);  
 
 app.get(
   "/auth/google/callback",

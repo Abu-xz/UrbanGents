@@ -1,3 +1,4 @@
+
 const checkoutBtn = document.getElementById("place-order-button");
 
 checkoutBtn.addEventListener("click", (e) => {
@@ -22,6 +23,7 @@ checkoutBtn.addEventListener("click", (e) => {
   }
 
   const paymentMethod = document.querySelector('input[name="payment"]:checked');
+
   if (!paymentMethod) {
     Swal.fire({
       icon: "warning",
@@ -33,31 +35,109 @@ checkoutBtn.addEventListener("click", (e) => {
 
   console.log(payment);
   console.log(addressId);
-  axios
-    .post("/user/checkout", { addressId, payment })
-    .then((response) => {
-      if (response.data.success) {
-        window.location.href = `/user/order-placed?orderId=${response.data.orderId}`;
-      } else {
-        Swal.fire({
-          text:
-            response.data.message ||
-            "Error while place order. please try again",
-          title: "Out Of Stock",
-          icon: "warning",
-        });  
-      }
-    })
-    .catch((error) => {
+  
+  if (payment === "razorpay") { 
+    console.log('route in')
+    // Handle Razorpay payment flow
+    axios.post("/user/createRazorpay")
+      .then((response) => { //here order is the response
+        console.log(`data -- ${response.data.order}`);
+        if (response.data.order) {
+          const options = {
+            key: "rzp_test_KDYrLJHnu3O9Ip", // Razorpay key ID
+            amount: response.data.order.amount, // Amount from Razorpay order
+            currency: "INR",
+            name: "URBANGENTS",
+            description: "Order Payment",
+            order_id: response.data.order.id,
+            handler: async function (response) {
+              // Handle successful payment
+              console.log("response", response);
+              await Swal.fire({
+                icon: "success",
+                title: "Payment successful!",
+                text: `Payment ID: ${response.razorpay_payment_id}`,
+                showConfirmButton: true,
+              });
+              // Send payment confirmation to backend
+              axios
+                .post("/user/verifyPayment", {
+                  addressId: addressId,
+                  payment: payment,
+                  orderId: response.razorpay_order_id,
+                  paymentId: response.razorpay_payment_id,
+                  signature: response.razorpay_signature,
+                })
+                .then((response) => {
+                  if (response.data.success) {
+                    window.location.href = `/user/order-placed?orderId=${response.data.orderId}`;
+                  } else {
+                    Swal.fire({
+                      icon: "error",
+                      text: "Failed to place the order.",
+                      showConfirmButton: true,
+                    });
+                  }
+                });
+            },
+            prefill: {
+              name: "username",
+              email: "user@example.com", // Use the logged-in user's email
+              contact: 2315469877,
+            },
+            theme: {
+              color: "#FF8C00",
+            },
+          };
+
+          const razorpay = new Razorpay(options);
+          razorpay.open();
+        } else {
+          Swal.fire({
+            icon: "error",
+            text: "Failed to create Razorpay order.",
+            showConfirmButton: true,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Error creating Razorpay order:", error);
+        alert(
+          "An error occurred while processing the payment. Please try again later."
+        );
+      });
+  }
+});
+
+
+
+
+axios.post("/user/checkout", { addressId, payment })
+  .then((response) => {
+    if (response.data.success) {
+      window.location.href = `/user/order-placed?orderId=${response.data.orderId}`;
+    } else {
       Swal.fire({
         text:
-          error.response.data.message ||
-          "Error while place order. please try again",
-        title: "Error",
-        icon: "error",
+          response.data.message || "Error while place order. please try again",
+        title: "Out Of Stock",
+        icon: "warning",
       });
+    }
+  })
+  .catch((error) => {
+    Swal.fire({
+      text:
+        error.response.data.message ||
+        "Error while place order. please try again",
+      title: "Error",
+      icon: "error",
     });
-});
+  });
+
+
+
+
 
 
 
@@ -212,10 +292,10 @@ addressForm.addEventListener("submit", (event) => {
           text: response.data.message,
           title: "Address Added",
         }).then((result) => {
-          if(result.isConfirmed){
+          if (result.isConfirmed) {
             window.location.reload();
           }
-        })
+        });
       }
     })
     .catch((error) => {
@@ -236,4 +316,3 @@ addAddressBtn.addEventListener("click", () => {
 cancelBtn.addEventListener("click", () => {
   addAddressForm.classList.add("hidden");
 });
-
