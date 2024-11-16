@@ -176,8 +176,8 @@ Pending Topics [x]
 Retain applied filters (focus on making this functional first)
 
 Day 2: Tuesday
-User Side - Order Management
-Implement order status changes (cancel, return).
+User Side - Order Management    
+Implement order status changes cancel [x], return [x]
 Test order status functionality to ensure it works for different scenarios.
 Pending Topics
 Add pagination for product listing and all grids.

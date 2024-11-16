@@ -175,7 +175,7 @@ export const addAddress = async (req, res) => {
 
 export const loadEditAddress = async (req, res) => {
   try {
-    console.log('edit address route reached ')
+    console.log("edit address route reached ");
     let user;
     const addressId = req.query.id;
     const userData = req.session.user.email || req.session.user;
@@ -332,9 +332,11 @@ export const loadOrders = async (req, res) => {
     const orders = await Order.find({ customerId: user._id }).populate(
       "items.productId"
     );
-    // console.log(orders[0].items[0].productId.images[0]);
-    console.log(user);
-    
+    console.log('User order ',orders)
+    console.log(orders[0]?.items);
+      
+    // console.log(user);
+
     res.status(200).render("user/userOrders", { orders, user });
   } catch (error) {
     console.log(error);
@@ -355,13 +357,33 @@ export const orderDetails = async (req, res) => {
 
     res.status(200).render("user/userOrderDetails", { orderDetails });
   } catch (error) {
-    console.log(error )
+    console.log(error);
   }
 };
 
+export const cancelOrder = async (req, res) => {
+  try {
+    console.log("cancel order route reached");
+    const { itemId, orderId } = req.body;
+    console.log("item id :", itemId);
+    console.log("order id :", orderId);
 
-
-
-
-
-
+    Order.updateOne(
+      { _id: orderId },
+      { $pull: { items: { _id: itemId } } },
+      { new: true }
+    )
+      .then((result) => {
+        console.log(result);
+        res.status(200).json({ success: true });
+      })
+      .catch((error) => {
+        console.log(error);
+        res
+          .status(500)
+          .json({ success: false, message: "Internal Server Error!" });
+      });
+  } catch (error) {
+    console.log("Error occurred when cancel order", error.message);
+  }
+};

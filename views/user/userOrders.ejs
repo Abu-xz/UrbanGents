@@ -182,11 +182,11 @@
                     <!-- Button Section -->
                     <div class="flex space-x-4 justify-end">
                       <!-- Return & Cancel Button -->
-                       <% if(item.status === 'delivered') { %>
+                       <% if(item.status === 'delivered' && item.status !== 'returned') { %>
                         <div class="order-actions text-right">
                           <button class="return-button w-full bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400" data-itemId="<%=item._id%>" data-orderId="<%=order._id%>">Return</button>
                         </div>
-                        <% } else if(item.status !== 'returned'){ %>
+                        <% } else if(item.status !== 'returned' && item.status !== 'delivered'){ %>
                           <div class="order-actions text-right">
                             <button class="cancel-button w-full bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400" data-itemId="<%=item._id%>" data-orderId="<%=order._id%>">Cancel</button>
                           </div>

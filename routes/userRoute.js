@@ -28,6 +28,7 @@ import { isUser, userAuth } from "../middleware/userAuth.js";
 
 import {
   addAddress,
+  cancelOrder,
   deleteAddress,
   editAddress,
   loadAddress,
@@ -108,7 +109,9 @@ userRouter.delete("/profile/address/delete", userAuth, deleteAddress);
 
 // Profile orders
 userRouter.get('/profile/orders', userAuth, loadOrders);
-userRouter.get('/profile/order-details', userAuth, orderDetails)
+userRouter.get('/profile/order-details', userAuth, orderDetails);
+userRouter.put('/profile/orders', userAuth, cancelOrder);
+
 
 // Add-To-Cart page route
 userRouter.get("/cart", userAuth, loadCart);

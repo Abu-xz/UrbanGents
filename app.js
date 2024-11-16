@@ -135,7 +135,7 @@ const startServer = async () => {
     await connectDb();
     app.listen(PORT, () => {
       console.log(
-        `Server started \nUser route: http://localhost:${PORT}/user/login \nAdmin route: http://localhost:${PORT}/admin/login`
+        `Server started \nUser: http://localhost:${PORT}/user/login \nAdmin: http://localhost:${PORT}/admin/login`
       );
     });
   } catch (error) {

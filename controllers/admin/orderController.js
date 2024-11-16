@@ -38,7 +38,7 @@ export const updateStatus = async (req, res) => {
       console.log('Order status update request received');
       
       const { itemId, newStatus, orderId } = req.body;
-    //   console.log(req.body);
+      console.log(req.body);
       
     console.log( orderId.length)
       console.log(`Item ID: ${itemId}, New Status: ${newStatus}, Order ID: ${orderId}`);

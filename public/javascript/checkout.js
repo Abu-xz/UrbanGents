@@ -106,13 +106,8 @@ checkoutBtn.addEventListener("click", (e) => {
           "An error occurred while processing the payment. Please try again later."
         );
       });
-  }
-});
-
-
-
-
-axios.post("/user/checkout", { addressId, payment })
+  }else{
+    axios.post("/user/checkout", { addressId, payment })
   .then((response) => {
     if (response.data.success) {
       window.location.href = `/user/order-placed?orderId=${response.data.orderId}`;
@@ -134,6 +129,15 @@ axios.post("/user/checkout", { addressId, payment })
       icon: "error",
     });
   });
+
+
+  }
+
+
+});
+
+
+
 
 
 
