@@ -179,15 +179,15 @@ Pending Topics [x]
 Retain applied filters (focus on making this functional first)
 
 Day 2: Tuesday
-User Side - Order Management    
+User Side - Order Management   [x]
 Implement order status changes cancel [x], return [x]
 Test order status functionality to ensure it works for different scenarios.
 Pending Topics
 Add pagination for product listing and all grids.
 Day 3: Wednesday
 
-User Side - Coupon and Wishlist Management []
-Implement apply and remove coupon functionality.
+User Side - Coupon [x] and Wishlist Management []
+Implement apply and remove coupon functionality. [x]
 Create the wishlist feature (add and remove items).
 Test the coupon management to ensure discounts are applied correctly.
 Pending Topics
