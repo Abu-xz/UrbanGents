@@ -57,23 +57,13 @@ export const loadAllProduct = async (req, res) => {
       }
     }
 
-
-    // if (query.category) {
-    //   delete query.productName;
-    // }
-
-    console.log("Query:", query);
-    console.log("Sort Option:", sortOption);
-
     const allProduct = await Product.find(query).collation({ locale: "en", strength: 1 }).sort(sortOption);
    
     let productNotFound = false;
     if (!allProduct || allProduct.length === 0) {
       productNotFound = true;
     }
-    allProduct.forEach(product => {
-      console.log(product.productName)
-    })
+  
     // Fetch all categories for the filter dropdown
     const categories = await Category.find();
 

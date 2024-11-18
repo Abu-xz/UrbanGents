@@ -1,4 +1,5 @@
 import Cart from "../../models/cartModel.js";
+import Coupon from "../../models/couponModel.js";
 import Order from "../../models/orderModel.js";
 import Product from "../../models/productModel.js";
 import Users from "../../models/userModel.js";
@@ -12,7 +13,7 @@ const razorpay = new Razorpay({
 
 export const loadCheckout = async (req, res) => {
   try {
-    console.log("cart page page reached! ");
+    console.log("checkout page reached! ");
 
     const userData = req.session.user.email || req.session.user;
     const user = await Users.findOne({
@@ -26,12 +27,14 @@ export const loadCheckout = async (req, res) => {
     );
     // console.log("Cart data here in load checkout", cart);
     if (!cart) {
-      return res.status(200).render("user/cart");
+      return res.status(200).json({ message: "Cart not Found!" });
     }
+    const coupon = await Coupon.find({
+      $and: [{ isActive: true }, { usageLimit: { $gt: 0 } }],
+    });
+    // console.log(coupon)
 
-    // console.log(user);
-
-    res.status(200).render("user/checkout", { cart, user });
+    res.status(200).render("user/checkout", { cart, user, coupon });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal sever error, Please try again" });
@@ -54,7 +57,6 @@ export const placeOrder = async (req, res) => {
     }
 
     const { addressId, payment } = req.body;
-    console.log(addressId, payment);
 
     if (!addressId || !payment) {
       return res.status(400).json({
@@ -97,6 +99,13 @@ export const placeOrder = async (req, res) => {
     }
 
     console.log("cart items :", cart.items);
+    if (cart.couponDiscount) {
+      cart.totalDiscount = (
+        cart.totalDiscount -
+        (cart.totalDiscount * cart.couponDiscount) / 100
+      ).toFixed();
+    }
+    console.log(cart.totalDiscount);
 
     const orderData = {
       customerId: user._id,
@@ -150,6 +159,8 @@ export const placeOrder = async (req, res) => {
     cart.items = [];
     cart.totalDiscount = 0;
     cart.totalPrice = 0;
+    cart.couponApplied = "";
+    cart.couponDiscount = 0;
     await cart.save();
 
     await newOrder.save();
@@ -207,6 +218,12 @@ export const createRazorPayOrder = async (req, res) => {
   // console.log(user)
   const cartItems = await Cart.findOne({ userId: user._id });
   console.log(cartItems);
+  if (cartItems.couponDiscount) {
+    cartItems.totalDiscount = (
+      cartItems.totalDiscount -
+      (cartItems.totalDiscount * cartItems.couponDiscount) / 100
+    ).toFixed();
+  }
   const amount = cartItems.totalDiscount;
   console.log("total in cartItems", amount);
   console.log("cartItems in razor pay", cartItems);
@@ -295,6 +312,13 @@ export const verifyPayment = async (req, res) => {
       }
     }
 
+    if (cart.couponDiscount) {
+      cart.totalDiscount = (
+        cart.totalDiscount -
+        (cart.totalDiscount * cart.couponDiscount) / 100
+      ).toFixed();
+    }
+
     const orderData = {
       customerId: user._id,
       address: address,
@@ -303,7 +327,7 @@ export const verifyPayment = async (req, res) => {
       totalPrice: cart.totalPrice,
       totalDiscount: cart.totalDiscount,
       paymentMethod: payment,
-      paymentStatus: "paid"
+      paymentStatus: "paid",
     };
     const newOrder = await Order.create(orderData);
 
@@ -322,7 +346,7 @@ export const verifyPayment = async (req, res) => {
 
           if (variant) {
             // Update the stock for the correct variant by reducing the stock
-            const updatedVariant = await Product.updateOne(
+            await Product.updateOne(
               { _id: product.productId, "variant._id": variant._id },
               { $inc: { "variant.$.stock": -product.quantity } }
             );
@@ -347,6 +371,8 @@ export const verifyPayment = async (req, res) => {
     cart.items = [];
     cart.totalDiscount = 0;
     cart.totalPrice = 0;
+    cart.couponApplied = "";
+    cart.couponDiscount = 0;
     await cart.save();
 
     await newOrder.save();
@@ -356,11 +382,76 @@ export const verifyPayment = async (req, res) => {
       message: "Order placed successfully",
       orderId: newOrder._id,
     });
-
   } catch (error) {
     console.error("Error verifying payment:", error);
     return res
       .status(500)
       .json({ success: false, message: "Failed to verify payment." });
+  }
+};
+
+export const applyCoupon = async (req, res) => {
+  try {
+    console.log("apply coupon route reached");
+    const { couponId, cartId } = req.body;
+
+    const coupon = await Coupon.findById(couponId);
+    if (!coupon) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Coupon not found." });
+    }
+
+    const currentDate = new Date();
+    if (coupon.expiryDate < currentDate) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Coupon has expired." });
+    }
+
+    const cart = await Cart.findById(cartId);
+    if (!cart) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Cart not found." });
+    }
+
+    cart.couponDiscount = coupon.discountPercentage;
+    cart.couponApplied = coupon.code;
+    await cart.save();
+    coupon.usageLimit = coupon.usageLimit - 1;
+    await coupon.save();
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Coupon applied successfully!",
+        discount: coupon.discountPercentage,
+      });
+  } catch (error) {
+    console.error("Error verifying payment:", error);
+  }
+};
+
+export const removeCoupon = async (req, res) => {
+  const { cartId } = req.body;
+
+  try {
+    const cart = await Cart.findById(cartId);
+    if (!cart) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Cart not found" });
+    }
+
+    cart.couponDiscount = null;
+    cart.couponApplied = "";
+
+    await cart.save();
+    console.log(cart);
+    res.json({ success: true, message: "Coupon removed successfully" });
+  } catch (error) {
+    console.error("Error removing coupon:", error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 };

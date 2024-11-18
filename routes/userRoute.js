@@ -48,7 +48,7 @@ import {
   updateSize,
 } from "../controllers/user/cartController.js";
 
-import { createRazorPayOrder, loadCheckout, loadOrderPlaced, placeOrder, verifyPayment } from "../controllers/user/checkoutController.js";
+import { applyCoupon, createRazorPayOrder, loadCheckout, loadOrderPlaced, placeOrder, removeCoupon, verifyPayment } from "../controllers/user/checkoutController.js";
 // import { loadOrderDetails } from "../controllers/admin/ordercontroller.js";
 
 const noCache = (req, res, next) => {
@@ -124,6 +124,10 @@ userRouter.post("/cart/check-stock", userAuth, checkStock);
 // Check out page route
 userRouter.get("/checkout", userAuth, loadCheckout);
 userRouter.post('/checkout', userAuth, placeOrder);
+
+// coupon apply here
+userRouter.post('/checkout/apply-coupon', userAuth, applyCoupon)
+userRouter.post('/checkout/remove-coupon', userAuth, removeCoupon)
 
 //razorpay route
 userRouter.post('/createRazorpay', userAuth, createRazorPayOrder)

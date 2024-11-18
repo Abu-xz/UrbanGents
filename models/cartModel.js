@@ -4,47 +4,52 @@ const cartItemSchema = new mongoose.Schema({
   productId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Product",
-    required: true
+    required: true,
   },
   selectedSize: {
-    type: String
+    type: String,
   },
   quantity: {
     type: Number,
     required: true,
-    max:5,
-    default: 1
+    max: 5,
+    default: 1,
   },
   subTotal: {
     type: Number,
-    default: 0
+    default: 0,
   },
   subDiscount: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 
-
 const CartSchema = new mongoose.Schema({
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref : 'User',
-        required: true,
-        unique:true,
-    },
-    items: [cartItemSchema],
-    totalPrice: {
-      type: Number,
-      required:  true,
-      default: 0
-    },
-    totalDiscount: {
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    unique: true,
+  },
+  items: [cartItemSchema],
+  totalPrice: {
     type: Number,
-    default: 0
-  }
-})
+    required: true,
+    default: 0,
+  },
+  totalDiscount: {
+    type: Number,
+    default: 0,
+  },
+  couponApplied: {
+    type: String,
+  },
+  couponDiscount: {
+    type: Number,
+  },
+});
 
-const Cart = mongoose.model('Cart', CartSchema);
+const Cart = mongoose.model("Cart", CartSchema);
 
 export default Cart;

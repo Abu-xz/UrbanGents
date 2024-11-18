@@ -1,4 +1,3 @@
-
 const checkoutBtn = document.getElementById("place-order-button");
 
 checkoutBtn.addEventListener("click", (e) => {
@@ -35,12 +34,14 @@ checkoutBtn.addEventListener("click", (e) => {
 
   console.log(payment);
   console.log(addressId);
-  
-  if (payment === "razorpay") { 
-    console.log('route in')
+
+  if (payment === "razorpay") {
+    console.log("route in");
     // Handle Razorpay payment flow
-    axios.post("/user/createRazorpay")
-      .then((response) => { //here order is the response
+    axios
+      .post("/user/createRazorpay")
+      .then((response) => {
+        //here order is the response
         console.log(`data -- ${response.data.order}`);
         if (response.data.order) {
           const options = {
@@ -106,47 +107,36 @@ checkoutBtn.addEventListener("click", (e) => {
           "An error occurred while processing the payment. Please try again later."
         );
       });
-  }else{
-    axios.post("/user/checkout", { addressId, payment })
-  .then((response) => {
-    if (response.data.success) {
-      window.location.href = `/user/order-placed?orderId=${response.data.orderId}`;
-    } else {
-      Swal.fire({
-        text:
-          response.data.message || "Error while place order. please try again",
-        title: "Out Of Stock",
-        icon: "warning",
+  } else {
+    axios
+      .post("/user/checkout", { addressId, payment })
+      .then((response) => {
+        if (response.data.success) {
+          window.location.href = `/user/order-placed?orderId=${response.data.orderId}`;
+        } else {
+          Swal.fire({
+            text:
+              response.data.message ||
+              "Error while place order. please try again",
+            title: "Out Of Stock",
+            icon: "warning",
+          });
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          text:
+            error.response.data.message ||
+            "Error while place order. please try again",
+          title: "Error",
+          icon: "error",
+        });
       });
-    }
-  })
-  .catch((error) => {
-    Swal.fire({
-      text:
-        error.response.data.message ||
-        "Error while place order. please try again",
-      title: "Error",
-      icon: "error",
-    });
-  });
-
-
   }
-
-
 });
 
-
-
-
-
-
-
-
-
-
 // address form submission
-console.log("address session");
+
 const addressForm = document.getElementById("address-form");
 const addAddressBtn = document.getElementById("add-address-btn");
 const addAddressForm = document.getElementById("add-address-form");
@@ -319,4 +309,131 @@ addAddressBtn.addEventListener("click", () => {
 
 cancelBtn.addEventListener("click", () => {
   addAddressForm.classList.add("hidden");
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const couponSelect = document.getElementById('coupon');
+  const applyBtn = document.getElementById('applyBtn');
+  const removeBtn = document.getElementById('removeBtn');
+
+  let selectedCoupon = null;
+
+  // Apply coupon logic
+  applyBtn.addEventListener('click', () => {
+    const selectedValue = couponSelect.value;
+    const cartId = couponSelect.getAttribute('data-cartId');
+
+    if (selectedValue && cartId) {
+      selectedCoupon = selectedValue;
+
+      // Disable the dropdown and apply button to prevent repeated submissions
+      couponSelect.disabled = true;
+      applyBtn.disabled = true;
+
+      // Make an API call to apply the coupon
+      axios.post('/user/checkout/apply-coupon', { cartId, couponId: selectedValue })
+        .then(response => {
+          if (response.data.success) {
+            // Show success message
+            Swal.fire({
+              title: 'Success!',
+              text: 'Coupon applied successfully!',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            }).then(() => {
+              window.location.reload(); // Reload to reflect changes in the cart
+            });
+          } else {
+            // Show error message
+            Swal.fire({
+              title: 'Failed!',
+              text: response.data.message || 'Failed to apply coupon.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+
+            // Re-enable if application fails
+            couponSelect.disabled = false;
+            applyBtn.disabled = false;
+          }
+        })
+        .catch(error => {
+          console.error('Error applying coupon:', error);
+
+          // Show error message
+          Swal.fire({
+            title: 'Error!',
+            text: 'An error occurred while applying the coupon.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+
+          // Re-enable in case of an error
+          couponSelect.disabled = false;
+          applyBtn.disabled = false;
+        });
+    } else {
+      // Show warning if no valid coupon is selected
+      Swal.fire({
+        title: 'Warning!',
+        text: 'Please select a valid coupon.',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
+    }
+  });
+
+  // Remove coupon logic
+  removeBtn.addEventListener('click', () => {
+    const cartId = couponSelect.getAttribute('data-cartId');
+
+    if (cartId) {
+      // Show a SweetAlert loading message
+
+
+      // Make an API call to remove the coupon
+      axios.post('/user/checkout/remove-coupon', { cartId })
+        .then(response => {
+          if (response.data.success) {
+            // Show success message
+            Swal.fire({
+              title: 'Success!',
+              text: 'Coupon removed successfully!',
+              icon: 'success',
+              confirmButtonText: 'OK'
+            }).then(() => {
+              window.location.reload(); // Reload to reflect changes in the cart
+            });
+          } else {
+            // Show error message
+            Swal.fire({
+              title: 'Failed!',
+              text: response.data.message || 'Failed to remove coupon.',
+              icon: 'error',
+              confirmButtonText: 'OK'
+            });
+          }
+        })
+        .catch(error => {
+          console.error('Error removing coupon:', error);
+
+          // Show error message
+          Swal.fire({
+            title: 'Error!',
+            text: 'An error occurred while removing the coupon.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+        });
+    } else {
+      // Show warning if no coupon is available to remove
+      Swal.fire({
+        title: 'Warning!',
+        text: 'No coupon to remove.',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
+    }
+  });
 });

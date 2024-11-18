@@ -290,9 +290,31 @@
         </div>
       </div>
 
-    <!-- Order Summary Section -->
 
+
+    <!-- Order Summary Section -->
       <div class="w-full lg:w-1/3 p-4 mt-8 lg:mt-0">
+        <% if(typeof coupon !== 'undefined' && cart.totalDiscount > 100) { %>
+          <!-- coupon section -->
+          <div class="my-4">
+            <label for="coupon" class="block text-md font-medium text-gray-700 mb-2">Select a Coupon</label>
+            <select id="coupon" data-cartId="<%= cart._id %>" name="coupon"  class="block w-full uppercase px-4 py-2 border rounded-md shadow-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+              <option value="" disabled selected>Select a Coupon</option>
+              <% coupon.forEach(value => { %>
+                <option value="<%=value._id %>"  ><%=value.discountPercentage %>% - <%=value.code %></option>
+             <% }) %>
+            </select>
+            
+            <!-- Buttons for applying or removing the coupon -->
+            <div class="flex mt-2">
+              <button id="applyBtn" type="button" class="mr-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none">Apply</button>
+              <button id="removeBtn"  type="button" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none">Remove</button>
+            </div>
+          </div>
+          <% } %>
+          <!-- coupon section end  -->
+
+
         <div class="bg-gray-50 p-4 rounded-md shadow-md">
         <h2 class="text-xl font-bold mb-5">Order Summary</h2>
         <div class="text-gray-600 mb-5">
@@ -301,20 +323,36 @@
             <span class="text-black font-bold">₹<%=cart.totalPrice%></span>
           </div>
           <div class="flex justify-between mb-4">
-            <span>Product Savings:</span>
+            <span>Savings:</span>
             <% const savings = cart.totalPrice - cart.totalDiscount%>
             <span class="text-green-700 font-bold">- ₹<%=savings %></span>
           </div>
+          
           <div class="flex justify-between">
             <span>Shipping</span>
             <span>Free</span>
           </div>
+          <% if(cart.couponDiscount !== '' && cart.couponDiscount){ %>
+          <div class="flex justify-between my-4">
+            <span>Coupon Discount</span>
+            <span><%=cart.couponDiscount %>%</span>
+          </div>
+          <% } %>
         </div>
         <hr class="my-5">
-        <div class="flex justify-between text-xl font-semibold">
-          <span>Payable Amount</span>
-          <span class="font-bold">₹<%=cart.totalDiscount %></span>
-        </div>
+        <% if(cart.couponDiscount !== '' && cart.couponDiscount){ %>
+          <% const amount = (cart.totalDiscount - (cart.totalDiscount * cart.couponDiscount) / 100).toFixed() %>
+          <div class="flex justify-between text-xl font-semibold">
+            <span>Payable Amount</span>
+            <span class="font-bold">₹<%=amount %></span>
+          </div>
+          <% }else{ %>
+            <div class="flex justify-between text-xl font-semibold">
+              <span>Payable Amount</span>
+              <span class="font-bold">₹<%=cart.totalDiscount %></span>
+            </div>
+       <% } %>
+
         <button id="place-order-button" type="click"  class="w-full bg-black text-white text-center py-2 mt-4 rounded-md uppercase">
           Place order
         </button>
