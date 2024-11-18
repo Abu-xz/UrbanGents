@@ -106,6 +106,9 @@ checkout page address edit add []
 landing page with all product and product details []
 search, sort, filter need improvement []
 Need pagination for all grids []
+admin side product edit image add button set debouncing []
+
+
 [IMP]
 Add return with an expiry []
 landing page []
@@ -183,24 +186,25 @@ Pending Topics
 Add pagination for product listing and all grids.
 Day 3: Wednesday
 
-User Side - Coupon and Wishlist Management
+User Side - Coupon and Wishlist Management []
 Implement apply and remove coupon functionality.
 Create the wishlist feature (add and remove items).
 Test the coupon management to ensure discounts are applied correctly.
 Pending Topics
-Remove HTML validations and use server-side validation.
+Remove HTML validations and use server-side validation. [x]
 Day 4: Thursday
 
-User Side - Search and Filtering
+User Side - Search and Filtering [x]
 Implement search functionality.
 Add category filtering to product listings.
 Ensure the search and filter features work together seamlessly.
-Admin Side - Offer Module
+
+Admin Side - Offer Module []
 Develop the offer module (product, category, referral).
 Day 5: Friday
 
-Admin Side - Coupon and Sales Report
-Implement coupon management (create and delete coupons).
+Admin Side - Coupon and Sales Report []
+Implement coupon management (create and delete coupons). [x]
 Start with basic sales report generation (daily, weekly, monthly).
 Add the ability to filter reports by date ranges.
 Pending Topics
@@ -218,9 +222,6 @@ Day 7: Sunday
 Final Touches and Testing
 Add the address form to the checkout page.
 Fix the product cancellation issue and add return functionality with expiry.
-Ensure blocked users cannot log in.
 Add proper comments to all functions for better code maintainability.
-Comprehensive Testing
-Conduct end-to-end testing for both the user and admin sides.
 Make sure all features are bug-free and functional.
 Review the code and do a final polish.

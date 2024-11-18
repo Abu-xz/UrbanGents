@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customers - Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Main Container -->
+    <div id="main-container" class="flex h-screen">
+      <!-- Sidebar (same as before) -->
+      <aside class="w-64 bg-white p-6 shadow-lg">
+        <div class="flex flex-col">
+          <div class="text-2xl font-bold mb-10 w-64">Admin Dashboard</div>
+
+          <!-- Navigation Menu -->
+          <nav class="space-y-4">
+            <a
+              href="/admin/dashboard"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">dashboard</span>
+              <span class="ml-2">Dashboard</span>
+            </a>
+            <a
+              href="/admin/Products"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">inventory</span>
+              <span class="ml-2">Products</span>
+            </a>
+            <a
+              href="/admin/category"
+              class="flex items-center text-grey-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">category</span>
+              <span class="ml-2">Category</span>
+            </a>
+            <a
+              href="/admin/orders"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">shopping_cart</span>
+              <span class="ml-2">Orders</span>
+            </a>
+            <a
+              href="/admin/coupons"
+              class="flex items-center text-red-700 hover:bg-red-200 p-2 rounded"
+            >
+              <span class="material-icons">redeem</span>
+              <span class="ml-2">Coupons</span>
+            </a>
+            <a
+              href="/admin/offers"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">local_offer</span>
+              <span class="ml-2">Offers</span>
+            </a>
+            <a
+              href="/admin/banner"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">campaign</span>
+              <span class="ml-2">Banner</span>
+            </a>
+            <a
+              href="/admin/customers"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">people</span>
+              <span class="ml-2">Customers</span>
+            </a>
+            <a
+              href="/admin/logout"
+              class="flex items-center text-red-600 hover:bg-red-100 p-2 rounded mt-10"
+            >
+              <span class="material-icons">logout</span>
+              <span class="ml-2">Logout</span>
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+
+      <div class="container mt-5 p-6">
+        <!-- Page Header -->
+        <div class="mb-6 flex justify-between">
+          <h1 class="text-3xl font-bold text-gray-800">Coupon Management</h1>
+          <button
+            class="create-coupon-btn bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 uppercase"
+          >
+            Create Coupon
+          </button>
+        </div>
+
+        <!-- Add Coupon Form -->
+        <div class="coupon-form bg-white p-6 rounded-lg shadow-md mb-8 hidden">
+          <h2 class="text-2xl font-semibold mb-4">Add NewCoupon</h2>
+          <form id="coupon-form">
+            <div class="mb-4">
+              <label class="block text-gray-700 font-medium mb-2" for="code"
+                >Coupon Code</label
+              >
+              <input
+                class="w-full p-2 border border-gray-300 rounded-md"
+                type="text"
+                id="code"
+                placeholder="Enter coupon code"
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-medium mb-2" for="discount"
+                >Discount Percentage</label
+              >
+              <input
+                class="w-full p-2 border border-gray-300 rounded-md"
+                type="number"
+                id="discount"
+                placeholder="Enter discount percentage"
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-medium mb-2" for="start"
+                >Start Date</label
+              >
+              <input
+                class="w-full p-2 border border-gray-300 rounded-md"
+                type="date"
+                id="start"
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-medium mb-2" for="expiry"
+                >Expiry Date</label
+              >
+              <input
+                class="w-full p-2 border border-gray-300 rounded-md"
+                type="date"
+                id="expiry"
+              />
+            </div>
+            <div class="mb-4">
+              <label class="block text-gray-700 font-medium mb-2" for="limit"
+                >Usage LImit</label
+              >
+              <input
+                class="w-full p-2 border border-gray-300 rounded-md"
+                type="number"
+                id="limit"
+                placeholder="Enter limit"
+              />
+            </div>
+            <!-- cancel & add button -->
+            <button
+              type="button"
+              class="cancel-form bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Add Coupon
+            </button>
+          </form>
+        </div>
+
+        <!-- Coupon List Table -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h2 class="text-2xl font-semibold mb-4">Existing Coupons</h2>
+          <table class="min-w-full bg-white">
+            <thead>
+              <tr>
+                <th class="py-2 px-4 border-b text-center">Coupon Code</th>
+                <th class="py-2 px-4 border-b text-center">Discount (%)</th>
+                <th class="py-2 px-4 border-b text-center">Start Date</th>
+                <th class="py-2 px-4 border-b text-center">Expiry Date</th>
+                <th class="py-2 px-4 border-b text-center">Usage Left</th>
+                <th class="py-2 px-4 border-b text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (!coupons || coupons.length === 0) { %>
+              <tr>
+                <td colspan="5" class="py-2 px-4 text-center">
+                  No coupons available.
+                </td>
+              </tr> 
+              <% } %>
+
+              <!-- Example Coupon Row -->
+              <% if(typeof coupons !== 'undefined' && coupons.length > 0 ) {%>
+              <% coupons.forEach(coupon => { %>
+              <tr>
+                <td class="py-2 px-4 border-b text-center">
+                  <%=coupon.code %>
+                </td>
+                <td class="py-2 px-4 border-b text-center">
+                  <%=coupon.discountPercentage %>
+                </td>
+                <td class="py-2 px-4 border-b text-center">
+                  <%=coupon.startDate %>
+                </td>
+                <td class="py-2 px-4 border-b text-center">
+                  <%=coupon.expiryDate %>
+                </td>
+                <td class="py-2 px-4 border-b text-center">
+                  <%=coupon.usageLimit %>
+                </td>
+                <td class="py-2 px-4 border-b text-center">
+                  <button
+                    data-id="<%=coupon._id %>"
+                    class="edit-button bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600 mr-2"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    data-id="<%=coupon._id %>"
+                    class="delete-button bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              <% }) %> <% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/javascript/coupon.js"></script>
+  </body>
+</html>

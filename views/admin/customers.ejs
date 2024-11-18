@@ -17,7 +17,7 @@
 
           <!-- Navigation Menu -->
           <nav class="space-y-4">
-            <a
+            <a  
               href="/admin/dashboard"
               class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
             >
@@ -128,8 +128,8 @@
               </tr>
             </thead>
             <tbody class="bg-white">
-              <% if(typeof users !== 'undefined' && users.length > 0) {%> <%
-              users.forEach(user => { %>
+              <% if(typeof users !== 'undefined' && users.length > 0) {%> 
+              <% users.forEach(user => { %>
               <tr class="text-center">
                 <td class="border px-4 py-2"><%= user.id %></td>
                 <td class="border px-4 py-2">
@@ -155,7 +155,8 @@
                   <% } %>
                 </td>
               </tr>
-              <% }) %> <% } %>
+              <% }) %>
+               <% } %>
             </tbody>
           </table>
         </div>

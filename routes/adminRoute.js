@@ -29,15 +29,23 @@ import {
 
 import upload from "../config/multer.js";
 import { adminAuth } from "../middleware/adminAuth.js";
-import { loadOrderDetails, loadOrders, updateStatus } from "../controllers/admin/ordercontroller.js";
-
-
+import {
+  loadOrderDetails,
+  loadOrders,
+  updateStatus,
+} from "../controllers/admin/ordercontroller.js";
+import {
+  addCoupon,
+  deleteCoupon,
+  editCoupon,
+  loadCoupon,
+  loadEditCoupon,
+} from "../controllers/admin/couponController.js";
 
 const noCache = (req, res, next) => {
-  res.setHeader('Cache-Control', 'no-store');
+  res.setHeader("Cache-Control", "no-store");
   next();
 };
-
 
 const adminRouter = express.Router();
 
@@ -52,7 +60,7 @@ adminRouter.get("/dashboard", adminAuth, loadDashboard);
 //customers routes
 adminRouter.get("/customers", adminAuth, loadCustomer);
 adminRouter.get("/customers/:action/:userId", adminAuth, customerAction);
- 
+
 // Category routes
 adminRouter.get("/category", adminAuth, loadCategory);
 adminRouter.post("/addCategory", adminAuth, addCategory);
@@ -63,19 +71,33 @@ adminRouter.post("/editCategory", adminAuth, editCategory);
 // Products routes here ....
 adminRouter.get("/products", adminAuth, loadProducts);
 adminRouter.get("/products/add", adminAuth, loadAddProducts);
-adminRouter.post('/products/add', upload.array('croppedImages'), adminAuth, addProducts);
-adminRouter.post('/products/block', adminAuth, productBlockUnblock)
-adminRouter.get('/products/edit/:id', adminAuth, loadEditProduct);
-adminRouter.post('/products/edit', upload.array('croppedImages'), adminAuth, updateProduct);
+adminRouter.post(
+  "/products/add",
+  upload.array("croppedImages"),
+  adminAuth,
+  addProducts
+);
+adminRouter.post("/products/block", adminAuth, productBlockUnblock);
+adminRouter.get("/products/edit/:id", adminAuth, loadEditProduct);
+adminRouter.post(
+  "/products/edit",
+  upload.array("croppedImages"),
+  adminAuth,
+  updateProduct
+);
 
+// Order route
+adminRouter.get("/orders", adminAuth, loadOrders);
+adminRouter.put("/orders", adminAuth, updateStatus);
+adminRouter.get("/order-details", adminAuth, loadOrderDetails);
 
-// Order route 
-adminRouter.get('/orders', loadOrders);
-adminRouter.put('/orders', updateStatus);
-
-//order - details page
-adminRouter.get('/order-details', loadOrderDetails)
+// Coupon route here
+adminRouter.get("/coupons", adminAuth, loadCoupon);
+adminRouter.post("/coupons", adminAuth, addCoupon);
+adminRouter.put('/coupons', adminAuth, editCoupon);
+adminRouter.put('/coupons/delete', adminAuth, deleteCoupon)
+adminRouter.get('/coupons/:couponId', adminAuth, loadEditCoupon)
 
 // admin logout route
-adminRouter.get('/logout', logout);
+adminRouter.get("/logout", logout);
 export default adminRouter;
