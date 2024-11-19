@@ -99,7 +99,7 @@
             <span class="ml-2">Orders</span>
           </a>
           <a
-            href="/user/profile/wishlist"
+            href="/user/profile/wallet"
             class="flex items-center justify-center text-gray-700 bg-gray-200 p-2 rounded"
             aria-label="Wallet"
           >
@@ -179,7 +179,7 @@
                         <div class="order-actions text-right">
                           <button class="return-button w-full bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400" data-itemId="<%=item._id%>" data-orderId="<%=order._id%>">Return</button>
                         </div>
-                        <% } else if(item.status !== 'returned' && item.status !== 'delivered'){ %>
+                        <% } else if(item.status !== 'returned' && item.status !== 'delivered' && item.status !== 'cancelled'){ %>
                           <div class="order-actions text-right">
                             <button class="cancel-button w-full bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400" data-itemId="<%=item._id%>" data-orderId="<%=order._id%>">Cancel</button>
                           </div>

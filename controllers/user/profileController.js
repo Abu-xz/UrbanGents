@@ -330,11 +330,11 @@ export const loadOrders = async (req, res) => {
         .json({ success: false, message: "User not Exists!" });
     }
 
-    const orders = await Order.find({ customerId: user._id }).populate(
-      "items.productId"
-    );
-    console.log("User order ", orders);
-    console.log(orders[0]?.items);
+    const orders = await Order.find({ customerId: user._id })
+      .populate("items.productId")
+      .sort({ createdAt: -1 });
+    // console.log("User order ", orders);
+    // console.log(orders[0]?.items);
 
     // console.log(user);
 
@@ -365,27 +365,52 @@ export const orderDetails = async (req, res) => {
 export const cancelOrder = async (req, res) => {
   try {
     console.log("cancel order route reached");
+    const userData = req.session.user.email || req.session.user;
     const { itemId, orderId } = req.body;
-    console.log("item id :", itemId);
-    console.log("order id :", orderId);
 
-    Order.updateOne(
-      { _id: orderId },
-      { $pull: { items: { _id: itemId } } },
-      { new: true }
-    )
-      .then((result) => {
-        console.log(result);
-        res.status(200).json({ success: true });
-      })
-      .catch((error) => {
-        console.log(error);
-        res
-          .status(500)
-          .json({ success: false, message: "Internal Server Error!" });
-      });
+    const user = await Users.findOne({
+      $or: [{ email: userData }, { googleId: userData }],
+    });
+
+    if (!user) {
+      return res
+        .status(500)
+        .json({ success: false, message: "User not Exists!" });
+    }
+
+    // console.log("item id :", itemId);
+    // console.log("order id :", orderId);
+
+    const order = await Order.findById(orderId);
+    // console.log(order);
+    const item = order.items.find((item) => item._id.toString() === itemId);
+    // console.log(item);
+
+    if (order.paymentMethod == "razorpay") {
+      // console.log(order.paymentMethod)
+      item.status = "cancelled";
+      user.walletAmount += item.subDiscount;
+
+      const transaction = {
+        amount :item.subDiscount,
+        orderId,
+        transactionType: 'Credit',
+      }
+      user.transaction.push(transaction);
+
+      await user.save();
+      await order.save();
+      // console.log(user.walletAmount)
+      // console.log(user.transaction)
+      return res.status(200).json({ success: true });
+    } else {
+      item.status = "cancelled";
+      await order.save();
+      return res.status(200).json({ success: true });
+    }
   } catch (error) {
     console.log("Error occurred when cancel order", error.message);
+    res.status(500).json({ success: false, message: "Internal Server Error!" });
   }
 };
 
@@ -399,9 +424,9 @@ export const loadWishlist = async (req, res) => {
     }).populate("wishlist");
 
     const wishlist = user.wishlist;
-    // console.log(wishlist);
+    console.log(wishlist);
 
-    res.status(200).render("user/userWishlist", { wishlist });
+    res.status(200).render("user/userWishlist", { wishlist , user});
   } catch (error) {
     console.log("Error occurred when cancel order", error.message);
   }
@@ -445,7 +470,7 @@ export const addToWishlist = async (req, res) => {
 
 export const removeItemFromWishlist = async (req, res) => {
   try {
-    console.log('remove item from wishlist route reached')
+    console.log("remove item from wishlist route reached");
     const { productId } = req.body;
     const userData = req.session.user.email || req.session.user;
     const user = await Users.findOne({
@@ -465,9 +490,24 @@ export const removeItemFromWishlist = async (req, res) => {
     // This will Remove the product ID from the wishlist...
     user.wishlist = user.wishlist.filter((id) => id.toString() !== productId);
     await user.save();
-    res.json({ success: true, message: 'Product removed from wishlist' });
-
+    res.json({ success: true, message: "Product removed from wishlist" });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
+};
+
+export const loadWallet = async (req, res) => {
+  try {
+    const userData = req.session.user.email || req.session.user;
+    const user = await Users.findOne({
+      $or: [{ email: userData }, { googleId: userData }],
+    });
+
+    if (!user) {
+      return res.status(302).json({ message: "User Not found" });
+    }
+
+    console.log("wallet route reached");
+    res.status(200).render("user/userWallet", { user });
+  } catch (error) {}
 };

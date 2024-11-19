@@ -64,14 +64,15 @@ cancelButtons.forEach((button) => {
     Swal.fire({
       icon: 'warning',
       text: 'Are you sure to cancel order?',
-      confirmButtonText: 'Yes, cancel order'
+      confirmButtonText: 'Yes, cancel order',
+      showCancelButton: true
     })
     .then(() => {
       console.log("item id retrieved", itemId)
       console.log('order id retrieved', orderId);
 
       axios.put('/user/profile/orders', {itemId, orderId})
-            .then((response) => {
+            .then((response) => { 
               if(response.data.success){
                 window.location.reload();
               }else{

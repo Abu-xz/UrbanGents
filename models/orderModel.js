@@ -27,13 +27,12 @@ const orderSchema = new mongoose.Schema(
           enum: ["pending", "delivered", "shipped", "cancelled", "refunded", "returned"],
           default: "pending",
         },
-        paymentMethod: { type: String, enum: ["razorpay, cod, wallet, "] },
+        paymentMethod: { type: String, enum: ["razorpay", "COD", "wallet"] },
       },
       { timestamps: true },
     ],
     status: {
       type: String,
-      enum: ["pending", "delivered", "shipped", "cancelled", "refunded"],
       default: "pending",
     },
     paymentStatus: {

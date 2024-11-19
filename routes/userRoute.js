@@ -36,6 +36,7 @@ import {
   loadEditAddress,
   loadOrders,
   loadProfile,
+  loadWallet,
   loadWishlist,
   orderDetails,
   removeItemFromWishlist,
@@ -126,7 +127,13 @@ userRouter.put("/profile/orders", userAuth, cancelOrder);
 //profile wishlist
 userRouter.get("/profile/wishlist", userAuth, loadWishlist);
 userRouter.post("/profile/wishlist", userAuth, addToWishlist);
-userRouter.put('/profile/wishlist', userAuth, removeItemFromWishlist)
+userRouter.put('/profile/wishlist', userAuth, removeItemFromWishlist);
+
+// profile wallet 
+userRouter.get('/profile/wallet', userAuth, loadWallet)
+
+
+
 
 // Add-To-Cart page route
 userRouter.get("/cart", userAuth, loadCart);

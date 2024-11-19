@@ -15,28 +15,50 @@ const addressSchema = new mongoose.Schema({
     enum: ["home", "office"],
   },
   state: {
-    type: String
+    type: String,
   },
-  number:{
-    type:Number
+  number: {
+    type: Number,
   },
-  city:{
-    type:String
+  city: {
+    type: String,
   },
-  landmark : {
-    type:String
+  landmark: {
+    type: String,
   },
-  district:{
-    type:String
+  district: {
+    type: String,
   },
-  address:{
-    type: String
+  address: {
+    type: String,
   },
   isDefault: {
-    type : Boolean,
-    default: false
-  }
+    type: Boolean,
+    default: false,
+  },
 });
+
+const transactionSchema = new mongoose.Schema(
+  {
+    amount: {
+      type: Number,
+      default: 0,
+    },
+    orderId: {
+      type: String,
+    },
+    transactionType: {
+      type: String,
+      enum: ["Credit", "Debit"],
+    },
+    transactionDate: {
+      type: Date,
+      required: true,
+      default: Date.now(),
+    },
+  },
+  { timestamps: true }
+);
 
 const userSchema = new mongoose.Schema(
   {
@@ -68,8 +90,13 @@ const userSchema = new mongoose.Schema(
     photo: {
       type: String,
     },
-    addresses:[addressSchema], //store array of address
-    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
+    addresses: [addressSchema], //store array of address
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+    walletAmount: {
+      type: Number,
+      default: 0, // Start with a balance of 0
+    },
+    transaction: [transactionSchema],
   },
   { timestamps: true }
 );

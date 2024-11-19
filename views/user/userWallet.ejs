@@ -36,8 +36,9 @@
       </div>
     </header>
     <!-- Main Container -->
-    
+  
     <% if(typeof user !== 'undefined' && user){ %>
+
     <div class="container mx-auto mt-3 p-4 flex flex-col lg:flex-row">
       <!-- Sidebar -->
       <aside
@@ -118,43 +119,57 @@
         </nav>
       </aside>
 
-      <!-- Profile Details -->
-
       <main class="w-full lg:w-3/4 lg:ml-4 bg-white p-6 rounded-lg shadow-md">
-        <span href="/user/home" class="text-black mb-5"
-          ><a href="/user/home">Home</a> >
-          <a href="/user/profile/wishlist"><strong>Wishlist</strong></a></span
-        >
-        <div class="container mx-auto px-4 py-8">
-            <h1 class="text-3xl font-bold text-gray-800 mb-6">My Wishlist</h1>
-            
-            <!-- Wishlist Items Container -->
-            <div class="container mx-auto py-10">
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-center">
-                  <% if (wishlist !== [] && wishlist.length !== 0) { %>
-                    <% wishlist.forEach((product) => { %>
-                      <div class="category hover:-translate-y-2 transition-all">
-                        <div class="max-w-xs mx-auto">
-                          <div class="bg-white shadow-lg rounded-lg overflow-hidden">
-                            <a href="/user/product-details/<%=product._id%>">
-                              <img class="w-full h-64 object-cover" src="<%=product.images[0]%>" alt="Product Image">
-                            </a>
-                            <div class="p-5">
-                              <h3 class="text-gray-700 text-xl font-semibold"><%=product.productName%></h3>
-                              <button onclick="removeItem('<%=product._id%>')" class="mt-4 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">Remove</button>
-                            </div>
-                          </div>
-                        </div>
-                      </div> 
-                    <% }) %>
-                  <% } else { %>
-                    <p class="text-center text-gray-600 col-span-full">No products found.</p>
-                  <% } %>
-                </div>
-              </div>
-              
+        <span class="text-black mb-5">
+          <a href="/user/home">Home</a> >
+          <a href="/user/profile/wallet"><strong>Wallet</strong></a>
+        </span>
+      
+        <!-- Wallet Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 w-full">
+          <h2 class="text-2xl font-bold mb-4">My Wallet</h2>
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-gray-700 text-lg">Current Balance:</span>
+            <span class="text-2xl font-semibold text-green-600">₹ <%=user.walletAmount %>.00</span>
           </div>
+          <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-200">
+            Add Money
+          </button>
+        </div>
+      
+        <!-- Transaction History Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 w-full mt-8">
+          <h2 class="text-2xl font-bold mb-4 text-center">Transaction History</h2>
+          <table class="min-w-full text-left text-gray-700">
+            <thead class="border-b">
+              <tr>
+                <th class="px-4 py-2 text-center"">Date</th>
+                <th class="px-4 py-2 text-center">Amount</th>
+                <th class="px-4 py-2 text-center">Type</th>
+                <th class="px-4 py-2 text-center">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% user.transaction.forEach(transaction => { %>
+                    <tr class="border-b hover:bg-gray-100">
+                        <td class="px-4 py-2 text-center"><%=transaction.createdAt.toLocaleString()%></td>
+                        <td class="px-4 py-2 text-green-600 text-center"> + ₹<%=transaction.amount%></td>
+                        <td class="px-4 py-2 text-center"><%=transaction.transactionType %></td>
+                        <td class="px-4 py-2 text-center"><%=transaction.transactionType === 'Credit'? 'Refund': 'Purchase' %></td>
+                    </tr>
+                <% }) %>
+              <!-- <tr class="border-b hover:bg-gray-100">
+                <td class="px-4 py-2">2024-11-17</td>
+                <td class="px-4 py-2 text-red-600">- $50.00</td>
+                <td class="px-4 py-2">Debit</td>
+                <td class="px-4 py-2">Purchase</td>
+              </tr> -->
+              <!-- Add more transaction rows as needed -->
+            </tbody>
+          </table>
+        </div>
       </main>
+      
       <% } %>    
 
 
@@ -164,5 +179,5 @@
   
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="/javascript/wishlist.js"></script>
+  <script src="/javascript/wallet.js"></script>
 </html>
