@@ -114,14 +114,7 @@ Add return with an expiry []
 landing page []
 create 404 page []
 admin offer edit and delete []
-
-
-
-
-//================== Doubt ========================//
-
-//================== Doubt ========================//
-
+admin coupon edit and delete [];
 
 
 //========================= Week 9 Project task ============================//
@@ -205,7 +198,7 @@ Admin Side - Offer Module [x]
 Develop the offer module (product, category, referral).
 Day 5: Friday
 
-Admin Side - Coupon and Sales Report []
+Admin Side - Coupon [x] and Sales Report []
 Implement coupon management (create and delete coupons). [x]
 Start with basic sales report generation (daily, weekly, monthly).
 Add the ability to filter reports by date ranges.
