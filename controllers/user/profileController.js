@@ -1,4 +1,5 @@
 import Order from "../../models/orderModel.js";
+import Product from "../../models/productModel.js";
 import Users from "../../models/userModel.js";
 
 export const loadProfile = async (req, res) => {
@@ -332,9 +333,9 @@ export const loadOrders = async (req, res) => {
     const orders = await Order.find({ customerId: user._id }).populate(
       "items.productId"
     );
-    console.log('User order ',orders)
+    console.log("User order ", orders);
     console.log(orders[0]?.items);
-      
+
     // console.log(user);
 
     res.status(200).render("user/userOrders", { orders, user });
@@ -385,5 +386,88 @@ export const cancelOrder = async (req, res) => {
       });
   } catch (error) {
     console.log("Error occurred when cancel order", error.message);
+  }
+};
+
+// wishlist route logic here
+
+export const loadWishlist = async (req, res) => {
+  try {
+    const userData = req.session.user.email || req.session.user;
+    const user = await Users.findOne({
+      $or: [{ email: userData }, { googleId: userData }],
+    }).populate("wishlist");
+
+    const wishlist = user.wishlist;
+    // console.log(wishlist);
+
+    res.status(200).render("user/userWishlist", { wishlist });
+  } catch (error) {
+    console.log("Error occurred when cancel order", error.message);
+  }
+};
+
+export const addToWishlist = async (req, res) => {
+  try {
+    const { productId } = req.body;
+    const userData = req.session.user.email || req.session.user;
+    const user = await Users.findOne({
+      $or: [{ email: userData }, { googleId: userData }],
+    });
+
+    if (!user) {
+      return res.status(302).json({ message: "User Not found" });
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(500).json({ message: "Product Not found" });
+    }
+
+    // console.log(product);
+
+    if (!user.wishlist.includes(productId)) {
+      user.wishlist.push(productId);
+      await user.save();
+      return res
+        .status(201)
+        .json({ success: true, message: "Product added to wishlist" });
+    } else {
+      return res
+        .status(200)
+        .json({ success: false, message: "Product Already exist" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+export const removeItemFromWishlist = async (req, res) => {
+  try {
+    console.log('remove item from wishlist route reached')
+    const { productId } = req.body;
+    const userData = req.session.user.email || req.session.user;
+    const user = await Users.findOne({
+      $or: [{ email: userData }, { googleId: userData }],
+    });
+
+    if (!user) {
+      return res.status(302).json({ message: "User Not found" });
+    }
+
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      return res.status(500).json({ message: "Product Not found" });
+    }
+
+    // This will Remove the product ID from the wishlist...
+    user.wishlist = user.wishlist.filter((id) => id.toString() !== productId);
+    await user.save();
+    res.json({ success: true, message: 'Product removed from wishlist' });
+
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };

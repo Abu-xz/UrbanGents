@@ -28,6 +28,7 @@ import { isUser, userAuth } from "../middleware/userAuth.js";
 
 import {
   addAddress,
+  addToWishlist,
   cancelOrder,
   deleteAddress,
   editAddress,
@@ -35,7 +36,9 @@ import {
   loadEditAddress,
   loadOrders,
   loadProfile,
+  loadWishlist,
   orderDetails,
+  removeItemFromWishlist,
   updateProfile,
 } from "../controllers/user/profileController.js";
 
@@ -48,7 +51,15 @@ import {
   updateSize,
 } from "../controllers/user/cartController.js";
 
-import { applyCoupon, createRazorPayOrder, loadCheckout, loadOrderPlaced, placeOrder, removeCoupon, verifyPayment } from "../controllers/user/checkoutController.js";
+import {
+  applyCoupon,
+  createRazorPayOrder,
+  loadCheckout,
+  loadOrderPlaced,
+  placeOrder,
+  removeCoupon,
+  verifyPayment,
+} from "../controllers/user/checkoutController.js";
 // import { loadOrderDetails } from "../controllers/admin/ordercontroller.js";
 
 const noCache = (req, res, next) => {
@@ -108,10 +119,14 @@ userRouter.post("/profile/address/edit", userAuth, editAddress);
 userRouter.delete("/profile/address/delete", userAuth, deleteAddress);
 
 // Profile orders
-userRouter.get('/profile/orders', userAuth, loadOrders);
-userRouter.get('/profile/order-details', userAuth, orderDetails);
-userRouter.put('/profile/orders', userAuth, cancelOrder);
+userRouter.get("/profile/orders", userAuth, loadOrders);
+userRouter.get("/profile/order-details", userAuth, orderDetails);
+userRouter.put("/profile/orders", userAuth, cancelOrder);
 
+//profile wishlist
+userRouter.get("/profile/wishlist", userAuth, loadWishlist);
+userRouter.post("/profile/wishlist", userAuth, addToWishlist);
+userRouter.put('/profile/wishlist', userAuth, removeItemFromWishlist)
 
 // Add-To-Cart page route
 userRouter.get("/cart", userAuth, loadCart);
@@ -123,17 +138,17 @@ userRouter.post("/cart/check-stock", userAuth, checkStock);
 
 // Check out page route
 userRouter.get("/checkout", userAuth, loadCheckout);
-userRouter.post('/checkout', userAuth, placeOrder);
+userRouter.post("/checkout", userAuth, placeOrder);
 
 // coupon apply here
-userRouter.post('/checkout/apply-coupon', userAuth, applyCoupon)
-userRouter.post('/checkout/remove-coupon', userAuth, removeCoupon)
+userRouter.post("/checkout/apply-coupon", userAuth, applyCoupon);
+userRouter.post("/checkout/remove-coupon", userAuth, removeCoupon);
 
 //razorpay route
-userRouter.post('/createRazorpay', userAuth, createRazorPayOrder)
-userRouter.post('/verifyPayment', userAuth, verifyPayment)
+userRouter.post("/createRazorpay", userAuth, createRazorPayOrder);
+userRouter.post("/verifyPayment", userAuth, verifyPayment);
 
-// load place order page 
-userRouter.get('/order-placed', loadOrderPlaced);
+// load place order page
+userRouter.get("/order-placed", loadOrderPlaced);
 
 export default userRouter;

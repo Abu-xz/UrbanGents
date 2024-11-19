@@ -68,7 +68,8 @@ const userSchema = new mongoose.Schema(
     photo: {
       type: String,
     },
-    addresses:[addressSchema] //store array of address
+    addresses:[addressSchema], //store array of address
+    wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
   },
   { timestamps: true }
 );

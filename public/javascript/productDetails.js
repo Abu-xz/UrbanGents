@@ -1,3 +1,4 @@
+
 const productImage = document.getElementById("product-image");
 const thumbnail = document.getElementById("thumbnail");
 
@@ -98,3 +99,30 @@ function initializeStockStatus() {
 
 // Call the initialization function when the page loads
 window.onload = initializeStockStatus;
+
+
+
+function addToWishlist (productId){
+  console.log('wishlist button clicked', productId);
+
+  axios.post('/user/profile/wishlist', {productId})
+    .then((response) => {
+      console.log('product added to wishlist');
+      if(response.data.success){
+        Swal.fire({
+          title: 'Product added to wishlist!',
+          icon: 'success'
+        })
+      }else{
+        Swal.fire({
+          icon: 'warning',
+          title: 'Already in Wishlist'
+        })
+      }
+    })
+    .catch(error => {
+      Swal.fire('An error occurred while adding wishlist')
+    })
+
+
+}
