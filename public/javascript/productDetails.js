@@ -74,14 +74,13 @@ function showStockStatusAndUpdateButton(size, stock, button) {
     stockStatusDiv.innerHTML = `<p class="text-lg text-red-600 font-bold mb-4">Size ${size}: Stock Unavailable</p>`;
   }
 
-  // Reset button styles
+
   const buttons = document.querySelectorAll(".variant-button");
   buttons.forEach((btn) => {
-    btn.classList.remove("bg-gray-300"); // Remove highlight from all buttons
+    btn.classList.remove("bg-gray-300"); 
   });
 
-  // Highlight the selected button
-  button.classList.add("bg-gray-300"); // Add highlight to the clicked button
+  button.classList.add("bg-gray-300"); 
 }
 
 // Function to initialize the stock status on page load

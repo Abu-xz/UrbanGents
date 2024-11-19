@@ -113,6 +113,8 @@ admin side product edit image add button set debouncing []
 Add return with an expiry []
 landing page []
 create 404 page []
+admin offer edit and delete []
+
 
 
 
@@ -199,7 +201,7 @@ Implement search functionality.
 Add category filtering to product listings.
 Ensure the search and filter features work together seamlessly.
 
-Admin Side - Offer Module []
+Admin Side - Offer Module [x]
 Develop the offer module (product, category, referral).
 Day 5: Friday
 

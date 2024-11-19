@@ -1,6 +1,7 @@
 import Cart from "../../models/cartModel.js";
 import Users from "../../models/userModel.js";
 import Product from "../../models/productModel.js";
+import Offer from "../../models/offerModel.js";
 
 export const loadCart = async (req, res) => {
   try {
@@ -36,13 +37,20 @@ export const addItemToCart = async (req, res) => {
     const userData = req.session.user.email || req.session.user;
     const { productId, variantSize } = req.body;
     // console.log(productId, variantSize)
-    const product = await Product.findById(productId);
-    // console.log(product);
+    const product = await Product.findById(productId).populate("category");
+    console.log(product);
     if (!product) {
       return res
         .status(500)
         .json({ success: false, message: "Product Unavailable!" });
     }
+    const offers = await Offer.find();
+    const categoryOffer = offers.find(
+      (offer) => offer.category === product.category.categoryName
+    );
+    console.log("offer for this category", categoryOffer);
+    const offerDiscount = categoryOffer?.discountPercentage;
+    product.offerDiscount = offerDiscount;
 
     const user = await Users.findOne({
       $or: [{ email: userData }, { googleId: userData }],
@@ -61,8 +69,9 @@ export const addItemToCart = async (req, res) => {
     }
 
     // check the item is already in the cart, but can add same item with different size !
-    const itemExists = cart.items.find((item) =>
-      item.productId.equals(productId) && item.selectedSize === variantSize
+    const itemExists = cart.items.find(
+      (item) =>
+        item.productId.equals(productId) && item.selectedSize === variantSize
     );
     // console.log(variantSize);
     const selectedVariant = product.variant.find((v) => v.size === variantSize);
@@ -84,10 +93,18 @@ export const addItemToCart = async (req, res) => {
     }
 
     console.log("cart product push here");
+    let subDiscount;
 
-    const subDiscount = Math.trunc(
-      product.price - (product.price * product.discount) / 100
-    );
+    subDiscount = (
+      product.price -
+      (product.price * product.discount) / 100
+    ).toFixed();
+
+
+    // Here adding offer amount to subTotal
+    if (offerDiscount) {
+      subDiscount = (Number(subDiscount) - (Number(subDiscount) * Number(offerDiscount)) / 100).toFixed();
+    }
 
     // why i add the product price? here only one product added
     cart.items.push({
@@ -104,7 +121,7 @@ export const addItemToCart = async (req, res) => {
     );
 
     await cart.save();
-
+    await product.save();
     res.status(200).json({ success: true, message: "Item Added To Cart !" });
   } catch (error) {
     res
@@ -209,7 +226,6 @@ export const updateQuantity = async (req, res) => {
         .status(500)
         .json({ success: false, message: "Product Not Found!" });
     }
-    // console.log('here product variant',product.variant);
 
     const variant = product.variant.find((v) => v.size === selectedSize);
     console.log("this is selected size variant", variant);
@@ -224,9 +240,10 @@ export const updateQuantity = async (req, res) => {
     // console.log(product)
     item.quantity = quantity;
     item.subTotal = product.price * item.quantity;
-    item.subDiscount =
-      Math.trunc(product.price - (product.price * product.discount) / 100) *
-      item.quantity;
+    item.subDiscount = (
+      (product.price - (product.price * product.discount) / 100) *
+      item.quantity
+    ).toFixed();
     // console.log('item find',item);
     cart.totalPrice = cart.items.reduce((acc, item) => acc + item.subTotal, 0);
     cart.totalDiscount = cart.items.reduce(
@@ -293,24 +310,19 @@ export const checkStock = async (req, res) => {
         selectedVariant.stock === 0 ||
         selectedVariant.stock < item.quantity
       ) {
-      
-        return res
-          .status(200)
-          .json({
-            success: false,
-            message: `The product ${item.productId.productName} is Out Of Stock`,
-          });
+        return res.status(200).json({
+          success: false,
+          message: `The product ${item.productId.productName} is Out Of Stock`,
+        });
       }
     }
 
     res.status(200).json({ success: true, message: "proceed to checkout" });
   } catch (error) {
     console.log("Error ", error.message);
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Server error. Please try again later.",
-      });
+    res.status(500).json({
+      success: false,
+      message: "Server error. Please try again later.",
+    });
   }
 };

@@ -89,6 +89,12 @@
                 <p class="text-xl font-bold text-black">₹<%=item.subDiscount%></p>
                 <span class="text-gray-400 line-through text-md">₹<%=item.subTotal  %></span>
                 <p class="text-red-600 text-sm font-bold"><%=item.productId.discount%>% Off</p>
+                <% if(item.productId.offerDiscount){ %>
+                  <div class="flex justify-between">
+                    <span class="mr-4">Offer Discount </span>
+                    <p class="text-blue-600 text-sm font-bold"><%=item.productId.offerDiscount%>% Off</p>
+                  </div>
+                <% } %>
                 <% }else { %>
                 <p class="text-xl font-bold text-black">₹<%=item.subTotal%></p>
                  <% } %>

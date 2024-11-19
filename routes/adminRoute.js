@@ -41,6 +41,7 @@ import {
   loadCoupon,
   loadEditCoupon,
 } from "../controllers/admin/couponController.js";
+import { createOffer, loadOffer } from "../controllers/admin/offersController.js";
 
 const noCache = (req, res, next) => {
   res.setHeader("Cache-Control", "no-store");
@@ -94,9 +95,13 @@ adminRouter.get("/order-details", adminAuth, loadOrderDetails);
 // Coupon route here
 adminRouter.get("/coupons", adminAuth, loadCoupon);
 adminRouter.post("/coupons", adminAuth, addCoupon);
-adminRouter.put('/coupons', adminAuth, editCoupon);
-adminRouter.put('/coupons/delete', adminAuth, deleteCoupon)
-adminRouter.get('/coupons/:couponId', adminAuth, loadEditCoupon)
+adminRouter.put("/coupons", adminAuth, editCoupon);
+adminRouter.put("/coupons/delete", adminAuth, deleteCoupon);
+adminRouter.get("/coupons/:couponId", adminAuth, loadEditCoupon);
+
+// Offer route here
+adminRouter.get('/offers', adminAuth, loadOffer)
+adminRouter.post('/offers', adminAuth, createOffer)
 
 // admin logout route
 adminRouter.get("/logout", logout);

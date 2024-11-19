@@ -13,7 +13,7 @@
 
 
   </head>
-  <body>
+  <body class="">
     <!-- Header -->
 
     <header class="bg-stone-950 py-5 px-8 shadow-md">
@@ -43,7 +43,7 @@
     <div class="p-2">
       <a href="/user/home" class="ml-10">Home / Product</a>
     </div>
-    <div class="container mx-auto px-4 py-12 mb-5">
+    <div class="container">
       <div class="grid grid-cols-1 md:grid-cols-2 h-full mb-5">
         <!-- Product Image and Thumbnails -->
         <div class=" flex flex-col items-center ">
@@ -156,6 +156,12 @@
               />
             </svg>
           </div>
+          <% if(offerDiscount) {%>
+            <div class="offer-section py-3"> 
+              <h4 class="text-green-700 font-md font-bold">Available Offer</h4>
+                <p class="text-md">Limited Time Offer This Product! <span class="font-bold text-md text-blue-700"><%=offerDiscount%>% OFF</span></p>
+            </div>
+          <% }%>
 
           <!-- Size Selection -->
           <div class="mb-6">
