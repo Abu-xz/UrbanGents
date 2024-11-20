@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Main Container -->
+    <div class="flex">
+      <!-- Sidebar -->
+      <aside class="w-64 bg-white h-screen p-6 shadow-lg">
+        <div class="flex flex-col">
+          <div class="text-2xl font-bold mb-10">Admin Sales Report</div>
+
+          <!-- Navigation Menu -->
+          <nav class="space-y-4">
+            <a
+              href="/admin/dashboard"
+              class="flex items-center text-red-700 hover:bg-red-200 p-2 rounded"
+            >
+              <span class="material-icons">dashboard</span>
+              <span class="ml-2">Dashboard</span>
+            </a>
+            <a
+              href="/admin/products"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">inventory</span>
+              <span class="ml-2">Products</span>
+            </a>
+            <a
+              href="/admin/category"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">category</span>
+              <span class="ml-2">Category</span>
+            </a>
+            <a
+              href="/admin/orders"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">shopping_cart</span>
+              <span class="ml-2">Orders</span>
+            </a>
+            <a
+              href="/admin/coupons"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">redeem</span>
+              <span class="ml-2">Coupons</span>
+            </a>
+            <a
+              href="/admin/offers"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">local_offer</span>
+              <span class="ml-2">Offers</span>
+            </a>
+            <a
+              href="/admin/sales"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">campaign</span>
+              <span class="ml-2">Sales</span>
+            </a>
+            <a
+              href="/admin/customers"
+              class="flex items-center text-gray-700 hover:bg-gray-200 p-2 rounded"
+            >
+              <span class="material-icons">people</span>
+              <span class="ml-2">Customers</span>
+            </a>
+          </nav>
+
+          <!-- Logout -->
+          <div class="mt-2">
+            <a
+              href="/admin/logout"
+              class="flex items-center text-red-600 hover:bg-red-100 p-2 rounded"
+            >
+              <span class="material-icons">logout</span>
+              <span class="ml-2">Logout</span>
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="container mx-auto p-6">
+        <!-- Header -->
+        <h1 class="text-2xl font-bold mb-4">Sales Report</h1>
+
+        <!-- Filters Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+          <div class="flex flex-wrap items-center gap-4">
+            <label class="font-semibold">Report Type:</label>
+            <select id="reportType" class="border-gray-300 rounded-md p-2 w-48">
+              <option value="daily" selected>Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="yearly">Yearly</option>
+              <option value="custom">Custom Date Range</option>
+            </select>
+
+            <!-- Custom Date Range -->
+            <div class="flex items-center gap-2">
+              <label class="font-semibold">From:</label>
+              <input id="startDate" type="date" class="border-gray-300 rounded-md p-2" />
+              <label class="font-semibold">To:</label>
+              <input id="endDate" type="date" class="border-gray-300 rounded-md p-2" />
+            </div>
+
+            <!-- Filter Button -->
+            <button
+              id="generate-button"
+              class="bg-blue-600 text-white rounded-md px-4 py-2 hover:bg-blue-700"
+            >
+              Generate Report
+            </button>
+          </div>
+        </div>
+
+        <!-- Sales Report Table -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+          <h2 class="text-xl font-semibold mb-4">Report Summary</h2>
+          <table class="w-full table-auto">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="px-4 py-2 text-left">Metric</th>
+                <th class="px-4 py-2 text-left">Value</th>
+              </tr>
+            </thead>
+            <tbody>
+                <% if (typeof salesData !== 'undefined' && salesData) { %>
+                    <tr>
+                        <td class="border px-4 py-2">Total Sales Count</td>
+                        <td id="totalSalesCount" class="border px-4 py-2"><%= salesData.totalSalesCount %></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">Total Order Amount</td>
+                        <td id="totalOrderAmount" class="border px-4 py-2"><%= salesData.totalOrderAmount %></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">Total Discount</td>
+                        <% const totalDiscount = salesData.totalDiscount; %>
+                        <td id="totalDiscount" class="border px-4 py-2"><%= totalDiscount %></td>
+                    </tr>
+                    <tr>
+                        <td class="border px-4 py-2">Total Coupons Deduction</td>
+                        <% const totalCouponAmount = ((salesData.totalOrderAmount * salesData.totalCouponsDeduction) / 100).toFixed(2); %>
+                        <td id="totalCouponAmount" class="border px-4 py-2"><%= totalCouponAmount %></td>
+                    </tr>
+                <% } else { %>
+                    <tr>
+                        <td class="border px-4 py-2" colspan="2">No sales data available.</td>
+                    </tr>
+                <% } %>
+            </tbody>            
+          </table>
+        </div>
+
+        <!-- Download Buttons -->
+        <div class="flex gap-4">
+          <button
+            class="bg-green-600 text-white rounded-md px-4 py-2 hover:bg-green-700"
+          >
+            Download PDF
+          </button>
+          <button
+            class="bg-yellow-600 text-white rounded-md px-4 py-2 hover:bg-yellow-700"
+          >
+            Download Excel
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Material Icons -->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/javascript/adminSales.js"></script>
+  </body>
+</html>

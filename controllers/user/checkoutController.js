@@ -115,6 +115,8 @@ export const placeOrder = async (req, res) => {
       totalPrice: cart.totalPrice,
       totalDiscount: cart.totalDiscount,
       paymentMethod: payment,
+      couponApplied: cart.couponApplied,
+      couponDiscount: cart.couponDiscount,
     };
 
     const newOrder = await Order.create(orderData);
@@ -328,6 +330,8 @@ export const verifyPayment = async (req, res) => {
       totalDiscount: cart.totalDiscount,
       paymentMethod: payment,
       paymentStatus: "paid",
+      couponApplied: cart.couponApplied,
+      couponDiscount: cart.couponDiscount,
     };
     const newOrder = await Order.create(orderData);
 

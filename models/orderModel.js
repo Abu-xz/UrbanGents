@@ -24,7 +24,14 @@ const orderSchema = new mongoose.Schema(
         subDiscount: { type: Number, required: true },
         status: {
           type: String,
-          enum: ["pending", "delivered", "shipped", "cancelled", "refunded", "returned"],
+          enum: [
+            "pending",
+            "delivered",
+            "shipped",
+            "cancelled",
+            "refunded",
+            "returned",
+          ],
           default: "pending",
         },
         paymentMethod: { type: String, enum: ["razorpay", "COD", "wallet"] },
@@ -37,7 +44,15 @@ const orderSchema = new mongoose.Schema(
     },
     paymentStatus: {
       type: String,
-      default: "pending"
+      default: "pending",
+    },
+    couponApplied: {
+      type: String,
+      default: ''
+    },
+    couponDiscount: {
+      type: Number,
+      default : 0
     },
     totalPrice: { type: Number, required: true },
     totalDiscount: { type: Number, required: true },
