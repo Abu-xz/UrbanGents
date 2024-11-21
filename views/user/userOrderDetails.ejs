@@ -124,18 +124,21 @@
       </aside>
 
       <!-- Profile Details -->
+      <% if(typeof orderDetails !== 'undefined' && orderDetails) {%> 
       <main class="w-full lg:w-3/4 lg:ml-4 bg-white px-6 pb-5 rounded-lg shadow-md">
            <!-- Order Details Container -->
+           <div class="flex justify-between py-3  ">
+              <p><a href="/user/profile">Profile/ </a><a href="/user/profile/orders">Orders/ </a>Details</p>
+              <button id="downloadPdf" data-orderId="<%=orderDetails._id %>"  class="bg-black text-white px-4 py-2 rounded">Download Invoice</button>
+            </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-       <p><a href="/user/profile">Profile/ </a><a href="/user/profile/orders">Orders/ </a>Details</p>
-        <% if(typeof orderDetails !== 'undefined' && orderDetails) {%> 
             
         <!-- Order Details Card -->
         <div class="bg-white p-6 rounded-lg shadow-lg">
           <!-- Order Header -->
           <div class="flex items-center justify-between mb-6">
             <h1 class="text-3xl font-semibold text-gray-900">Order Details</h1>
-            <div class="text-lg text-gray-600">Order-Id <span class="text-black font-semibold"><%=orderDetails._id%></span></div>
+            <div class="text-lg text-gray-600">Order-Id <span class="text-black font-semibold"><%=String(orderDetails._id).slice(0,7)%></span></div>
           </div>
   
           <!-- Grid Layout for Payment and Shipping Information in Row -->
@@ -143,11 +146,11 @@
             <!-- Payment Method Section -->
             <div class="bg-gray-50 p-6 rounded-lg shadow-md">
               <h2 class="text-xl font-semibold text-gray-800 mb-4">
-                Payment Method
-              </h2>
+                Payment Info
+              </h2> 
               <div class="space-y-4">
                 <div>
-                  <p class="font-medium text-gray-700">Card Type:</p>
+                  <p class="font-medium text-gray-700">Payment Type:</p>
                   <p class="text-blue-600 font-semibold"><%=orderDetails.paymentMethod%></p>
                 </div>
                 <div>
@@ -160,7 +163,7 @@
             <!-- Shipping Information -->
             <div class="bg-gray-50 p-6 rounded-lg shadow-md">
               <h2 class="text-xl font-semibold text-gray-800 mb-4">
-                Shipping Information
+                Shipping Info
               </h2>
               <div class="space-y-4">
                 <div>
@@ -228,7 +231,7 @@
     </div>
   </body>
 
-  <script src="/javascript/userOrders.js"></script>
+  <script src="/javascript/userOrderDetails.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- Include SweetAlert2 from a CDN -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

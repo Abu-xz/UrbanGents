@@ -61,6 +61,7 @@ import {
   removeCoupon,
   verifyPayment,
 } from "../controllers/user/checkoutController.js";
+import { downloadInvoice } from "../controllers/admin/orderController.js";
 // import { loadOrderDetails } from "../controllers/admin/ordercontroller.js";
 
 const noCache = (req, res, next) => {
@@ -121,8 +122,11 @@ userRouter.delete("/profile/address/delete", userAuth, deleteAddress);
 
 // Profile orders
 userRouter.get("/profile/orders", userAuth, loadOrders);
-userRouter.get("/profile/order-details", userAuth, orderDetails);
 userRouter.put("/profile/orders", userAuth, cancelOrder);
+userRouter.get("/profile/order-details", userAuth, orderDetails);
+
+// order invoice route here
+userRouter.get('/order-invoice', userAuth, downloadInvoice)
 
 //profile wishlist
 userRouter.get("/profile/wishlist", userAuth, loadWishlist);
@@ -131,8 +135,6 @@ userRouter.put('/profile/wishlist', userAuth, removeItemFromWishlist);
 
 // profile wallet 
 userRouter.get('/profile/wallet', userAuth, loadWallet)
-
-
 
 
 // Add-To-Cart page route
