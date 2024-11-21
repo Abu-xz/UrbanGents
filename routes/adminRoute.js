@@ -6,7 +6,6 @@ import {
 } from "../controllers/admin/loginController.js";
 import {
   loadCustomer,
-  loadDashboard,
   customerAction,
 } from "../controllers/admin/customerController.js";
 
@@ -33,7 +32,7 @@ import {
   loadOrderDetails,
   loadOrders,
   updateStatus,
-} from "../controllers/admin/ordercontroller.js";
+} from "../controllers/admin/orderController.js";
 import {
   addCoupon,
   deleteCoupon,
@@ -45,7 +44,11 @@ import {
   createOffer,
   loadOffer,
 } from "../controllers/admin/offersController.js";
-import { fetchReport, loadSalesReport } from "../controllers/admin/salesController.js";
+import {
+  fetchReport,
+  loadSalesReport,
+} from "../controllers/admin/salesController.js";
+import { fetchDashboardData, loadDashboard } from "../controllers/admin/dashboardController.js";
 
 const noCache = (req, res, next) => {
   res.setHeader("Cache-Control", "no-store");
@@ -54,13 +57,16 @@ const noCache = (req, res, next) => {
 
 const adminRouter = express.Router();
 
+
 adminRouter.use(noCache);
+
 //login routes
 adminRouter.get("/login", loadLogin);
 adminRouter.post("/login", isValidAdmin);
 
 //dashboard routes
 adminRouter.get("/dashboard", adminAuth, loadDashboard);
+adminRouter.get("/dashboard/fetchData", adminAuth, fetchDashboardData);
 
 //customers routes
 adminRouter.get("/customers", adminAuth, loadCustomer);
@@ -107,11 +113,9 @@ adminRouter.get("/coupons/:couponId", adminAuth, loadEditCoupon);
 adminRouter.get("/offers", adminAuth, loadOffer);
 adminRouter.post("/offers", adminAuth, createOffer);
 
-// Sales report route 
-adminRouter.get('/sales', adminAuth, loadSalesReport)
-adminRouter.get('/sales-report', adminAuth, fetchReport)
-
-
+// Sales report route
+adminRouter.get("/sales", adminAuth, loadSalesReport);
+adminRouter.get("/sales-report", adminAuth, fetchReport);
 
 // admin logout route
 adminRouter.get("/logout", logout);

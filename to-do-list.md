@@ -246,11 +246,11 @@ Update the order summary to display delivery charges dynamically.
 
 Admin Side
 
-Admin Dashboard - Chart with Filter: []
+Admin Dashboard - Chart with Filter: [x]
 Implement filters (yearly, monthly, custom range) to update the chart dynamically.
-Top 10 Best Selling Metrics: []
+Top 10 Best Selling Metrics: [x]
 
-Query the database for: []
+Query the database for: [x]
 Best-selling products, categories, and brands.
 Display these on the dashboard (table or chart format).
 

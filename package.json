@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apexcharts": "^4.0.0",
     "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "cloudinary": "^1.41.3",
@@ -21,8 +22,10 @@
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
+    "exceljs": "^4.4.0",
     "express": "^4.21.1",
     "express-session": "^1.18.1",
+    "kit": "^0.1.2",
     "mongoose": "^8.7.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
@@ -31,6 +34,8 @@
     "nodemon": "^3.1.7",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
+    "pdf": "^0.1.0",
+    "pdfkit": "^0.15.1",
     "razorpay": "^2.9.5",
     "session": "^0.1.0",
     "sweetalert2": "^11.6.13"

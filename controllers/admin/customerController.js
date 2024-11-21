@@ -1,13 +1,7 @@
 import Users from "../../models/userModel.js";
 
-//dashboard routes
-export const loadDashboard = (req, res) => {
-  if (!req.session.admin) {
-    return res.status(401).redirect('/admin/login'); 
-  }
-  res.render('admin/dashboard'); 
-};
 
+ 
 // customer management
 export const loadCustomer = async (req, res) => {
   try {
