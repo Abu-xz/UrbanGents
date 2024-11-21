@@ -61,8 +61,7 @@ import {
   removeCoupon,
   verifyPayment,
 } from "../controllers/user/checkoutController.js";
-import { downloadInvoice } from "../controllers/admin/orderController.js";
-// import { loadOrderDetails } from "../controllers/admin/ordercontroller.js";
+import { downloadInvoice } from "../controllers/admin/ordercontroller.js";
 
 const noCache = (req, res, next) => {
   res.setHeader("Cache-Control", "no-store");

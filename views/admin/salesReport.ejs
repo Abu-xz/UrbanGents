@@ -133,6 +133,7 @@
             </thead>
             <tbody>
                 <% if (typeof salesData !== 'undefined' && salesData) { %>
+                  
                     <tr>
                         <td class="border px-4 py-2">Total Sales Count</td>
                         <td id="totalSalesCount" class="border px-4 py-2"><%= salesData.totalSalesCount %></td>
@@ -163,11 +164,13 @@
         <!-- Download Buttons -->
         <div class="flex gap-4">
           <button
+            id="pdf-button"
             class="bg-green-600 text-white rounded-md px-4 py-2 hover:bg-green-700"
           >
             Download PDF
           </button>
           <button
+          id="excel-button"
             class="bg-yellow-600 text-white rounded-md px-4 py-2 hover:bg-yellow-700"
           >
             Download Excel

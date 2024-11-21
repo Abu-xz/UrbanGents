@@ -134,7 +134,7 @@ Implement Add to Cart and List Products in Cart.
 Control qty based on stock availability.
 Set maximum quantity per user for each product.
 
-October 29-30: Advanced Cart and Search Functionality [] ---------------//
+October 29-30: Advanced Cart and Search Functionality [x] ---------------//
 
 Out-of-Stock Handling: [x]
 Display/hide out-of-stock products with a filter toggle. [x]
@@ -143,7 +143,7 @@ Advanced Search and Sorting: [x]
 Implement search functionality with sorting:
 Popularity, Price (low-high, high-low), Average ratings, Featured, New Arrivals, A-Z, Z-A.
 
-October 31: Inventory, Checkout, and Order Placement [] ---------------//
+October 31: Inventory, Checkout, and Order Placement [x] ---------------//
 
 Inventory and Stock Management: [x]
 Manage stock levels and display them in listings and product details.
@@ -198,7 +198,7 @@ Admin Side - Offer Module [x]
 Develop the offer module (product, category, referral).
 Day 5: Friday
 
-Admin Side - Coupon [x] and Sales Report x[]
+Admin Side - Coupon [x] and Sales Report [x]
 Implement coupon management (create and delete coupons). [x]
 Start with basic sales report generation (daily, weekly, monthly).
 Add the ability to filter reports by date ranges.
@@ -209,14 +209,15 @@ Day 6: Saturday
 Admin Side - Advanced Sales Report Features [x]
 Show discounts and coupon deductions in the report.
 Calculate and display overall sales count, order amount, and discounts.
-Implement download functionality for the sales report (PDF, Excel).
+
+Implement download functionality for the sales report (PDF, Excel). [x]
 Pending Topics
-Resolve the issue of adding the same product with different sizes to the cart.
+Resolve the issue of adding the same product with different sizes to the cart. [x]
 Day 7: Sunday
 
 Final Touches and Testing
 Add the address form to the checkout page.
-Fix the product cancellation issue and add return functionality with expiry.
+Fix the product cancellation issue and add return functionality with expiry. []
 Add proper comments to all functions for better code maintainability.
 Make sure all features are bug-free and functional.
 Review the code and do a final polish.
@@ -227,7 +228,7 @@ Review the code and do a final polish.
 
 
 User Side
-Invoice Download (PDF): []
+Invoice Download (PDF): [x]
 
 Integrate a library like jsPDF or pdf make for generating invoices.
 Design the PDF format (order details, user info, total cost).
@@ -257,6 +258,7 @@ Display these on the dashboard (table or chart format).
 Day 2: Error Handling and Enhancements
 
 User Side
+
 Handle Failed Payments: []
 
 On payment failure, set the order status to "Payment Pending."

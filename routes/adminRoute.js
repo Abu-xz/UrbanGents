@@ -1,4 +1,5 @@
 import express from "express";
+
 import {
   loadLogin,
   isValidAdmin,
@@ -29,11 +30,6 @@ import {
 import upload from "../config/multer.js";
 import { adminAuth } from "../middleware/adminAuth.js";
 import {
-  loadOrderDetails,
-  loadOrders,
-  updateStatus,
-} from "../controllers/admin/orderController.js";
-import {
   addCoupon,
   deleteCoupon,
   editCoupon,
@@ -45,10 +41,16 @@ import {
   loadOffer,
 } from "../controllers/admin/offersController.js";
 import {
+  downloadSalesExcel,
+  downloadSalesPdf,
   fetchReport,
   loadSalesReport,
 } from "../controllers/admin/salesController.js";
-import { fetchDashboardData, loadDashboard } from "../controllers/admin/dashboardController.js";
+import {
+  fetchDashboardData,
+  loadDashboard,
+} from "../controllers/admin/dashboardController.js";
+import { loadOrderDetails, loadOrders, updateStatus } from "../controllers/admin/ordercontroller.js";
 
 const noCache = (req, res, next) => {
   res.setHeader("Cache-Control", "no-store");
@@ -56,7 +58,6 @@ const noCache = (req, res, next) => {
 };
 
 const adminRouter = express.Router();
-
 
 adminRouter.use(noCache);
 
@@ -116,6 +117,8 @@ adminRouter.post("/offers", adminAuth, createOffer);
 // Sales report route
 adminRouter.get("/sales", adminAuth, loadSalesReport);
 adminRouter.get("/sales-report", adminAuth, fetchReport);
+adminRouter.get("/sales-pdf", adminAuth, downloadSalesPdf);
+adminRouter.get("/sales-excel", adminAuth, downloadSalesExcel);
 
 // admin logout route
 adminRouter.get("/logout", logout);
