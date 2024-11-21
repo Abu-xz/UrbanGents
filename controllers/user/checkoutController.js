@@ -146,8 +146,6 @@ export const placeOrder = async (req, res) => {
                 variant.size
               }, new stock: ${variant.stock - product.quantity}`
             );
-          } else {
-            // console.log(`Variant not found for size: ${product.selectedSize}`);
           }
         }
       } catch (error) {
@@ -157,7 +155,6 @@ export const placeOrder = async (req, res) => {
 
     // Call the function to update stock
     updateStockOnOrder();
-    //clear cart items
     cart.items = [];
     cart.totalDiscount = 0;
     cart.totalPrice = 0;

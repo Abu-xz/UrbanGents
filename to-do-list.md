@@ -206,7 +206,7 @@ Pending Topics
 Check the resend timer functionality and debug if necessary.
 Day 6: Saturday
 
-Admin Side - Advanced Sales Report Features
+Admin Side - Advanced Sales Report Features [x]
 Show discounts and coupon deductions in the report.
 Calculate and display overall sales count, order amount, and discounts.
 Implement download functionality for the sales report (PDF, Excel).
@@ -220,3 +220,63 @@ Fix the product cancellation issue and add return functionality with expiry.
 Add proper comments to all functions for better code maintainability.
 Make sure all features are bug-free and functional.
 Review the code and do a final polish.
+
+
+
+//========================= Week 11 Project task ============================//
+
+
+User Side
+Invoice Download (PDF): []
+
+Integrate a library like jsPDF or pdf make for generating invoices.
+Design the PDF format (order details, user info, total cost).
+Ensure the download functionality works seamlessly from the "My Orders" page.
+Order Restriction for COD: []
+
+Add a backend validation to disallow COD for orders above Rs. 1000.
+Show a user-friendly error message when COD is selected for restricted orders.
+Delivery Charges: []
+
+Decide on the approach: []
+Fixed Charges: Define a static value in the backend.
+Location-based Charges: Use a lookup table or API for charges by location.
+Update the order summary to display delivery charges dynamically.
+Admin Side
+Admin Dashboard - Chart with Filter: []
+
+Use Chart.js or High charts for the chart.
+Implement filters (yearly, monthly, custom range) to update the chart dynamically.
+Top 10 Best Selling Metrics: []
+
+Query the database for: []
+Best-selling products, categories, and brands.
+Display these on the dashboard (table or chart format).
+Day 2: Error Handling and Enhancements
+User Side
+Handle Failed Payments: []
+
+On payment failure, set the order status to "Payment Pending."
+Log the failed transaction in the database for future reference.
+Continue Payment for Failed Orders: []
+
+Add a "Retry Payment" button on the "My Orders" page.
+On click, redirect users to the payment gateway with the pending order details.
+Admin Side
+Generate Ledger Book (Optional): []
+Create a ledger view summarizing transactions.
+Use a library like excel js or pdf make to enable downloads in PDF or Excel format.
+Day 3: Testing and Final Touches
+Thorough Testing: []
+
+Test all user-side features, especially payment failure handling, COD restriction, and invoice download.
+Ensure the admin dashboard displays accurate data.
+Code Cleanup and Documentation:
+
+Add proper comments for all new functions and modules.
+Ensure consistent code formatting and remove any unused code.
+Team Review:
+
+If working in a team, have peers review the new functionalities for feedback.
+
+
