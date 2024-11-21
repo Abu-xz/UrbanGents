@@ -74,7 +74,7 @@ export const fetchReport = async (req, res ) => {
         ]);
     
         if (!salesData.length) {
-            return res.status(404).json({ success: false, message: 'No sales data found for the selected criteria.' });
+            return res.status(200).json({ success: false, message: 'No sales data found for the selected criteria.' });
         }
         console.log(salesData)
         res.status(200).json({ success: true, salesData: salesData[0]});

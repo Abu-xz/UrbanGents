@@ -232,27 +232,30 @@ Invoice Download (PDF): []
 Integrate a library like jsPDF or pdf make for generating invoices.
 Design the PDF format (order details, user info, total cost).
 Ensure the download functionality works seamlessly from the "My Orders" page.
-Order Restriction for COD: []
 
+Order Restriction for COD: [x]
 Add a backend validation to disallow COD for orders above Rs. 1000.
 Show a user-friendly error message when COD is selected for restricted orders.
-Delivery Charges: []
 
+Delivery Charges: [] (optional)
 Decide on the approach: []
 Fixed Charges: Define a static value in the backend.
 Location-based Charges: Use a lookup table or API for charges by location.
 Update the order summary to display delivery charges dynamically.
-Admin Side
-Admin Dashboard - Chart with Filter: []
 
-Use Chart.js or High charts for the chart.
+
+Admin Side
+
+Admin Dashboard - Chart with Filter: []
 Implement filters (yearly, monthly, custom range) to update the chart dynamically.
 Top 10 Best Selling Metrics: []
 
 Query the database for: []
 Best-selling products, categories, and brands.
 Display these on the dashboard (table or chart format).
+
 Day 2: Error Handling and Enhancements
+
 User Side
 Handle Failed Payments: []
 
