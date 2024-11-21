@@ -1,6 +1,5 @@
 import Order from "../../models/orderModel.js";
 import Users from "../../models/userModel.js";
-import { loadOrders } from "./orderController.js";
 
 //dashboard routes
 export const loadDashboard = (req, res) => {
@@ -18,7 +17,7 @@ export const fetchDashboardData = async (req, res) => {
     console.log(filter)
     let filterCondition = {};
 
-   
+    // Dynamically adjust date filtering based on the selected filter
     if (filter === "daily") {
       filterCondition.createdAt = { $gte: new Date().setHours(0, 0, 0, 0) };
     } else if (filter === "monthly") {
