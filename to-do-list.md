@@ -181,7 +181,7 @@ Pending Topics
 Add pagination for product listing and all grids.
 Day 3: Wednesday
 
-User Side - Coupon [x] and Wishlist Management []
+User Side - Coupon [x] and Wishlist Management [x]
 Implement apply and remove coupon functionality. [x]
 Create the wishlist feature (add and remove items).
 Test the coupon management to ensure discounts are applied correctly.
@@ -198,7 +198,7 @@ Admin Side - Offer Module [x]
 Develop the offer module (product, category, referral).
 Day 5: Friday
 
-Admin Side - Coupon [x] and Sales Report []
+Admin Side - Coupon [x] and Sales Report x[]
 Implement coupon management (create and delete coupons). [x]
 Start with basic sales report generation (daily, weekly, monthly).
 Add the ability to filter reports by date ranges.
