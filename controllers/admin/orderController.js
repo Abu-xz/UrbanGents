@@ -11,7 +11,7 @@ export const loadOrders = async (req, res) => {
     if (!orders) {
       res.status(404).render("admin/order", { success: false }); //create a sweet alert for this
     }
-    console.log(orders);
+    // console.log(orders);
     res.status(200).render("admin/order", { orders });
   } catch (error) {
     console.log(error);
@@ -58,7 +58,7 @@ export const updateStatus = async (req, res) => {
 
     // Finding the item in the order by its item ID
     const item = order.items.find((item) => item._id.equals(itemId));
-    //   console.log(item);
+      console.log(item);
 
     if (!item) {
       return res
@@ -73,6 +73,7 @@ export const updateStatus = async (req, res) => {
         message: "No change detected in the order status",
       });
     }
+    
 
     const statusOrder = [
       "pending",
@@ -93,6 +94,9 @@ export const updateStatus = async (req, res) => {
 
     // Updating the item's status
     item.status = newStatus;
+    if(newStatus === 'delivered'){
+      order.paymentStatus = "paid"
+    }
 
     // Saving the updated order
     await order.save();
