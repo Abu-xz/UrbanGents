@@ -32,7 +32,7 @@ import {
   loadOrderDetails,
   loadOrders,
   updateStatus,
-} from "../controllers/admin/orderController.js";
+} from "../controllers/admin/ordercontroller.js";
 import {
   addCoupon,
   deleteCoupon,

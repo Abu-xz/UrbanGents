@@ -355,8 +355,15 @@ export const orderDetails = async (req, res) => {
     if (!orderDetails) {
       return res.status(404).redirect("/user/profile/orders");
     }
+    console.log(orderDetails);
+    let displayInvoice = false;
+    displayInvoice = orderDetails.items.every(item => item.status === 'delivered');
+    console.log(displayInvoice);
+    if(orderDetails.paymentStatus !== 'paid'){
+      displayInvoice = false
+    }
 
-    res.status(200).render("user/userOrderDetails", { orderDetails });
+    res.status(200).render("user/userOrderDetails", { orderDetails, displayInvoice });
   } catch (error) {
     console.log(error);
   }
