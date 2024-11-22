@@ -30,6 +30,11 @@ import {
 import upload from "../config/multer.js";
 import { adminAuth } from "../middleware/adminAuth.js";
 import {
+  loadOrderDetails,
+  loadOrders,
+  updateStatus,
+} from "../controllers/admin/ordercontroller.js";
+import {
   addCoupon,
   deleteCoupon,
   editCoupon,
