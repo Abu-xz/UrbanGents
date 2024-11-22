@@ -13,22 +13,11 @@ returnButtons.forEach((button) => {
         title: 'Return Order',
         text: 'Are you sure you want to return this order?',
         icon: 'warning',
-        input: 'text',
-        inputLabel: 'Reason for Return',
-        inputPlaceholder: 'Write your reason here...',
         showCancelButton: true,
         confirmButtonText: 'Yes, return it',
         cancelButtonText: 'Cancel',
-        inputValidator: (value) => {
-          if (!value) {
-            return 'You need to write a reason for the return!';
-          }
-        }
       }).then((result) => { 
         if (result.isConfirmed) {
-          // If the user confirms and provides a reason, proceed with the return
-          const reason = result.value;
-          console.log('Return confirmed with reason:', reason);
           axios.put("/admin/orders",{itemId, newStatus, orderId })
               .then(response => {
                 console.log('hhe')

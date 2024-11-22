@@ -13,7 +13,7 @@
   <body class="bg-gray-100 pr-8">
     <div class="flex ">
      <!-- Sidebar -->
-     <aside class="w-1/5 bg-white p-6 shadow-lg">
+     <aside class="w-1/5 bg-white p-6 shadow-lg min-h-screen">
         <div class="fixed flex flex-col">
           <div class=" text-2xl font-bold mb-10 pr-5">Admin Dashboard</div>
     
@@ -78,8 +78,10 @@
                   <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                <% orders.forEach(order => { %>
+              <% if(orders.length !== 0) { %>
+
+                <tbody>
+                  <% orders.forEach(order => { %>
                   <% const itemCount = order.items.length; %> <!-- Get the number of items -->
                   <% order.items.forEach((item, index) => { %>
                     <tr class="border-b ">
@@ -116,13 +118,22 @@
                   <% }); %>
                 <% }); %>
               </tbody>
+              <% } else {%>
+                <tbody class="">
+                  <tr>
+                    <td class="text-center">No order </td>
+                    <td class="text-center">No Customer </td>
+                    <td class="text-center">No items </td>
+                    <td class="text-center">No status </td>
+                    <td class="text-center">No actions </td>
+                  </tr>
+                </tbody>
+                <% } %>
             </table>
           </div>
+
           
-          
-    <% } %>
-  
-    </div>
+    <% }%>
 
   
    

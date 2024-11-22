@@ -4,9 +4,9 @@ import ExcelJS from "exceljs";
 
 export const loadSalesReport = async (req, res) => {
   try {
-    console.log("hai");
 
     let matchCriteria = {};
+
 
     matchCriteria.createdAt = {
       $gte: new Date(new Date().setHours(0, 0, 0, 0)),
