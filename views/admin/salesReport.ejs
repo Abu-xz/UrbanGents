@@ -147,11 +147,6 @@
                         <% const totalDiscount = salesData.totalDiscount; %>
                         <td id="totalDiscount" class="border px-4 py-2"><%= totalDiscount %></td>
                     </tr>
-                    <tr>
-                        <td class="border px-4 py-2">Total Coupons Deduction</td>
-                        <% const totalCouponAmount = ((salesData.totalOrderAmount * salesData.totalCouponsDeduction) / 100).toFixed(2); %>
-                        <td id="totalCouponAmount" class="border px-4 py-2"><%= totalCouponAmount %></td>
-                    </tr>
                 <% } else { %>
                     <tr>
                         <td class="border px-4 py-2" colspan="2">No sales data available.</td>

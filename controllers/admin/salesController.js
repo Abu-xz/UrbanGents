@@ -21,7 +21,6 @@ export const loadSalesReport = async (req, res) => {
           totalSalesCount: { $sum: 1 },
           totalOrderAmount: { $sum: "$totalPrice" }, // Total price of all orders
           totalDiscount: { $sum: "$totalDiscount" }, // Total discount applied to all orders
-          totalCouponsDeduction: { $sum: "$couponDiscount" }, // Total amount deducted using coupons
         },
       },
     ]);
@@ -83,7 +82,6 @@ export const fetchReport = async (req, res) => {
           totalSalesCount: { $sum: 1 },
           totalOrderAmount: { $sum: "$totalPrice" }, // Total price of all orders
           totalDiscount: { $sum: "$totalDiscount" }, // Total discount applied to all orders
-          totalCouponsDeduction: { $sum: "$couponDiscount" }, // Total amount deducted using coupons
         },
       },
     ]);
@@ -112,8 +110,8 @@ export const downloadSalesPdf = async (req, res) => {
       totalSalesCount,
       totalOrderAmount,
       totalDiscount,
-      totalCouponAmount,
     } = req.query;
+    console.log(req.query)
 
     const doc = new PDFDocument();
 
@@ -153,13 +151,6 @@ export const downloadSalesPdf = async (req, res) => {
       .font("Helvetica-Bold")
       .text(` ${totalDiscount}`, { align: "right" });
 
-    doc
-      .fontSize(12)
-      .font("Helvetica")
-      .text(`Total Coupon Amount:`, { continued: true })
-      .font("Helvetica-Bold")
-      .text(` ${totalCouponAmount}`, { align: "right" });
-
     doc.moveDown();
 
     doc
@@ -183,7 +174,6 @@ export const downloadSalesExcel = async (req, res) => {
       totalSalesCount,
       totalOrderAmount,
       totalDiscount,
-      totalCouponAmount,
     } = req.query;
     // Create a new workbook and worksheet
     const workbook = new ExcelJS.Workbook();
@@ -217,7 +207,6 @@ export const downloadSalesExcel = async (req, res) => {
       ["Total Sales Count", totalSalesCount],
       ["Total Order Amount", `₹${totalOrderAmount}`],
       ["Total Discount", `₹${totalDiscount}`],
-      ["Total Coupon Amount", `₹${totalCouponAmount}`],
     ];
 
     rows.forEach((row, index) => {

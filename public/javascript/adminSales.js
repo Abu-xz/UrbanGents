@@ -1,23 +1,11 @@
 const generateBtn = document.getElementById("generate-button");
 const downloadPdfButton = document.getElementById("pdf-button");
 const downloadExcelButton = document.getElementById("excel-button");
-const totalSalesCount = document.getElementById("totalSalesCount").textContent||0
-const totalOrderAmount = document.getElementById("totalOrderAmount").textContent || 0
-const totalDiscount  = document.getElementById("totalDiscount").textContent || 0
-const totalCouponAmount  = document.getElementById("totalCouponAmount").textContent || 0
-
-
-
-downloadPdfButton.addEventListener("click", () => {
-    console.log("pdf button clicked");
-    window.location.href = `/admin/sales-pdf?totalSalesCount=${totalSalesCount}&totalOrderAmount=${totalOrderAmount}&totalDiscount=${totalDiscount}&totalCouponAmount=${totalCouponAmount}`;
-  });
-  
-  downloadExcelButton.addEventListener("click", () => {
-    console.log("excel button clicked");
-    window.location.href = `/admin/sales-excel?totalSalesCount=${totalSalesCount}&totalOrderAmount=${totalOrderAmount}&totalDiscount=${totalDiscount}&totalCouponAmount=${totalCouponAmount}`;
-  });
-
+const totalSalesCount =
+  document.getElementById("totalSalesCount").textContent || 0;
+const totalOrderAmount =
+  document.getElementById("totalOrderAmount").textContent || 0;
+const totalDiscount = document.getElementById("totalDiscount").textContent || 0;
 
 console.log("fetch report ");
 async function fetchSalesReport() {
@@ -39,19 +27,12 @@ async function fetchSalesReport() {
     if (data.success) {
       console.log(data);
       const salesData = data.salesData;
-      document.getElementById("totalSalesCount").innerText =
+      document.getElementById("totalSalesCount").textContent =
         salesData.totalSalesCount;
-      document.getElementById("totalOrderAmount").innerText =
+      document.getElementById("totalOrderAmount").textContent =
         salesData.totalOrderAmount;
-      document.getElementById("totalDiscount").innerText =
+      document.getElementById("totalDiscount").textContent =
         salesData.totalDiscount;
-
-      const totalCouponAmount = (
-        (salesData.totalOrderAmount * salesData.totalCouponsDeduction) /
-        100
-      ).toFixed(2);
-      document.getElementById("totalCouponAmount").innerText =
-        totalCouponAmount;
       Swal.fire({
         title: "Report Generated!",
         text: "Sales report has been successfully fetched.",
@@ -78,8 +59,29 @@ async function fetchSalesReport() {
   }
 }
 
-
 generateBtn.addEventListener("click", fetchSalesReport);
 
+downloadPdfButton.addEventListener("click", () => {
+  const totalSalesCount =
+    document.getElementById("totalSalesCount").textContent || 0;
+  const totalOrderAmount =
+    document.getElementById("totalOrderAmount").textContent || 0;
+  const totalDiscount =
+    document.getElementById("totalDiscount").textContent || 0;
+  console.log("pdf button clicked");
+  console.log(totalDiscount, totalOrderAmount, totalSalesCount)
 
+  window.location.href = `/admin/sales-pdf?totalSalesCount=${totalSalesCount}&totalOrderAmount=${totalOrderAmount}&totalDiscount=${totalDiscount}`;
+});
 
+downloadExcelButton.addEventListener("click", () => {
+  const totalSalesCount =
+    document.getElementById("totalSalesCount").textContent || 0;
+  const totalOrderAmount =
+    document.getElementById("totalOrderAmount").textContent || 0;
+  const totalDiscount =
+    document.getElementById("totalDiscount").textContent || 0;
+  console.log("excel button clicked");
+  console.log(totalDiscount, totalOrderAmount, totalSalesCount)
+  window.location.href = `/admin/sales-excel?totalSalesCount=${totalSalesCount}&totalOrderAmount=${totalOrderAmount}&totalDiscount=${totalDiscount}`;
+});

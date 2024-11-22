@@ -119,7 +119,7 @@ export const downloadInvoice = async (req, res) => {
     console.log(orderId);
     
 
-    const order = await Order.findById(orderId)
+    const order = await Order.findById(orderId).populate('customerId').populate('items.productId')
     if (!order) {
       res.status(404).json("Order not found!");
     }
@@ -139,7 +139,7 @@ export const downloadInvoice = async (req, res) => {
     doc.moveDown();
     
     doc.fontSize(14).font('Helvetica-Bold').text('Customer Details:');
-    doc.fontSize(12).font('Helvetica').text(`Name: ${order.firstName} ${order.lastName}`);
+    doc.fontSize(12).font('Helvetica').text(`Name: ${order.address.firstName} ${order.address.lastName}`);
     doc.text(`Phone: ${order.address.number}`);
     doc.text(`Address: ${order.address.address}`);
     doc.moveDown();
