@@ -348,14 +348,15 @@ export const orderDetails = async (req, res) => {
   try {
     console.log("User order details page reached");
     const orderId = req.query.orderId;
-    console.log(orderId);
     const orderDetails = await Order.findById(orderId).populate(
       "items.productId"
     );
     if (!orderDetails) {
       return res.status(404).redirect("/user/profile/orders");
     }
+    
 
+    console.log(orderDetails)
     res.status(200).render("user/userOrderDetails", { orderDetails });
   } catch (error) {
     console.log(error);

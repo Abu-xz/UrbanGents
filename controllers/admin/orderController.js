@@ -6,7 +6,8 @@ export const loadOrders = async (req, res) => {
     console.log("Order page request received");
     const orders = await Order.find()
       .populate("customerId")
-      .populate("items.productId");
+      .populate("items.productId")
+      .sort({ createdAt: -1 });
     if (!orders) {
       res.status(404).render("admin/order", { success: false }); //create a sweet alert for this
     }
@@ -110,20 +111,20 @@ export const updateStatus = async (req, res) => {
   }
 };
 
-
 //invoice download here
 export const downloadInvoice = async (req, res) => {
   try {
     console.log("invoice download route reached");
     const { orderId } = req.query;
     console.log(orderId);
-    
 
-    const order = await Order.findById(orderId).populate('customerId').populate('items.productId')
+    const order = await Order.findById(orderId)
+      .populate("customerId")
+      .populate("items.productId");
     if (!order) {
       res.status(404).json("Order not found!");
     }
-    console.log(order)
+    console.log(order);
     const doc = new PdfDocument();
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", 'attachment; filename="invoice.pdf"');
@@ -131,43 +132,63 @@ export const downloadInvoice = async (req, res) => {
     // Pipe the PDF document to the response
     doc.pipe(res);
 
-    doc.fontSize(18).font('Helvetica-Bold').text(`Invoice for Order #${orderId}`, { align: 'center' });
+    doc
+      .fontSize(18)
+      .font("Helvetica-Bold")
+      .text(`Invoice for Order #${orderId}`, { align: "center" });
     doc.moveDown();
-    
-    doc.fontSize(12).font('Helvetica').text(`Order Date: ${new Date(order.createdAt).toLocaleDateString()}`);
+
+    doc
+      .fontSize(12)
+      .font("Helvetica")
+      .text(`Order Date: ${new Date(order.createdAt).toLocaleDateString()}`);
     doc.text(`Invoice Date: ${new Date().toLocaleDateString()}`);
     doc.moveDown();
-    
-    doc.fontSize(14).font('Helvetica-Bold').text('Customer Details:');
-    doc.fontSize(12).font('Helvetica').text(`Name: ${order.address.firstName} ${order.address.lastName}`);
+
+    doc.fontSize(14).font("Helvetica-Bold").text("Customer Details:");
+    doc
+      .fontSize(12)
+      .font("Helvetica")
+      .text(`Name: ${order.address.firstName} ${order.address.lastName}`);
     doc.text(`Phone: ${order.address.number}`);
     doc.text(`Address: ${order.address.address}`);
     doc.moveDown();
-    
-    doc.fontSize(14).font('Helvetica-Bold').text('Items Purchased:');
+
+    doc.fontSize(14).font("Helvetica-Bold").text("Items Purchased:");
     doc.moveDown(0.5);
-    
+
     // Add a table-like structure for items
     order.items.forEach((item, index) => {
-        doc.fontSize(12).font('Helvetica').text(`${index + 1}. ${item.productId.productName} - Qty: ${item.quantity} - Price: RS ${item.subDiscount}`);
+      doc
+        .fontSize(12)
+        .font("Helvetica")
+        .text(
+          `${index + 1}. ${item.productId.productName} - Qty: ${
+            item.quantity
+          } - Price: RS ${item.subDiscount}`
+        );
     });
-    
+
     doc.moveDown();
-    
-    if(order.couponApplied){
-      doc.fontSize(14).text(`Applied coupon : "${order.couponApplied}"`)
-      doc.fontSize(14).text(`Applied coupon : ${order.couponDiscount}%`)
+
+    if (order.couponApplied) {
+      doc.fontSize(14).text(`Applied coupon : "${order.couponApplied}"`);
+      doc.fontSize(14).text(`Applied coupon : ${order.couponDiscount}%`);
     }
     doc.moveDown();
 
-    doc.text(`Total: RS ${order.totalDiscount}`, { align: 'right' });
+    doc.text(`Total: RS ${order.totalDiscount}`, { align: "right" });
     doc.moveDown();
-    
-    doc.fontSize(10).font('Helvetica').text('Thank you for your purchase!', { align: 'center' });
-    doc.text('If you have any questions regarding this invoice, please contact our support team.', { align: 'center' });
-    
 
-   
+    doc
+      .fontSize(10)
+      .font("Helvetica")
+      .text("Thank you for your purchase!", { align: "center" });
+    doc.text(
+      "If you have any questions regarding this invoice, please contact our support team.",
+      { align: "center" }
+    );
+
     // Finalize the PDF and send it to the client
     doc.end();
   } catch (error) {}
