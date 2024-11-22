@@ -110,6 +110,7 @@ admin side product edit image add button set debouncing []
 
 
 [IMP]
+all product page pagination []
 Add return with an expiry []
 landing page []
 create 404 page []
