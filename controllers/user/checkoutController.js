@@ -422,13 +422,11 @@ export const applyCoupon = async (req, res) => {
     await cart.save();
     coupon.usageLimit = coupon.usageLimit - 1;
     await coupon.save();
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Coupon applied successfully!",
-        discount: coupon.discountPercentage,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Coupon applied successfully!",
+      discount: coupon.discountPercentage,
+    });
   } catch (error) {
     console.error("Error verifying payment:", error);
   }
@@ -436,7 +434,8 @@ export const applyCoupon = async (req, res) => {
 
 export const removeCoupon = async (req, res) => {
   const { cartId } = req.body;
-
+  console.log('remove coupon route reached')
+  // console.log(couponId)
   try {
     const cart = await Cart.findById(cartId);
     if (!cart) {
@@ -444,10 +443,18 @@ export const removeCoupon = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Cart not found" });
     }
-
+    const coupon = await Coupon.findOne({code: cart.couponApplied});
+    if (!coupon) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Coupon not found." });
+    }
+    console.log(coupon)
     cart.couponDiscount = null;
     cart.couponApplied = "";
+    coupon.usageLimit += 1;
 
+    await coupon.save();
     await cart.save();
     console.log(cart);
     res.json({ success: true, message: "Coupon removed successfully" });

@@ -321,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Apply coupon logic
   applyBtn.addEventListener('click', () => {
-    const selectedValue = couponSelect.value;
+    let selectedValue = couponSelect.value;
     const cartId = couponSelect.getAttribute('data-cartId');
 
     if (selectedValue && cartId) {
@@ -387,16 +387,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Remove coupon logic
   removeBtn.addEventListener('click', () => {
     const cartId = couponSelect.getAttribute('data-cartId');
-
+    console.log(selectedCoupon)
     if (cartId) {
-      // Show a SweetAlert loading message
-
-
       // Make an API call to remove the coupon
-      axios.post('/user/checkout/remove-coupon', { cartId })
+      axios.post('/user/checkout/remove-coupon', { cartId, })
         .then(response => {
           if (response.data.success) {
-            // Show success message
+            // Show success message 
             Swal.fire({
               title: 'Success!',
               text: 'Coupon removed successfully!',
