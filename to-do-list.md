@@ -260,11 +260,11 @@ Day 2: Error Handling and Enhancements
 
 User Side
 
-Handle Failed Payments: []
+Handle Failed Payments: [x]
 
 On payment failure, set the order status to "Payment Pending."
 Log the failed transaction in the database for future reference.
-Continue Payment for Failed Orders: []
+Continue Payment for Failed Orders: [x]
 
 Add a "Retry Payment" button on the "My Orders" page.
 On click, redirect users to the payment gateway with the pending order details.

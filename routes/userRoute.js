@@ -74,6 +74,8 @@ const noCache = (req, res, next) => {
 const userRouter = express.Router();
 
 userRouter.use(noCache);
+
+
 //signup routes management
 userRouter.get("/signup", isUser, loadSignup);
 userRouter.post("/signup", isUser, userSignup);
@@ -82,9 +84,9 @@ userRouter.post("/signup", isUser, userSignup);
 userRouter.get("/logout", logout);
 
 // OTP route management
-userRouter.get("/otp", loadOtp);
-userRouter.post("/otp", verifyOtp);
-userRouter.get("/resendOtp", resendOtp);
+userRouter.get("/otp", isUser, loadOtp);
+userRouter.post("/otp", isUser, verifyOtp);
+userRouter.get("/resendOtp", isUser, resendOtp);
 
 // login routes
 userRouter.get("/login", isUser, loadLogin);
@@ -109,7 +111,7 @@ userRouter.get("/home", userAuth, loadHome);
 userRouter.get("/all-products", userAuth, loadAllProduct);
 
 // Individual product routes
-userRouter.get("/product-details/:productId", loadProductDetails);
+userRouter.get("/product-details/:productId",userAuth, loadProductDetails);
 
 // Profile page
 userRouter.get("/profile", userAuth, loadProfile);

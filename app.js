@@ -12,6 +12,8 @@ import userRouter from "./routes/userRoute.js";
 import passport from "passport";
 import Users from "./models/userModel.js";
 import pkg from "passport-google-oauth20";
+import { userAuth } from "./middleware/userAuth.js";
+import Product from "./models/productModel.js";
 
 
 
@@ -127,6 +129,18 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 
+app.get('/', async (req, res ) => {
+  try {
+      // console.log(req.session.user);
+      const product = await Product.find({isActive:true, isDeleted: false,}).limit(8)
+      const spotlight = await Product.find({isActive:true, isDeleted: false, }).limit(3);
+      // console.log('user home route reached and get product details')
+      res.status(200).render('user/landing', {product, spotlight});
+  } catch (error) {
+      console.log(error);
+  }
+
+});
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
 
