@@ -6,10 +6,7 @@ import Users from "../../models/userModel.js";
 import crypto from "crypto";
 import Razorpay from "razorpay";
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZOR_KEY_ID,
-  key_secret: process.env.RAZOR_SECRET_ID,
-}); //continue here
+
 
 export const loadCheckout = async (req, res) => {
   try {
@@ -204,6 +201,8 @@ export const loadOrderPlaced = async (req, res) => {
   }
 };
 
+
+// Razorpay route here
 export const createRazorPayOrder = async (req, res) => {
   console.log("create razor pay route reached");
   const userData = req.session.user.email || req.session.user;
@@ -233,6 +232,11 @@ export const createRazorPayOrder = async (req, res) => {
       currency: "INR",
       receipt: "receipt_" + Date.now(),
     };
+
+    const razorpay = new Razorpay({
+      key_id: process.env.RAZOR_KEY_ID,
+      key_secret: process.env.RAZOR_SECRET_ID,
+    }); //continue here
 
     const order = await razorpay.orders.create(orderOptions);
     console.log("order after order creation ", order);
@@ -461,5 +465,92 @@ export const removeCoupon = async (req, res) => {
   } catch (error) {
     console.error("Error removing coupon:", error);
     res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
+//Failed Razorpay route here
+export const failedRazorPayOrder = async (req, res) => {
+  const {amount} = req.body
+    
+  const razorpayNewInstance = new Razorpay({
+    key_id: process.env.RAZOR_KEY_ID,
+    key_secret: process.env.RAZOR_SECRET_ID,
+  }); //continue here
+  // console.log("Failed create razor pay route reached");
+  // const userData = req.session.user.email || req.session.user;
+  // const user = await Users.findOne({
+  //   $or: [{ email: userData }, { googleId: userData }],
+  // });
+
+  // if (!user) {
+  //   return res.status(500).json({ success: false, message: "User not found!" });
+  // }
+  // // console.log(user)
+  // const cartItems = await Cart.findOne({ userId: user._id });
+  // console.log(cartItems);
+  // if (cartItems.couponDiscount) {
+  //   cartItems.totalDiscount = (
+  //     cartItems.totalDiscount -
+  //     (cartItems.totalDiscount * cartItems.couponDiscount) / 100
+  //   ).toFixed();
+  // }
+  // const amount = cartItems.totalDiscount;
+  // console.log("total in cartItems", amount);
+  // console.log("cartItems in razor pay", cartItems);
+
+  try {
+    const orderOptions = {
+      amount: amount * 100, // Amount in smallest currency unit (e.g., 1000 for ₹10)
+      currency: "INR",
+      receipt: "receipt_" + Date.now(),
+    };
+
+    const order = await razorpayNewInstance.orders.create(orderOptions);
+    console.log("order after order creation ", order);
+    if (!order) {
+      throw new Error("Failed to create Razorpay order");
+    }
+    return res.json({ order });
+  } catch (error) {
+    console.error("Error creating Razorpay order:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to create Razorpay order." });
+  }
+};
+
+
+
+export const FailedVerifyPayment = async (req, res) => {
+  console.log("Failed verify payment working");
+
+  const { paymentId, orderId, signature, id } = req.body;
+  console.log(req.body)
+
+  try {
+    // Verifying the signature
+    const hmac = crypto.createHmac("sha256", "bcOjtnHN19lrbqBWdS35Ee7J");
+    hmac.update(orderId + "|" + paymentId);
+    const generatedSignature = hmac.digest("hex");
+
+    if (generatedSignature !== signature) {
+      return res.json({ success: false });
+    };
+
+    const order = await Order.findById(id);
+    order.paymentStatus = 'paid';
+    await order.save();
+    
+    res.status(200).json({
+      success: true,
+      message: "Order placed successfully",
+      
+    });
+  } catch (error) {
+    console.error("Error verifying payment:", error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Failed to verify payment." });
   }
 };

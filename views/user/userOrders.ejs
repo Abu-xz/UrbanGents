@@ -135,7 +135,7 @@
             <% orders.forEach(order => { %>
                 <% order.items.forEach(item => { %>
             <!-- Order Items in Grid -->
-              <div id="order-items" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6">
+              <div id="order-items" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 my-2">
                   <!-- Order Item -->
                   <div class="order-item bg-white shadow-lg rounded-lg p-6 flex items-center justify-between">
                     <div class="flex items-center space-x-4">
@@ -176,9 +176,9 @@
                     <div class="flex space-x-4 justify-end">
                       <!-- Return & Cancel Button -->
                        <% if(item.status === 'delivered' && item.status !== 'returned') { %>
-                        <div class="order-actions text-right">
-                          <button class="return-button w-full bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400" data-itemId="<%=item._id%>" data-orderId="<%=order._id%>">Return</button>
-                        </div>
+                          <div class="order-actions text-right">
+                            <button class="return-button w-full bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400" data-itemId="<%=item._id%>" data-orderId="<%=order._id%>">Return</button>
+                          </div>
                         <% } else if(item.status !== 'returned' && item.status !== 'delivered' && item.status !== 'cancelled'){ %>
                           <div class="order-actions text-right">
                             <button class="cancel-button w-full bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400" data-itemId="<%=item._id%>" data-orderId="<%=order._id%>">Cancel</button>
@@ -190,8 +190,8 @@
                       </div>
                     </div>
                   </div>
+                </div>
                 <% }) %>
-              </div>
             <% }) %>
           <% } else { %>
             <p class="text-center text-gray-600">No orders found.</p>

@@ -357,7 +357,7 @@ export const orderDetails = async (req, res) => {
     console.log(orderDetails);
     let displayInvoice = false;
     displayInvoice = orderDetails.items.every(item => item.status === 'delivered');
-    console.log(displayInvoice);
+    // console.log(displayInvoice);
     if(orderDetails.paymentStatus !== 'paid'){
       displayInvoice = false
     }

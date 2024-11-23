@@ -55,6 +55,8 @@ import {
 import {
   applyCoupon,
   createRazorPayOrder,
+  failedRazorPayOrder,
+  FailedVerifyPayment,
   loadCheckout,
   loadOrderPlaced,
   placeOrder,
@@ -156,6 +158,8 @@ userRouter.post("/checkout/remove-coupon", userAuth, removeCoupon);
 //razorpay route
 userRouter.post("/createRazorpay", userAuth, createRazorPayOrder);
 userRouter.post("/verifyPayment", userAuth, verifyPayment);
+userRouter.post('/payment-failed/createRazorpay', userAuth, failedRazorPayOrder)
+userRouter.post('/payment-failed/verifyPayment', userAuth, FailedVerifyPayment)
 
 // load place order page
 userRouter.get("/order-placed", loadOrderPlaced);

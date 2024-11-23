@@ -32,9 +32,6 @@ checkoutBtn.addEventListener("click", (e) => {
   }
   const payment = paymentMethod.getAttribute("id");
 
-  console.log(payment);
-  console.log(addressId);
-
   if (payment === "razorpay") {
     console.log("route in");
     // Handle Razorpay payment flow
@@ -42,7 +39,7 @@ checkoutBtn.addEventListener("click", (e) => {
       .post("/user/createRazorpay")
       .then((response) => {
         //here order is the response
-        console.log(`data -- ${response.data.order}`);
+        console.log(JSON.stringify(response.data.order));
         if (response.data.order) {
           const options = {
             key: "rzp_test_KDYrLJHnu3O9Ip", // Razorpay key ID
@@ -52,15 +49,17 @@ checkoutBtn.addEventListener("click", (e) => {
             description: "Order Payment",
             order_id: response.data.order.id,
             handler: async function (response) {
-              // Handle successful payment
-              console.log("response", response);
+              // Successful payment handler
+              console.log("Payment successful:", response);
               await Swal.fire({
                 icon: "success",
-                title: "Payment successful!",
+                title: "Payment Successful!",
                 text: `Payment ID: ${response.razorpay_payment_id}`,
                 showConfirmButton: true,
               });
-              // Send payment confirmation to backend
+
+              // Send payment confirmation to the backend
+              console.log(JSON.stringify(response))
               axios
                 .post("/user/verifyPayment", {
                   addressId: addressId,
@@ -69,9 +68,9 @@ checkoutBtn.addEventListener("click", (e) => {
                   paymentId: response.razorpay_payment_id,
                   signature: response.razorpay_signature,
                 })
-                .then((response) => {
-                  if (response.data.success) {
-                    window.location.href = `/user/order-placed?orderId=${response.data.orderId}`;
+                .then((res) => {
+                  if (res.data.success) {
+                    window.location.href = `/user/order-placed?orderId=${res.data.orderId}`;
                   } else {
                     Swal.fire({
                       icon: "error",
@@ -89,9 +88,55 @@ checkoutBtn.addEventListener("click", (e) => {
             theme: {
               color: "#FF8C00",
             },
+            modal: {
+              ondismiss: function () {
+                console.log("Checkout form closed by the user.");
+              },
+            },
           };
 
           const razorpay = new Razorpay(options);
+
+          razorpay.on("payment.failed", function (response) {
+            console.log("Payment failed:", response);
+            Swal.fire({
+              icon: "error",
+              title: "Payment Failed",
+              text: `Reason: ${response.error.description}`,
+              showConfirmButton: true,
+            });
+
+            //  failure to the backend
+            axios
+              .post("/user/checkout", {
+                addressId,
+                payment,
+              })
+              .then((response) => {
+                if (response.data.success) {
+                  window.location.href = `/user/order-placed?orderId=${response.data.orderId}`;
+                } else {
+                  Swal.fire({
+                    text:
+                      response.data.message ||
+                      "Error while place order. please try again",
+                    title: "Out Of Stock",
+                    icon: "warning",
+                  });
+                }
+              })
+              .catch((error) => {
+                Swal.fire({
+                  text:
+                    error.response.data.message ||
+                    "Error while place order. please try again",
+                  title: "Error",
+                  icon: "error",
+                });
+              });
+          });
+
+          // Open Razorpay modal
           razorpay.open();
         } else {
           Swal.fire({
@@ -311,18 +356,17 @@ cancelBtn.addEventListener("click", () => {
   addAddressForm.classList.add("hidden");
 });
 
-
-document.addEventListener('DOMContentLoaded', () => {
-  const couponSelect = document.getElementById('coupon');
-  const applyBtn = document.getElementById('applyBtn');
-  const removeBtn = document.getElementById('removeBtn');
+document.addEventListener("DOMContentLoaded", () => {
+  const couponSelect = document.getElementById("coupon");
+  const applyBtn = document.getElementById("applyBtn");
+  const removeBtn = document.getElementById("removeBtn");
 
   let selectedCoupon = null;
 
   // Apply coupon logic
-  applyBtn.addEventListener('click', () => {
+  applyBtn.addEventListener("click", () => {
     let selectedValue = couponSelect.value;
-    const cartId = couponSelect.getAttribute('data-cartId');
+    const cartId = couponSelect.getAttribute("data-cartId");
 
     if (selectedValue && cartId) {
       selectedCoupon = selectedValue;
@@ -332,25 +376,29 @@ document.addEventListener('DOMContentLoaded', () => {
       applyBtn.disabled = true;
 
       // Make an API call to apply the coupon
-      axios.post('/user/checkout/apply-coupon', { cartId, couponId: selectedValue })
-        .then(response => {
+      axios
+        .post("/user/checkout/apply-coupon", {
+          cartId,
+          couponId: selectedValue,
+        })
+        .then((response) => {
           if (response.data.success) {
             // Show success message
             Swal.fire({
-              title: 'Success!',
-              text: 'Coupon applied successfully!',
-              icon: 'success',
-              confirmButtonText: 'OK'
+              title: "Success!",
+              text: "Coupon applied successfully!",
+              icon: "success",
+              confirmButtonText: "OK",
             }).then(() => {
               window.location.reload(); // Reload to reflect changes in the cart
             });
           } else {
             // Show error message
             Swal.fire({
-              title: 'Failed!',
-              text: response.data.message || 'Failed to apply coupon.',
-              icon: 'error',
-              confirmButtonText: 'OK'
+              title: "Failed!",
+              text: response.data.message || "Failed to apply coupon.",
+              icon: "error",
+              confirmButtonText: "OK",
             });
 
             // Re-enable if application fails
@@ -358,15 +406,15 @@ document.addEventListener('DOMContentLoaded', () => {
             applyBtn.disabled = false;
           }
         })
-        .catch(error => {
-          console.error('Error applying coupon:', error);
+        .catch((error) => {
+          console.error("Error applying coupon:", error);
 
           // Show error message
           Swal.fire({
-            title: 'Error!',
-            text: 'An error occurred while applying the coupon.',
-            icon: 'error',
-            confirmButtonText: 'OK'
+            title: "Error!",
+            text: "An error occurred while applying the coupon.",
+            icon: "error",
+            confirmButtonText: "OK",
           });
 
           // Re-enable in case of an error
@@ -376,60 +424,61 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       // Show warning if no valid coupon is selected
       Swal.fire({
-        title: 'Warning!',
-        text: 'Please select a valid coupon.',
-        icon: 'warning',
-        confirmButtonText: 'OK'
+        title: "Warning!",
+        text: "Please select a valid coupon.",
+        icon: "warning",
+        confirmButtonText: "OK",
       });
     }
   });
 
   // Remove coupon logic
-  removeBtn.addEventListener('click', () => {
-    const cartId = couponSelect.getAttribute('data-cartId');
-    console.log(selectedCoupon)
+  removeBtn.addEventListener("click", () => {
+    const cartId = couponSelect.getAttribute("data-cartId");
+    console.log(selectedCoupon);
     if (cartId) {
       // Make an API call to remove the coupon
-      axios.post('/user/checkout/remove-coupon', { cartId, })
-        .then(response => {
+      axios
+        .post("/user/checkout/remove-coupon", { cartId })
+        .then((response) => {
           if (response.data.success) {
-            // Show success message 
+            // Show success message
             Swal.fire({
-              title: 'Success!',
-              text: 'Coupon removed successfully!',
-              icon: 'success',
-              confirmButtonText: 'OK'
+              title: "Success!",
+              text: "Coupon removed successfully!",
+              icon: "success",
+              confirmButtonText: "OK",
             }).then(() => {
               window.location.reload(); // Reload to reflect changes in the cart
             });
           } else {
             // Show error message
             Swal.fire({
-              title: 'Failed!',
-              text: response.data.message || 'Failed to remove coupon.',
-              icon: 'error',
-              confirmButtonText: 'OK'
+              title: "Failed!",
+              text: response.data.message || "Failed to remove coupon.",
+              icon: "error",
+              confirmButtonText: "OK",
             });
           }
         })
-        .catch(error => {
-          console.error('Error removing coupon:', error);
+        .catch((error) => {
+          console.error("Error removing coupon:", error);
 
           // Show error message
           Swal.fire({
-            title: 'Error!',
-            text: 'An error occurred while removing the coupon.',
-            icon: 'error',
-            confirmButtonText: 'OK'
+            title: "Error!",
+            text: "An error occurred while removing the coupon.",
+            icon: "error",
+            confirmButtonText: "OK",
           });
         });
     } else {
       // Show warning if no coupon is available to remove
       Swal.fire({
-        title: 'Warning!',
-        text: 'No coupon to remove.',
-        icon: 'warning',
-        confirmButtonText: 'OK'
+        title: "Warning!",
+        text: "No coupon to remove.",
+        icon: "warning",
+        confirmButtonText: "OK",
       });
     }
   });

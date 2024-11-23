@@ -269,6 +269,7 @@ Continue Payment for Failed Orders: []
 Add a "Retry Payment" button on the "My Orders" page.
 On click, redirect users to the payment gateway with the pending order details.
 Admin Side
+
 Generate Ledger Book (Optional): []
 Create a ledger view summarizing transactions.
 Use a library like excel js or pdf make to enable downloads in PDF or Excel format.
@@ -283,6 +284,5 @@ Add proper comments for all new functions and modules.
 Ensure consistent code formatting and remove any unused code.
 Team Review:
 
-If working in a team, have peers review the new functionalities for feedback.
 
 

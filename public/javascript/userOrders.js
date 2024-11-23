@@ -56,26 +56,40 @@ cancelButtons.forEach((button) => {
       confirmButtonText: 'Yes, cancel order',
       showCancelButton: true
     })
-    .then(() => {
+
+    .then((result) => {
       console.log("item id retrieved", itemId)
       console.log('order id retrieved', orderId);
-
-      axios.put('/user/profile/orders', {itemId, orderId})
-            .then((response) => { 
-              if(response.data.success){
-                window.location.reload();
-              }else{
-                Swal.fire("Error occurred, Please try again");
-              }
-            })
-            .catch(error => {
-              Swal.fire({
-                icon: 'error',
-                text: error.response.data.message || 'Internal Server Error',
-                title: "Error"
-              })
-            })
+      if(result.isConfirmed){
+        
+              axios.put('/user/profile/orders', {itemId, orderId})
+                    .then((response) => { 
+                      if(response.data.success){
+                        window.location.reload();
+                      }else{
+                        Swal.fire("Error occurred, Please try again");
+                      }
+                    })
+                    .catch(error => {
+                      Swal.fire({
+                        icon: 'error',
+                        text: error.response.data.message || 'Internal Server Error',
+                        title: "Error"
+                      })
+                    })
+      }
     })
+    .catch((error) => {
+      Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response.data.message ||"An error occurred while updating the order status. Please try again.",
+        }).then((result) => {
+          if(result.isConfirmed){
+              window.location.reload()
+          }
+        })
+  })
 
   })
   

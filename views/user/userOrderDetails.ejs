@@ -129,9 +129,9 @@
            <!-- Order Details Container -->
            <div class="flex justify-between py-3  ">
               <p><a href="/user/profile">Profile/ </a><a href="/user/profile/orders">Orders/ </a>Details</p>
-              <% if(displayInvoice) { %>
-                <button id="downloadPdf" data-orderId="<%=orderDetails._id %>"  class="bg-black text-white px-4 py-2 rounded">Download Invoice</button>
-              <% } %>
+              
+                <button id="downloadPdf" data-orderId="<%=orderDetails._id %>"  class="bg-black text-white px-4 py-2 rounded <%=displayInvoice? '' : 'hidden' %>">Download Invoice</button>
+            
             </div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             
@@ -159,6 +159,13 @@
                   <p class="font-medium text-gray-700">Payment Status:</p>
                   <p class="text-green-500 font-medium"><%=orderDetails.paymentStatus%></p>
                 </div>
+                <!-- Retry payment -->
+                 <% if(orderDetails.paymentStatus === 'pending' && orderDetails.paymentMethod === 'razorpay'){ %>
+                <di >
+                  <p class="font-medium text-gray-700">Payment Failed</p>
+                  <button id="retry" data-amount="<%=orderDetails.totalDiscount %>" data-orderId="<%=orderDetails._id %>" class=" bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-800" >Retry Payment</button>
+                </di>
+                <% } %>
               </div>
             </div>
   
@@ -237,4 +244,6 @@
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <!-- Include SweetAlert2 from a CDN -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 </html>
