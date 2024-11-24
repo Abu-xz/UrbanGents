@@ -127,14 +127,21 @@
       
         <!-- Wallet Section -->
         <div class="bg-white rounded-lg shadow-md p-6 w-full">
-          <h2 class="text-2xl font-bold mb-4">My Wallet</h2>
+          <div class="flex justify-between mb-4">
+            <h2 class="text-2xl font-bold">My Wallet</h2>
+            <button id="add-money-button" class="bg-black text-white px-2 py-2 rounded hover:bg-gray-800 transition duration-200">
+              Add Money
+            </button>
+            <div id="add-money-container" class="hidden mb-2  ">
+              <input type="number" id="add-money-input" min="0" class="border rounded">
+              <button id="add-button" class="bg-green-500 text-black py-1 ml-2 px-3 rounded-md transition duration-200">Add</button>
+              <button id="cancel-button" class="bg-slate-300 text-black py-1 ml-2 px-3 rounded-md transition duration-200">Cancel</button>
+            </div>
+          </div>
           <div class="flex items-center justify-between mb-4">
             <span class="text-gray-700 text-lg">Current Balance:</span>
             <span class="text-2xl font-semibold text-green-600">₹ <%=user.walletAmount %>.00</span>
           </div>
-          <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition duration-200">
-            Add Money
-          </button>
         </div>
       
         <!-- Transaction History Section -->
@@ -153,18 +160,16 @@
                 <% user.transaction.forEach(transaction => { %>
                     <tr class="border-b hover:bg-gray-100">
                         <td class="px-4 py-2 text-center"><%=transaction.createdAt.toLocaleString()%></td>
-                        <td class="px-4 py-2 text-green-600 text-center"> + ₹<%=transaction.amount%></td>
+                        <% if(transaction.transactionType === 'Credit') {%>
+                          <td class="px-4 py-2 text-green-600 text-center"> + ₹<%=transaction.amount%></td>
+                        <% } else {%>
+                          <td class="px-4 py-2 text-red-600 text-center"> - ₹<%=transaction.amount%></td>
+                        <% } %>  
                         <td class="px-4 py-2 text-center"><%=transaction.transactionType %></td>
-                        <td class="px-4 py-2 text-center"><%=transaction.transactionType === 'Credit'? 'Refund': 'Purchase' %></td>
+
+                        <td class="px-4 py-2 text-center <%=transaction.transactionType === 'Credit'? 'text-green-600': 'text-red-600' %>"><%=transaction.transactionType === 'Credit'? 'Added': 'Purchase' %></td>
                     </tr>
                 <% }) %>
-              <!-- <tr class="border-b hover:bg-gray-100">
-                <td class="px-4 py-2">2024-11-17</td>
-                <td class="px-4 py-2 text-red-600">- $50.00</td>
-                <td class="px-4 py-2">Debit</td>
-                <td class="px-4 py-2">Purchase</td>
-              </tr> -->
-              <!-- Add more transaction rows as needed -->
             </tbody>
           </table>
         </div>

@@ -41,6 +41,7 @@ import {
   orderDetails,
   removeItemFromWishlist,
   updateProfile,
+  updateWallet,
 } from "../controllers/user/profileController.js";
 
 import {
@@ -139,6 +140,7 @@ userRouter.put('/profile/wishlist', userAuth, removeItemFromWishlist);
 
 // profile wallet 
 userRouter.get('/profile/wallet', userAuth, loadWallet)
+userRouter.put('/profile/wallet', userAuth, updateWallet)
 
 
 // Add-To-Cart page route

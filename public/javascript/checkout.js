@@ -14,7 +14,7 @@ checkoutBtn.addEventListener("click", (e) => {
   });
 
   if (!addressSelected) {
-    Swal.fire({
+   return Swal.fire({
       icon: "warning",
       text: "Please select a delivery address!",
       title: "Field Missing!",
@@ -173,8 +173,7 @@ checkoutBtn.addEventListener("click", (e) => {
           text:
             error.response.data.message ||
             "Error while place order. please try again",
-          title: "Error",
-          icon: "error",
+          icon:error.response.data.icon || "error",
         });
       });
   }

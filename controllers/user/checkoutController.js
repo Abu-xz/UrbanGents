@@ -6,8 +6,6 @@ import Users from "../../models/userModel.js";
 import crypto from "crypto";
 import Razorpay from "razorpay";
 
-
-
 export const loadCheckout = async (req, res) => {
   try {
     console.log("checkout page reached! ");
@@ -53,6 +51,15 @@ export const placeOrder = async (req, res) => {
         .json({ success: false, message: "User not found!" });
     }
 
+    const cart = await Cart.findOne({ userId: user._id }).populate(
+      "items.productId"
+    );
+    if (!cart) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Cart not found!" });
+    }
+
     const { addressId, payment } = req.body;
 
     if (!addressId || !payment) {
@@ -62,21 +69,24 @@ export const placeOrder = async (req, res) => {
       });
     }
 
+    const walletAmount = user.walletAmount;
+
+    if (walletAmount < cart.totalDiscount) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Insufficient Wallet balance!",
+          icon: "warning",
+        });
+    }
+
     const address = user.addresses.find((add) => add._id.equals(addressId));
     // console.log(address);
     if (!address) {
       return res
         .status(404)
         .json({ success: false, message: "Address not found!" });
-    }
-
-    const cart = await Cart.findOne({ userId: user._id }).populate(
-      "items.productId"
-    );
-    if (!cart) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Cart not found!" });
     }
 
     for (let item of cart.items) {
@@ -103,12 +113,14 @@ export const placeOrder = async (req, res) => {
       ).toFixed();
     }
     console.log(cart.totalDiscount);
+    const paymentStatus = payment === "wallet" ? "paid" : "pending";
 
     const orderData = {
       customerId: user._id,
       address: address,
       items: cart.items,
-      status: "pending",
+      status:"pending",
+      paymentStatus,
       totalPrice: cart.totalPrice,
       totalDiscount: cart.totalDiscount,
       paymentMethod: payment,
@@ -117,7 +129,7 @@ export const placeOrder = async (req, res) => {
     };
 
     const newOrder = await Order.create(orderData);
-
+    user.walletAmount -= cart.totalDiscount;
     // update the stock for respective orders
     const updateStockOnOrder = async () => {
       try {
@@ -152,14 +164,23 @@ export const placeOrder = async (req, res) => {
 
     // Call the function to update stock
     updateStockOnOrder();
+
+    const order = await newOrder.save();
+    const transaction = {
+      amount: cart.totalDiscount,
+      orderId: order._id,
+      transactionType: "Debit",
+    };
+
     cart.items = [];
     cart.totalDiscount = 0;
     cart.totalPrice = 0;
     cart.couponApplied = "";
     cart.couponDiscount = 0;
+    
+    user.transaction.push(transaction);
     await cart.save();
-
-    await newOrder.save();
+    await user.save();
 
     // console.log("saved order list ", savedOrder);
     res.status(201).json({
@@ -200,7 +221,6 @@ export const loadOrderPlaced = async (req, res) => {
     console.log(error);
   }
 };
-
 
 // Razorpay route here
 export const createRazorPayOrder = async (req, res) => {
@@ -438,7 +458,7 @@ export const applyCoupon = async (req, res) => {
 
 export const removeCoupon = async (req, res) => {
   const { cartId } = req.body;
-  console.log('remove coupon route reached')
+  console.log("remove coupon route reached");
   // console.log(couponId)
   try {
     const cart = await Cart.findById(cartId);
@@ -447,13 +467,13 @@ export const removeCoupon = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Cart not found" });
     }
-    const coupon = await Coupon.findOne({code: cart.couponApplied});
+    const coupon = await Coupon.findOne({ code: cart.couponApplied });
     if (!coupon) {
       return res
         .status(404)
         .json({ success: false, message: "Coupon not found." });
     }
-    console.log(coupon)
+    console.log(coupon);
     cart.couponDiscount = null;
     cart.couponApplied = "";
     coupon.usageLimit += 1;
@@ -468,36 +488,14 @@ export const removeCoupon = async (req, res) => {
   }
 };
 
-
 //Failed Razorpay route here
 export const failedRazorPayOrder = async (req, res) => {
-  const {amount} = req.body
-    
+  const { amount } = req.body;
+
   const razorpayNewInstance = new Razorpay({
     key_id: process.env.RAZOR_KEY_ID,
     key_secret: process.env.RAZOR_SECRET_ID,
-  }); //continue here
-  // console.log("Failed create razor pay route reached");
-  // const userData = req.session.user.email || req.session.user;
-  // const user = await Users.findOne({
-  //   $or: [{ email: userData }, { googleId: userData }],
-  // });
-
-  // if (!user) {
-  //   return res.status(500).json({ success: false, message: "User not found!" });
-  // }
-  // // console.log(user)
-  // const cartItems = await Cart.findOne({ userId: user._id });
-  // console.log(cartItems);
-  // if (cartItems.couponDiscount) {
-  //   cartItems.totalDiscount = (
-  //     cartItems.totalDiscount -
-  //     (cartItems.totalDiscount * cartItems.couponDiscount) / 100
-  //   ).toFixed();
-  // }
-  // const amount = cartItems.totalDiscount;
-  // console.log("total in cartItems", amount);
-  // console.log("cartItems in razor pay", cartItems);
+  });
 
   try {
     const orderOptions = {
@@ -520,13 +518,11 @@ export const failedRazorPayOrder = async (req, res) => {
   }
 };
 
-
-
 export const FailedVerifyPayment = async (req, res) => {
   console.log("Failed verify payment working");
 
   const { paymentId, orderId, signature, id } = req.body;
-  console.log(req.body)
+  console.log(req.body);
 
   try {
     // Verifying the signature
@@ -536,16 +532,15 @@ export const FailedVerifyPayment = async (req, res) => {
 
     if (generatedSignature !== signature) {
       return res.json({ success: false });
-    };
+    }
 
     const order = await Order.findById(id);
-    order.paymentStatus = 'paid';
+    order.paymentStatus = "paid";
     await order.save();
-    
+
     res.status(200).json({
       success: true,
       message: "Order placed successfully",
-      
     });
   } catch (error) {
     console.error("Error verifying payment:", error);

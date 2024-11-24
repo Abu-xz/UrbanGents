@@ -356,13 +356,17 @@ export const orderDetails = async (req, res) => {
     }
     console.log(orderDetails);
     let displayInvoice = false;
-    displayInvoice = orderDetails.items.every(item => item.status === 'delivered');
+    displayInvoice = orderDetails.items.every(
+      (item) => item.status === "delivered"
+    );
     // console.log(displayInvoice);
-    if(orderDetails.paymentStatus !== 'paid'){
-      displayInvoice = false
+    if (orderDetails.paymentStatus !== "paid") {
+      displayInvoice = false;
     }
 
-    res.status(200).render("user/userOrderDetails", { orderDetails, displayInvoice });
+    res
+      .status(200)
+      .render("user/userOrderDetails", { orderDetails, displayInvoice });
   } catch (error) {
     console.log(error);
   }
@@ -392,22 +396,24 @@ export const cancelOrder = async (req, res) => {
     const item = order.items.find((item) => item._id.toString() === itemId);
     // console.log(item);
 
-    if (order.paymentMethod == "razorpay") {
+    if (
+      order.paymentMethod === "razorpay" ||
+      order.paymentMethod === "wallet"
+    ) {
       // console.log(order.paymentMethod)
       item.status = "cancelled";
       user.walletAmount += item.subDiscount;
 
       const transaction = {
-        amount :item.subDiscount,
+        amount: item.subDiscount,
         orderId,
-        transactionType: 'Credit',
-      }
+        transactionType: "Credit",
+      };
       user.transaction.push(transaction);
 
       await user.save();
       await order.save();
-      // console.log(user.walletAmount)
-      // console.log(user.transaction)
+
       return res.status(200).json({ success: true });
     } else {
       item.status = "cancelled";
@@ -432,7 +438,7 @@ export const loadWishlist = async (req, res) => {
     const wishlist = user.wishlist;
     console.log(wishlist);
 
-    res.status(200).render("user/userWishlist", { wishlist , user});
+    res.status(200).render("user/userWishlist", { wishlist, user });
   } catch (error) {
     console.log("Error occurred when cancel order", error.message);
   }
@@ -515,5 +521,37 @@ export const loadWallet = async (req, res) => {
 
     console.log("wallet route reached");
     res.status(200).render("user/userWallet", { user });
-  } catch (error) {}
+  } catch (error) {
+    console.log("Error", error);
+    return res.status(500).json({ success: false, message: "Internal Server" });
+  }
+};
+
+export const updateWallet = async (req, res) => {
+  try {
+    const { value } = req.body;
+    console.log(value);
+    const userData = req.session.user.email || req.session.user;
+    const user = await Users.findOne({
+      $or: [{ email: userData }, { googleId: userData }],
+    });
+
+    if (!user) {
+      return res.status(302).json({ message: "User Not found" });
+    }
+    if (value) {
+      user.walletAmount += Number(value);
+      const transaction = {
+        amount: value,
+        transactionType: "Credit",
+      };
+      user.transaction.push(transaction);
+
+      await user.save();
+      return res.status(200).json({ success: true, message: "Wallet updated" });
+    }
+  } catch (error) {
+    console.log("Error", error);
+    return res.status(500).json({ success: false, message: "Internal Server" });
+  }
 };

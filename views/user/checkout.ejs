@@ -292,8 +292,12 @@
             <% } %> 
             <div class="flex items-center mb-4">
             <input id="razorpay" type="radio" name="payment" data-amount="<%=cart.totalDiscount %>" class="w-5 h-5 text-indigo-600" >
-            <label for="payment1" class="ml-4 text-gray-700 font-medium">Razorpay</label>
-          </div>
+            <label for="payment" class="ml-4 text-gray-700 font-medium">Razorpay</label>
+            </div>
+            <div class="flex items-center mb-4">
+            <input id="wallet" type="radio" name="payment" data-amount="<%=cart.totalDiscount %>" class="w-5 h-5 text-indigo-600" >
+            <label for="payment" class="ml-4 text-gray-700 font-medium square">Wallet</label>
+            </div>
           <!-- add more payment option for later -->
         </div>
       </div>
