@@ -3,16 +3,27 @@ import PdfDocument from "pdfkit";
 
 export const loadOrders = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = 4;
+    const skip = (page - 1) * limit;
+    const totalOrders = await Order.countDocuments();
+    const totalPages = Math.ceil(totalOrders / limit);
+    if (page > totalPages)
+      return res.status(200).redirect(`/admin/orders?page=${totalPages}`);
+
     console.log("Order page request received");
     const orders = await Order.find()
       .populate("customerId")
       .populate("items.productId")
-      .sort({createdAt: -1})
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
     if (!orders) {
       res.status(404).render("admin/order", { success: false }); //create a sweet alert for this
     }
     // console.log(orders);
-    res.status(200).render("admin/order", { orders });
+    res.status(200).render("admin/order", { orders , page, totalPages});
   } catch (error) {
     console.log(error);
   }
@@ -58,7 +69,7 @@ export const updateStatus = async (req, res) => {
 
     // Finding the item in the order by its item ID
     const item = order.items.find((item) => item._id.equals(itemId));
-      console.log(item);
+    console.log(item);
 
     if (!item) {
       return res
@@ -73,7 +84,6 @@ export const updateStatus = async (req, res) => {
         message: "No change detected in the order status",
       });
     }
-    
 
     const statusOrder = [
       "pending",
@@ -94,8 +104,8 @@ export const updateStatus = async (req, res) => {
 
     // Updating the item's status
     item.status = newStatus;
-    if(newStatus === 'delivered'){
-      order.paymentStatus = "paid"
+    if (newStatus === "delivered") {
+      order.paymentStatus = "paid";
     }
 
     // Saving the updated order
@@ -115,20 +125,20 @@ export const updateStatus = async (req, res) => {
   }
 };
 
-
 //invoice download here
 export const downloadInvoice = async (req, res) => {
   try {
     console.log("invoice download route reached");
     const { orderId } = req.query;
     console.log(orderId);
-    
 
-    const order = await Order.findById(orderId).populate('customerId').populate('items.productId')
+    const order = await Order.findById(orderId)
+      .populate("customerId")
+      .populate("items.productId");
     if (!order) {
       res.status(404).json("Order not found!");
     }
-    console.log(order)
+    console.log(order);
     const doc = new PdfDocument();
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", 'attachment; filename="invoice.pdf"');
@@ -136,43 +146,63 @@ export const downloadInvoice = async (req, res) => {
     // Pipe the PDF document to the response
     doc.pipe(res);
 
-    doc.fontSize(18).font('Helvetica-Bold').text(`Invoice for Order #${orderId}`, { align: 'center' });
+    doc
+      .fontSize(18)
+      .font("Helvetica-Bold")
+      .text(`Invoice for Order #${orderId}`, { align: "center" });
     doc.moveDown();
-    
-    doc.fontSize(12).font('Helvetica').text(`Order Date: ${new Date(order.createdAt).toLocaleDateString()}`);
+
+    doc
+      .fontSize(12)
+      .font("Helvetica")
+      .text(`Order Date: ${new Date(order.createdAt).toLocaleDateString()}`);
     doc.text(`Invoice Date: ${new Date().toLocaleDateString()}`);
     doc.moveDown();
-    
-    doc.fontSize(14).font('Helvetica-Bold').text('Customer Details:');
-    doc.fontSize(12).font('Helvetica').text(`Name: ${order.address.firstName} ${order.address.lastName}`);
+
+    doc.fontSize(14).font("Helvetica-Bold").text("Customer Details:");
+    doc
+      .fontSize(12)
+      .font("Helvetica")
+      .text(`Name: ${order.address.firstName} ${order.address.lastName}`);
     doc.text(`Phone: ${order.address.number}`);
     doc.text(`Address: ${order.address.address}`);
     doc.moveDown();
-    
-    doc.fontSize(14).font('Helvetica-Bold').text('Items Purchased:');
+
+    doc.fontSize(14).font("Helvetica-Bold").text("Items Purchased:");
     doc.moveDown(0.5);
-    
+
     // Add a table-like structure for items
     order.items.forEach((item, index) => {
-        doc.fontSize(12).font('Helvetica').text(`${index + 1}. ${item.productId.productName} - Qty: ${item.quantity} - Price: RS ${item.subDiscount}`);
+      doc
+        .fontSize(12)
+        .font("Helvetica")
+        .text(
+          `${index + 1}. ${item.productId.productName} - Qty: ${
+            item.quantity
+          } - Price: RS ${item.subDiscount}`
+        );
     });
-    
+
     doc.moveDown();
-    
-    if(order.couponApplied){
-      doc.fontSize(14).text(`Applied coupon : "${order.couponApplied}"`)
-      doc.fontSize(14).text(`Applied coupon : ${order.couponDiscount}%`)
+
+    if (order.couponApplied) {
+      doc.fontSize(14).text(`Applied coupon : "${order.couponApplied}"`);
+      doc.fontSize(14).text(`Applied coupon : ${order.couponDiscount}%`);
     }
     doc.moveDown();
 
-    doc.text(`Total: RS ${order.totalDiscount}`, { align: 'right' });
+    doc.text(`Total: RS ${order.totalDiscount}`, { align: "right" });
     doc.moveDown();
-    
-    doc.fontSize(10).font('Helvetica').text('Thank you for your purchase!', { align: 'center' });
-    doc.text('If you have any questions regarding this invoice, please contact our support team.', { align: 'center' });
-    
 
-   
+    doc
+      .fontSize(10)
+      .font("Helvetica")
+      .text("Thank you for your purchase!", { align: "center" });
+    doc.text(
+      "If you have any questions regarding this invoice, please contact our support team.",
+      { align: "center" }
+    );
+
     // Finalize the PDF and send it to the client
     doc.end();
   } catch (error) {}

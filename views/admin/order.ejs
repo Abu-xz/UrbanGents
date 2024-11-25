@@ -10,7 +10,7 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
-  <body class="bg-gray-100 pr-8">
+  <body class="bg-gray-100 pr-5">
     <div class="flex ">
      <!-- Sidebar -->
      <aside class="w-1/5 bg-white p-6 shadow-lg min-h-screen">
@@ -66,8 +66,10 @@
         </div>
       </aside>
 
-      <% if(typeof orders !== 'undefined' && orders) { %>
-        <div class="container mx-auto p-4">
+      <main>
+
+        <% if(typeof orders !== 'undefined' && orders) { %>
+          <div class="container w-full p-4">
             <table class="min-w-full bg-white border border-gray-200">
               <thead>
                 <tr class="bg-gray-50 border-b">
@@ -129,12 +131,47 @@
                   </tr>
                 </tbody>
                 <% } %>
-            </table>
-          </div>
+              </table>
+            </div>
+            <% }%>
+
+            <section>
+              <% if(typeof page !== "undefined"  &&  typeof totalPages !== 'undefined') { %>
+        
+              <div class=" flex justify-center items-center space-x-2 ">
+                <!-- Previous Button -->
+                 <a <% if(page !== 1 ) {%>
+                   href="?page=<%=page - 1 %>">
+                   <% } %>
+                   <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 disabled:bg-gray-100 disabled:text-gray-400 <%=page === 1 ? 'disabled' : '' %>">
+                     Prev
+                    </button>
+                 </a>
+            
+                <!-- Page Numbers -->
+                 <% for(let i = 1; i <= totalPages; i++){ %>
+                  <a href="?page=<%= i %>">
+                    <button class="px-4 py-2 <%=page === i?'bg-blue-900 text-white':'bg-white text-gray-700' %> rounded-lg ">
+                        <%=i %>
+                    </button>
+                  </a>
+                  <% } %>
+        
+                 <!-- Next Button -->
+                 <a <% if(page !== totalPages) { %>
+                  href="?page=<%= page + 1 %>">
+                  <% } %> 
+                  <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300">
+                    Next
+                  </button>
+                </a>
+              </div>
+              <%}%>
+        
+            </section>
+          </main>
 
           
-    <% }%>
-
   
    
     
