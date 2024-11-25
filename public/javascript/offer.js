@@ -1,65 +1,108 @@
-const createButton = document.getElementById('create-button');
-const cancelButton = document.getElementById('cancel-button')
-const offerForm = document.getElementById('offer-form');
-const offerTableContainer = document.getElementById('offer-table-container');
+const createButton = document.getElementById("create-button");
+const cancelButton = document.getElementById("cancel-button");
+const editButtons = document.querySelectorAll(".edit-offer");
+const deleteButtons = document.querySelectorAll(".delete-offer");
+const offerForm = document.getElementById("offer-form");
+const offerTableContainer = document.getElementById("offer-table-container");
 
-
-createButton.addEventListener('click', () => {
-    offerForm.classList.remove('hidden');
-    offerTableContainer.classList.add('hidden')
+createButton.addEventListener("click", () => {
+  offerForm.classList.remove("hidden");
+  offerTableContainer.classList.add("hidden");
 });
 
-
 offerForm.addEventListener("submit", function (event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    // Collect form values
-    const category = document.getElementById("category").value;
-    const discount = document.getElementById("discount").value;
-    const offerName = document.getElementById("offer-name").value;
-    const validFrom = document.getElementById("validFrom").value;
-    const validUntil = document.getElementById("validUntil").value;
+  // Collect form values
+  const category = document.getElementById("category").value.trim();
+  const discount = document.getElementById("discount").value.trim();
+  const offerName = document.getElementById("offer-name").value.trim();
+  const validFrom = document.getElementById("validFrom").value.trim();
+  const validUntil = document.getElementById("validUntil").value.trim();
 
-    // Validate form fields
-    if (!category) {
-      Swal.fire("Please select a category.");
-      return;
-    }
-    if (!discount || discount <= 0 || discount > 100) {
-        Swal.fire("Please enter a valid discount percentage (1-100).");
-      return;
-    }
-    if (!offerName) {
-        Swal.fire("Please enter a valid offer Name");
-      return;
-    }
-    if (!validFrom) {
-        Swal.fire("Please select a valid 'Valid From' date.");
-      return;
-    }
-    if (!validUntil || new Date(validUntil) < new Date(validFrom)) {
-        Swal.fire("'Valid Until' date must be later than 'Valid From' date.");
-      return;
-    }
+  // Validate form fields
+  if (!category) {
+    Swal.fire("Please select a category.");
+    return;
+  }
+  if (!discount || discount <= 0 || discount > 100) {
+    Swal.fire("Please enter a valid discount percentage (1-100).");
+    return;
+  }
+  if (!offerName) {
+    Swal.fire("Please enter a valid offer Name");
+    return;
+  }
+  if (!validFrom) {
+    Swal.fire("Please select a valid 'Valid From' date.");
+    return;
+  }
+  if (!validUntil || new Date(validUntil) < new Date(validFrom)) {
+    Swal.fire("'Valid Until' date must be later than 'Valid From' date.");
+    return;
+  }
 
+  const submitButton = offerForm.querySelector("button[type='submit']");
+  submitButton.disabled = true;
 
-    const submitButton = offerForm.querySelector("button[type='submit']");
-    submitButton.disabled = true;
+  // Send data to the backend using axios
+  axios
+    .post("/admin/offers", {
+      category,
+      discount,
+      offerName,
+      validFrom,
+      validUntil,
+    })
+    .then((response) => {
+      if (response.data.success) {
+        // Swal.fire("Offer created successfully!");
+        window.location.reload();
+      } else {
+        Swal.fire(response.data.message || "Failed to create the offer.");
+        submitButton.disabled = false; // Re-enable the button
+      }
+    })
+    .catch((error) => {
+      console.error("Error creating the offer:", error);
+      Swal.fire("An error occurred while creating the offer.");
+      submitButton.disabled = false; // Re-enable the button
+    });
+});
 
-    // Send data to the backend using axios
-    axios.post('/admin/offers', { category, discount, offerName, validFrom, validUntil })
-      .then(response => {
-        if (response.data.success) {
-            // Swal.fire("Offer created successfully!");
-          window.location.reload();
-        } else {
-            Swal.fire(response.data.message || "Failed to create the offer.");
-          submitButton.disabled = false; // Re-enable the button
+editButtons.forEach(editButton => {
+  editButton.addEventListener("click", () => {
+    const offerId = editButton.getAttribute("data-offerId");
+    console.log("edit button clicked");
+    window.location.href = `/admin/edit-offer?offerId=${offerId}`;
+  });
+
+})
+
+deleteButtons.forEach(deleteButton => {
+  deleteButton.addEventListener("click", () => {
+    console.log('delete button clicked')
+    const offerId = deleteButton.getAttribute("data-offerId");
+  
+    Swal.fire({
+      icon: "warning",
+      title: "Are you sure you want to delete this offer",
+      showCancelButton: true,
+      confirmButtonText:'Delete'
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          axios.post("/admin/offers/delete", { offerId }).then((response) => {
+            if (response.data.success) {
+              location.reload();
+            }
+          });
         }
       })
-      .catch(error => {
-        console.error("Error creating the offer:", error);
-        Swal.fire("An error occurred while creating the offer.");
-        submitButton.disabled = false; // Re-enable the button
+      .catch((error) => {
+        console.error("Error deleting the offer:", error);
+        Swal.fire("An error occurred while deleting the offer.");
       });
   });
+
+})

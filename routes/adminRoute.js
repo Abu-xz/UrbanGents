@@ -43,7 +43,10 @@ import {
 } from "../controllers/admin/couponController.js";
 import {
   createOffer,
+  deleteOffer,
+  loadEditOffer,
   loadOffer,
+  updateOffer,
 } from "../controllers/admin/offersController.js";
 import {
   downloadSalesExcel,
@@ -118,6 +121,9 @@ adminRouter.get("/coupons/:couponId", adminAuth, loadEditCoupon);
 // Offer route here
 adminRouter.get("/offers", adminAuth, loadOffer);
 adminRouter.post("/offers", adminAuth, createOffer);
+adminRouter.put('/offers', adminAuth, updateOffer);
+adminRouter.get('/edit-offer', adminAuth, loadEditOffer);
+adminRouter.post('/offers/delete', adminAuth, deleteOffer)
 
 // Sales report route
 adminRouter.get("/sales", adminAuth, loadSalesReport);
