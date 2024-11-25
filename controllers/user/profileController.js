@@ -354,7 +354,6 @@ export const orderDetails = async (req, res) => {
     if (!orderDetails) {
       return res.status(404).redirect("/user/profile/orders");
     }
-    console.log(orderDetails);
     let displayInvoice = false;
     displayInvoice = orderDetails.items.every(
       (item) => item.status === "delivered"

@@ -37,7 +37,11 @@
               </div>
               <div>
                 <p class="font-medium text-gray-700">Payment Status:</p>
-                <p class="text-green-500 font-medium"><%=orderDetails.status%></p>
+                <% if(orderDetails.paymentMethod === 'wallet' || orderDetails.paymentMethod === "razorpay") { %>
+                  <p class="text-green-500 font-medium">paid</p>
+                  <% } else { %>
+                    <p class="text-green-500 font-medium">pending</p>
+                  <%}%>
               </div>
             </div>
           </div>

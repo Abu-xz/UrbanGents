@@ -3,10 +3,18 @@ import Offer from "../../models/offerModel.js";
 
 export const loadOffer = async (req, res) => {
   try {
-    const offers = await Offer.find({ isActive: true });
+    const page = parseInt(req.query.page) || 1;
+    const limit = 7;
+    const skip = (page - 1) * limit;
+    const totalOffers = await Offer.countDocuments();
+    const totalPages = Math.ceil(totalOffers / limit);
+    if(page > totalPages) {
+      return res.status(200).redirect(`/admin/offers?page=${totalPages}`);
+    }
+    const offers = await Offer.find({ isActive: true }).skip(skip).limit(limit)
     const categories = await Category.find({ isActive: true });
     // console.log(offers)
-    res.status(200).render("admin/offer", { categories, offers });
+    res.status(200).render("admin/offer", { categories, offers, page, totalPages });
   } catch (error) {
     console.log("Error occurred in loadOffer", error);
   }

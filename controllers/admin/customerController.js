@@ -5,9 +5,18 @@ import Users from "../../models/userModel.js";
 // customer management
 export const loadCustomer = async (req, res) => {
   try {
-    const users = await Users.find();
+    const page = parseInt(req.query.page) || 1;
+    const limit = 7;
+    const skip = (page - 1) * limit;
+    const totalUsers = await Users.countDocuments();
+    const totalPages = Math.ceil(totalUsers / limit);
+    if(page > totalPages) {
+      return res.status(200).redirect(`/admin/customers?page=${totalPages}`);
+    }
+
+    const users = await Users.find().skip(skip).limit(limit);
     if (users) {
-      res.status(200).render("admin/customers", { users });
+      res.status(200).render("admin/customers", { users , totalPages, page});
     }
   } catch (error) {
     console.log(error);

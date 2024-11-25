@@ -2,11 +2,24 @@ import Coupon from "../../models/couponModel.js";
 
 export const loadCoupon = async (req, res) => {
   try {
-    const coupons = await Coupon.find({ isActive: true });
+    const page = parseInt(req.query.page) || 1;
+    const limit = 7;
+    const skip = (page - 1) * limit;
+    const totalCoupons = await Coupon.countDocuments();
+    const totalPages = Math.ceil(totalCoupons / limit);
+    if(page > totalPages) {
+      return res.status(200).redirect(`/admin/coupons?page=${totalPages}`);
+    }
+
+
+    const coupons = await Coupon.find({ isActive: true }).skip(skip).limit(limit);
+
     console.log(coupons);
-    // console.log(coupons.forEach((coupon, index) => console.log(index)));
-    res.status(200).render("admin/coupon", { coupons });
-  } catch (error) {}
+    res.status(200).render("admin/coupon", { coupons, totalPages, page });
+  } catch (error) {
+    console.log(error);
+    res.status(500).redirect('/admin/coupons/404');
+  }
 };
 
 // edit coupon page loads here
@@ -24,12 +37,6 @@ export const addCoupon = async (req, res) => {
   try {
     console.log("coupon add route reached ");
     const { code, discount, expiry, start, usageLimit, id } = req.body;
-
-    console.log(code);
-    console.log(discount);
-    console.log(start);
-    console.log(expiry);
-    console.log(usageLimit);
 
     if (!code || !discount || !start || !expiry || !usageLimit) {
       return res
