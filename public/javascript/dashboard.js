@@ -15,7 +15,7 @@
         <p class="text-gray-500 text-sm">We have sold ${data.itemsSold} items</p>
       </div>
       <div class="bg-white p-6 rounded-lg shadow-md">
-        <h3 class="text-lg font-semibold">Today's Revenue</h3>
+        <h3 class="text-lg font-semibold">Total Revenue</h3>
         <p class="mt-2 text-xl">₹${data.revenue}</p>
         <p class="text-gray-500 text-sm">Profit made so far</p>
       </div>
@@ -27,6 +27,7 @@
     `;
 
     // Update Sales Chart
+    
     updateSalesChart(data.salesData, data.salesDates);
 
     // Update Top Products Chart
@@ -38,6 +39,7 @@
 
   // Sales chart update function
   function updateSalesChart(salesData, salesDates) {
+    console.log(salesData)
     const options = {
       series: [{
         name: 'Sales',
@@ -45,7 +47,7 @@
       }],
       chart: {
         type: 'line',
-        height: 350
+        height: 350 
       },
       colors:["#ff0000"],
       xaxis: {

@@ -10,7 +10,7 @@ export const loadHome = async (req, res ) => {
         // console.log('user home route reached and get product details')
         res.status(200).render('user/userHome', {product, spotlight});
     } catch (error) {
-        console.log(error);
+        console.log(error); 
     }
 
 }

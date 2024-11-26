@@ -1,6 +1,7 @@
 import Order from "../../models/orderModel.js";
 import Product from "../../models/productModel.js";
 import Users from "../../models/userModel.js";
+import bcrypt from "bcrypt";
 
 export const loadProfile = async (req, res) => {
   try {
@@ -18,7 +19,7 @@ export const loadProfile = async (req, res) => {
     if (!user) {
       return res.status(500).render("user/userHome", { success: false });
     }
-    console.log(user);
+    // console.log(user);
 
     const successMessage = req.session.successMessage;
     const errorMessage = req.session.errorMessage;
@@ -55,7 +56,7 @@ export const updateProfile = async (req, res) => {
       return res.status(200).redirect("/user/profile");
     } else {
       const { firstName, lastName, phoneNumber } = req.body;
-     
+
       user.firstName = firstName;
       user.lastName = lastName;
       user.phoneNumber = phoneNumber;
@@ -68,18 +69,40 @@ export const updateProfile = async (req, res) => {
   }
 };
 
-export const updatePassword = async (req, res) =>{
+export const updatePassword = async (req, res) => {
   try {
-      console.log('update password route reached');
-      
+    console.log("update password route reached");
+    const userData = req.session.user.email || req.session.user;
+    const user = await Users.findOne({
+      $or: [{ email: userData }, { googleId: userData }],
+    });
+    console.log(user.password);
+    console.log(req.body);
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+    const isValidPassword = bcrypt.compare(currentPassword, user.password);
+
+    if (!isValidPassword) {
+      return res.status(400).json({ success: false, message: "Password not matching!" });
+    }
+    if(newPassword !== confirmPassword){
+      return res.status(400).json({ success: false, message: "New password & confirm password must be same" });
+    }else{
+      const password = await bcrypt.hash(newPassword, 10);
+      user.password = password;
+      await user.save();
+      res.status(200).json({success: true, message: 'Password changes successfully'})
+    }
+
+
+
+
   } catch (error) {
-    
+    console.log('error occurred while password updating.')
+    res.status(500).json({message:'error occurred while password updating.'})
   }
-} 
+};
 
-
-
-// address logic start here... 
+// address logic start here...
 export const loadAddress = async (req, res) => {
   try {
     let user;

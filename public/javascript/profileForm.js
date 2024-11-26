@@ -7,7 +7,6 @@ profileForm.addEventListener("submit", (e) => {
   const phoneNumber = document.getElementById("phone-number");
   const phoneNumberError = document.getElementById("phone-number-error");
 
-  
   // Reset error messages
   firstNameError.classList.add("hidden");
   lastNameError.classList.add("hidden");
@@ -53,79 +52,98 @@ profileForm.addEventListener("submit", (e) => {
   }
 });
 
-  // modal script here ...
-  const openModal = document.getElementById("openModal");
-  const closeModal = document.getElementById("closeModal");
-  const modal = document.getElementById("modal");
-  const updatePasswordButton = document.getElementById('update-password-button');
+// modal script here ...
+const openModal = document.getElementById("openModal");
+const closeModal = document.getElementById("closeModal");
+const modal = document.getElementById("modal");
+const updatePasswordButton = document.getElementById("update-password-button");
 
+openModal.addEventListener("click", () => {
+  modal.classList.remove("hidden");
+  modal.classList.add("flex");
+});
 
-  openModal.addEventListener('click', () => {
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-  });
+closeModal.addEventListener("click", () => {
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+});
 
-  closeModal.addEventListener('click', () => {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-  });
+// Close modal on outside click
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+  }
+});
 
-   // Close modal on outside click
-   modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-  });
+updatePasswordButton.addEventListener("click", () => {
+  const currentPassword = document
+    .getElementById("current-password")
+    .value.trim();
+  const newPassword = document.getElementById("new-password").value.trim();
+  const confirmPassword = document
+    .getElementById("confirm-password")
+    .value.trim();
 
-  updatePasswordButton.addEventListener('click' , () => {
-    const currentPassword = document.getElementById('current-password').value.trim();
-    const newPassword = document.getElementById('new-password').value.trim();
-    const confirmPassword = document.getElementById('confirm-password').value.trim();
+  const currentErrorMessage = document.getElementById("current-error");
+  const newErrorMessage = document.getElementById("new-error");
+  const confirmErrorMessage = document.getElementById("confirm-error");
 
-    const currentErrorMessage = document.getElementById('current-error');
-    const newErrorMessage = document.getElementById('new-error');
-    const confirmErrorMessage = document.getElementById('confirm-error');
+  // Clear previous error messages
+  currentErrorMessage.textContent = "";
+  newErrorMessage.textContent = "";
+  confirmErrorMessage.textContent = "";
 
-    currentErrorMessage.textContent = '';
-    newErrorMessage.textContent = '';
-    confirmErrorMessage.textContent = '';
-    let isValid = true;
-    if (currentPassword.length < 6) {
-      currentErrorMessage.textContent = "Current Password must be at least 6 character long!";
-      isValid = false;
-    }
-    if (newPassword.length < 6) {
-      currentErrorMessage.textContent = "New Password  must be at least 6 character long!";
-      isValid = false;
-    }
-    if (confirmPassword.length < 6 ) {
-      currentErrorMessage.textContent = "Confirm Password must be at least 6 character long!";
-      isValid = false;
-    }
+  let isValid = true;
 
-    if(confirmPassword !== newPassword){
-      Swal.fire({
-        icon:'warning',
-        text:'New password and confirm password must be same.',
-        title:'Incorrect confirm password!'
-      })
-    };
+  // Validate passwords
+  if (currentPassword.length < 6) {
+    currentErrorMessage.textContent =
+      "Current Password must be at least 6 characters long!";
+    isValid = false;
+  }
+  if (newPassword.length < 6) {
+    newErrorMessage.textContent =
+      "New Password must be at least 6 characters long!";
+    isValid = false;
+  }
+  if (confirmPassword.length < 6) {
+    confirmErrorMessage.textContent =
+      "Confirm Password must be at least 6 characters long!";
+    isValid = false;
+  }
+  if (newPassword !== confirmPassword) {
+    Swal.fire({
+      icon: "warning",
+      text: "New password and confirm password must be the same.",
+      title: "Incorrect confirm password!",
+    });
+    return; 
+  }
 
-    if(isValid){
-      axios.put('/user/profile', {currentPassword, newPassword, confirmPassword})
-        .then(response => {
-          if(response.data.success) {
-            location.reload();
-          };
-        })
-        .catch(error => {
-          Swal.fire({
-            icon:'error',
-            text:error.response.data.message || 'Internal Server error!',
-          })
-        })
-    }
+  if (!isValid) return; // Exit if validation fails
 
+  console.log("Making Axios PUT request...");
   
-  })
+  // Axios request
+  axios
+    .put("/user/profile/update-password", { currentPassword, newPassword, confirmPassword })
+    .then((response) => {
+      if (response.data.success) {
+        Swal.fire({
+          icon: "success",
+          text: response.data.message,
+        }).then((result) => {
+          if (result.isConfirmed) {
+            location.reload();
+          }
+        });
+      }
+    })
+    .catch((error) => {
+      Swal.fire({
+        icon: "error",
+        text: error.response?.data?.message || "Internal Server error!",
+      });
+    });
+});

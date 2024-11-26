@@ -161,8 +161,8 @@ export const verifyUser = async (req, res) => {
       return res.status(400).render('user/userLogin', {message: 'Invalid email or password'})
     }
 
-    const isValidPassword =await bcrypt.compare(password, user.password);
-    if (!isValidPassword) {
+    const isValidPassword = bcrypt.compare(password, user.password);
+    if (!isValidPassword) { 
       return res.status(401).render("user/userLogin", {
         message: "Invalid email or password",
       });
@@ -273,7 +273,6 @@ export const changePassword = (req, res) => {
 
 export const resetPassword = async (req, res) => {
   try {
-    //validate here also later [x]
     const { newPassword, confirmPassword } = req.body;
     const { email } = req.session.forgotData;
     const password = await bcrypt.hash(newPassword, 10);

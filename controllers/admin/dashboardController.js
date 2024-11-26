@@ -17,7 +17,7 @@ export const fetchDashboardData = async (req, res) => {
     console.log(filter)
     let filterCondition = {};
 
-    // Dynamically adjust date filtering based on the selected filter
+    //  adjust date filtering based on the selected filter
     if (filter === "daily") {
       filterCondition.createdAt = { $gte: new Date().setHours(0, 0, 0, 0) };
     } else if (filter === "monthly") {
@@ -110,7 +110,7 @@ export const fetchDashboardData = async (req, res) => {
   const salesDates = orders.map(order => order.createdAt.toISOString().split('T')[0]);
   const usersCount = await Users.find().countDocuments();
 
-
+      console.log(salesData)
 
  const data = {
     sales,

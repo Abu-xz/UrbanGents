@@ -118,7 +118,7 @@ userRouter.get("/product-details/:productId",userAuth, loadProductDetails);
 // Profile page
 userRouter.get("/profile", userAuth, loadProfile);
 userRouter.post("/profile/edit", userAuth, updateProfile);
-userRouter.put('/profile', userAuth, updatePassword);
+userRouter.put('/profile/update-password', userAuth, updatePassword);
 
 
 // Address page
