@@ -40,6 +40,7 @@ import {
   loadWishlist,
   orderDetails,
   removeItemFromWishlist,
+  updatePassword,
   updateProfile,
   updateWallet,
 } from "../controllers/user/profileController.js";
@@ -117,6 +118,8 @@ userRouter.get("/product-details/:productId",userAuth, loadProductDetails);
 // Profile page
 userRouter.get("/profile", userAuth, loadProfile);
 userRouter.post("/profile/edit", userAuth, updateProfile);
+userRouter.put('/profile', userAuth, updatePassword);
+
 
 // Address page
 userRouter.get("/profile/address", userAuth, loadAddress);

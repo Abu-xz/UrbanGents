@@ -52,7 +52,6 @@
             />
           </div>
           <h2 class="text-lg font-semibold uppercase"><%= user.firstName%></h2>
-         
         </div>
         <!-- Navigation Menu -->
         <nav class="text-center mt-5 space-y-4">
@@ -106,7 +105,7 @@
             >
             <span class="ml-2">Wallet</span>
           </a>
-         
+
           <a
             href="/user/logout"
             class="flex items-center justify-center text-red-600 bg-grey-100 p-2 rounded mt-10"
@@ -139,23 +138,18 @@
               </div>
               <% if(user.password){ %>
               <div>
-                <a href="/user/profile/change-Passowrd ">
-                  <button
-                    class="bg-black text-white py-2 px-6 rounded-md hover:bg-gray-800 transition"
-                  >
-                    Change Password
-                  </button>
-                </a>
+                <button
+                  id="openModal"
+                  class="bg-black text-white py-2 px-6 rounded-md hover:bg-gray-800 transition"
+                >
+                  Change Password
+                </button>
               </div>
               <% } %>
             </div>
 
             <!-- Form Fields -->
-            <form
-              action="/user/profile/edit%>"
-              method="POST"
-              id="edit-form"
-            >
+            <form action="/user/profile/edit%>" method="POST" id="edit-form">
               <!-- First Name and Last Name -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div>
@@ -255,9 +249,71 @@
 
       <% } %>
     </div>
-   
+    <!-- Modal -->
+    <div
+      id="modal"
+      class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center"
+    >
+      <div class="bg-white rounded-lg shadow-lg w-96 p-6">
+        <div class="flex justify-between items-center">
+          <h2 class="text-xl font-semibold">Change Password</h2>
+          <button id="closeModal" class="text-gray-400 hover:text-gray-600 ">
+            &times;
+          </button>
+        </div>
+        <form class="mt-4 space-y-4">
+          <div>
+            <label
+              for="current-password"
+              class="block text-sm font-medium text-gray-700"
+              >Current Password</label
+            >
+            <input
+              type="password"
+              id="current-password"
+              class="w-full mt-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <span id="current-error"></span>
+          </div>
+          <div>
+            <label
+              for="new-password"
+              class="block text-sm font-medium text-gray-700"
+              >New Password</label
+            >
+            <input
+              type="password"
+              id="new-password"
+              class="w-full mt-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <span id="new-error"></span>
+
+          </div>
+          <div>
+            <label
+              for="confirm-password"
+              class="block text-sm font-medium text-gray-700"
+              >Confirm New Password</label
+            >
+            <input
+              type="password"
+              id="confirm-password"
+              class="w-full mt-1 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <span id="confirm-error"></span>
+          </div>
+          
+          <button
+            type="button"
+            id="update-password-button"
+            class="w-full py-2 px-4 bg-black text-white rounded hover:bg-blue-600"
+          >
+            Update Password
+          </button>
+        </form>
+      </div>
+    </div>
   </body>
-  
 
   <script src="/javascript/profileForm.js"></script>
 </html>

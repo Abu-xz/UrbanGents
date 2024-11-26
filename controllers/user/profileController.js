@@ -49,29 +49,16 @@ export const updateProfile = async (req, res) => {
 
     if (user.googleId) {
       const { firstName, lastName } = req.body;
-
-      // if (!firstName || !lastName) {
-      //   return res
-      //     .status(400)
-      //     .json({ success: false, message: "All field are required!" });
-      // }
-
       user.firstName = firstName;
       user.lastName = lastName;
       user.save();
       return res.status(200).redirect("/user/profile");
     } else {
       const { firstName, lastName, phoneNumber } = req.body;
-      // console.log(firstName, lastName, phoneNumber);
-
-      // if (!firstName || !lastName || !phoneNumber) {
-      //   return res
-      //     .status(400)
-      //     .json({ success: false, message: "All field are required!" });
-      // }
-
+     
       user.firstName = firstName;
       user.lastName = lastName;
+      user.phoneNumber = phoneNumber;
       await user.save();
       return res.status(200).redirect("/user/profile");
     }
@@ -81,6 +68,18 @@ export const updateProfile = async (req, res) => {
   }
 };
 
+export const updatePassword = async (req, res) =>{
+  try {
+      console.log('update password route reached');
+      
+  } catch (error) {
+    
+  }
+} 
+
+
+
+// address logic start here... 
 export const loadAddress = async (req, res) => {
   try {
     let user;
