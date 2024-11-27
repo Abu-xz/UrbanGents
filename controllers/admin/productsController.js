@@ -3,29 +3,33 @@ import Product from "../../models/productModel.js";
 
 export const loadProducts = async (req, res) => {
   try {
-
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 6;
     const skip = (page - 1) * limit;
     const totalProducts = await Product.countDocuments();
     const totalPages = Math.ceil(totalProducts / limit);
 
-    if(page > totalPages) return res.status(200).redirect(`/admin/products?page=${totalPages}&limit=${limit}`);
-    
-    const products = await Product.find().populate("category").skip(skip).limit(limit); 
-    console.log(products)
+    const products = await Product.find()
+      .populate("category")
+      .skip(skip)
+      .limit(limit);
     if (!products) {
-      return res.render('admin/product');
+      return res.render("admin/product");
     } else {
-      return res.status(200).render("admin/products", { products , currentPage :page, totalPages, limit});
+      return res.status(200).render("admin/products", {
+        products,
+        currentPage: page,
+        totalPages,
+        limit,
+      });
     }
   } catch (error) {
-    console.log(error);
+    return res.status(200).json({ message: error.message });
   }
 };
 
 export const loadAddProducts = async (req, res) => {
-  const category = await Category.find({isActive:true});
+  const category = await Category.find({ isActive: true });
   if (!category) {
     res.status(400).redirect("/admin/products");
   }
@@ -34,7 +38,6 @@ export const loadAddProducts = async (req, res) => {
 
 export const addProducts = async (req, res) => {
   try {
-    console.log("body parts ====", req.body);
     const {
       productName,
       category,
@@ -61,7 +64,6 @@ export const addProducts = async (req, res) => {
       });
     }
 
-    console.log("all field are here");
     const categoryDetails = await Category.findOne({
       categoryName: new RegExp(`^${category}$`, "i"),
     });
@@ -72,35 +74,29 @@ export const addProducts = async (req, res) => {
         errorMessage: "Invalid category.",
       });
     }
-    console.log("category available");
 
-    //create an object for the size and stock array 
+    //create an object for the size and stock array
     const arrayOfObjects = size.map((size, index) => ({
       size: size,
-      stock: stock[index]
+      stock: stock[index],
     }));
 
-    console.log(arrayOfObjects)
-
-    const categoryId   = categoryDetails._id;
+    const categoryId = categoryDetails._id;
 
     const newProduct = new Product({
       productName,
       category: categoryId,
       price,
       discount,
-      variant:arrayOfObjects,
+      variant: arrayOfObjects,
       images: croppedImages,
       description,
       isActive: true,
     });
 
     await newProduct.save();
-    console.log("product created ");
-    console.log(newProduct);
     res.status(200).render("admin/addProducts", { success: true });
   } catch (error) {
-    console.error(error);
     res.status(500).render("admin/addProducts", {
       success: false,
       errorMessage: "Failed to add product. Please try again.",
@@ -110,7 +106,6 @@ export const addProducts = async (req, res) => {
 
 export const productBlockUnblock = async (req, res) => {
   try {
-    console.log("product block axios reached");
     const { productId } = req.body;
     if (!productId) {
       return res
@@ -122,14 +117,13 @@ export const productBlockUnblock = async (req, res) => {
     if (product) {
       product.isActive = !product.isActive;
       await product.save();
-      // console.log(product.isActive);
       const message = product.isActive
-      ? "Product Unblocked successfully"
-      : "Product blocked successfully";
+        ? "Product Unblocked successfully"
+        : "Product blocked successfully";
       return res.status(200).json({ status: true, message: message });
     }
   } catch (error) {
-    console.log(error);
+    return res.status(200).json({ message: error.message });
   }
 };
 
@@ -140,17 +134,14 @@ export const loadEditProduct = async (req, res) => {
   if (!category) {
     res.status(400).redirect("/admin/products");
   }
-  
+
   if (product) {
     console.log(product);
     res.status(200).render("admin/editProducts", { product, category });
   } else {
     res.status(500).redirect("/admin/products");
   }
-
 };
-
-
 
 export const updateProduct = async (req, res) => {
   try {
@@ -168,7 +159,7 @@ export const updateProduct = async (req, res) => {
     } = req.body;
     console.log(croppedImages);
     if (
-      !productId||
+      !productId ||
       !productName ||
       !category ||
       !price ||
@@ -194,35 +185,34 @@ export const updateProduct = async (req, res) => {
         errorMessage: "Invalid category.",
       });
     }
-    console.log("category available");
     const arrayOfObjects = size.map((size, index) => ({
       size: size,
-      stock: stock[index]
+      stock: stock[index],
     }));
 
     const categoryId = categoryDetails._id;
-    const updatedProduct = await Product.findByIdAndUpdate(productId, {
-      productName: productName,
-      category:categoryId,
-      price:price,
-      discount:discount,
-      images:croppedImages,
-      description:description,
-      variant: arrayOfObjects
-    },{
-      new:true
-    });
+    const updatedProduct = await Product.findByIdAndUpdate(
+      productId,
+      {
+        productName: productName,
+        category: categoryId,
+        price: price,
+        discount: discount,
+        images: croppedImages,
+        description: description,
+        variant: arrayOfObjects,
+      },
+      {
+        new: true,
+      }
+    );
 
     updatedProduct.save();
-    console.log(" product updated");
-    // console.log(updatedProduct);
-    res.status(200).render("admin/products", { success: true,});
+    res.status(200).render("admin/products", { success: true });
   } catch (error) {
-    console.error(error);
     res.status(500).render("admin/products", {
       success: false,
       errorMessage: "Failed to add product. Please try again.",
     });
   }
-
-}
+};

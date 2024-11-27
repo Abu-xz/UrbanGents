@@ -20,7 +20,6 @@ function displayError(message) {
     axios
       .post("/user/forgotOtp", { userOtp })
       .then((response) => {
-        // console.log(response.data);
         if (response.data.success) {
           //This will redirect to user login
           window.location.href = "/user/changePassword";
@@ -51,7 +50,6 @@ function displayError(message) {
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    // returning mm:ss
     return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
   

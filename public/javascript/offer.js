@@ -64,7 +64,6 @@ offerForm.addEventListener("submit", function (event) {
       }
     })
     .catch((error) => {
-      console.error("Error creating the offer:", error);
       Swal.fire("An error occurred while creating the offer.");
       submitButton.disabled = false; // Re-enable the button
     });
@@ -73,7 +72,6 @@ offerForm.addEventListener("submit", function (event) {
 editButtons.forEach(editButton => {
   editButton.addEventListener("click", () => {
     const offerId = editButton.getAttribute("data-offerId");
-    console.log("edit button clicked");
     window.location.href = `/admin/edit-offer?offerId=${offerId}`;
   });
 
@@ -81,7 +79,6 @@ editButtons.forEach(editButton => {
 
 deleteButtons.forEach(deleteButton => {
   deleteButton.addEventListener("click", () => {
-    console.log('delete button clicked')
     const offerId = deleteButton.getAttribute("data-offerId");
   
     Swal.fire({
@@ -100,7 +97,6 @@ deleteButtons.forEach(deleteButton => {
         }
       })
       .catch((error) => {
-        console.error("Error deleting the offer:", error);
         Swal.fire("An error occurred while deleting the offer.");
       });
   });

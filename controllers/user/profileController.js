@@ -7,19 +7,15 @@ export const loadProfile = async (req, res) => {
   try {
     let user;
     const data = req.session?.user?.email || req.session?.user;
-    // console.log("data here", data);
     if (req.session.user.email) {
       user = await Users.findOne({ email: data });
-      //   console.log("normal user :", user);
     } else if (req.session.user) {
       user = await Users.findOne({ googleId: data });
-      //   console.log("google User  :", user);
     }
 
     if (!user) {
       return res.status(500).render("user/userHome", { success: false });
     }
-    // console.log(user);
 
     const successMessage = req.session.successMessage;
     const errorMessage = req.session.errorMessage;
@@ -31,14 +27,12 @@ export const loadProfile = async (req, res) => {
     req.session.successMessage = null;
     req.session.errorMessage = null;
   } catch (error) {
-    console.log(error);
     res.status(500).json({ errorMessage: 'Error , user profile can"t access' });
   }
 };
 
 export const updateProfile = async (req, res) => {
   try {
-    console.log("update profile route reached");
     const userData = req.session.user.email || req.session.user;
     const user = await Users.findOne({
       $or: [{ email: userData }, { googleId: userData }],
@@ -71,34 +65,37 @@ export const updateProfile = async (req, res) => {
 
 export const updatePassword = async (req, res) => {
   try {
-    console.log("update password route reached");
     const userData = req.session.user.email || req.session.user;
     const user = await Users.findOne({
       $or: [{ email: userData }, { googleId: userData }],
     });
-    console.log(user.password);
-    console.log(req.body);
     const { currentPassword, newPassword, confirmPassword } = req.body;
     const isValidPassword = bcrypt.compare(currentPassword, user.password);
 
     if (!isValidPassword) {
-      return res.status(400).json({ success: false, message: "Password not matching!" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Password not matching!" });
     }
-    if(newPassword !== confirmPassword){
-      return res.status(400).json({ success: false, message: "New password & confirm password must be same" });
-    }else{
+    if (newPassword !== confirmPassword) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "New password & confirm password must be same",
+        });
+    } else {
       const password = await bcrypt.hash(newPassword, 10);
       user.password = password;
       await user.save();
-      res.status(200).json({success: true, message: 'Password changes successfully'})
+      res
+        .status(200)
+        .json({ success: true, message: "Password changes successfully" });
     }
-
-
-
-
   } catch (error) {
-    console.log('error occurred while password updating.')
-    res.status(500).json({message:'error occurred while password updating.'})
+    res
+      .status(500)
+      .json({ message: "error occurred while password updating." });
   }
 };
 
@@ -108,13 +105,10 @@ export const loadAddress = async (req, res) => {
     let user;
     //check the user is google or normal
     const data = req.session?.user?.email || req.session?.user;
-    // console.log("data here", data);
     if (req.session.user.email) {
       user = await Users.findOne({ email: data });
-      // console.log("normal user :", user);
     } else if (req.session.user) {
       user = await Users.findOne({ googleId: data });
-      // console.log("google User  :", user);
     }
 
     if (!user) {
@@ -123,24 +117,19 @@ export const loadAddress = async (req, res) => {
       res.status(200).render("user/userAddress", { user });
     }
   } catch (error) {
-    console.log("Error", error.message);
+    res.status(500).json({ message: "error occurred while address rendering" });
   }
 };
 
 export const addAddress = async (req, res) => {
   try {
-    console.log("axios address route reached");
-
     let user;
     const userData = req.session?.user?.email || req.session?.user;
-    console.log("data here", userData);
 
     if (req.session.user.email) {
       user = await Users.findOne({ email: userData });
-      console.log("normal user :", userData);
     } else if (req.session.user) {
       user = await Users.findOne({ googleId: userData });
-      console.log("google User  :", userData);
     }
 
     if (!user)
@@ -161,7 +150,6 @@ export const addAddress = async (req, res) => {
       address,
       setDefault,
     } = req.body;
-    console.log(req.body);
 
     const newAddress = {
       firstName,
@@ -179,7 +167,6 @@ export const addAddress = async (req, res) => {
 
     if (setDefault) {
       const defaultAddress = user.addresses.find((addr) => addr.isDefault);
-      console.log(defaultAddress);
       if (defaultAddress) {
         defaultAddress.isDefault = false;
       }
@@ -187,18 +174,14 @@ export const addAddress = async (req, res) => {
 
     user.addresses.push(newAddress);
     await user.save();
-    console.log(user);
     res
       .status(200)
       .json({ success: true, message: "Address added successfully!" });
-  } catch (error) {
-    console.log("Error", error.message);
-  }
+  } catch (error) {}
 };
 
 export const loadEditAddress = async (req, res) => {
   try {
-    console.log("edit address route reached ");
     let user;
     const addressId = req.query.id;
     const userData = req.session.user.email || req.session.user;
@@ -214,24 +197,19 @@ export const loadEditAddress = async (req, res) => {
       res.status(200).render("user/editAddress", { user, address });
     }
   } catch (error) {
-    console.log("Error", error.message);
+    res.status(500).json({ message: "error occurred while address editing ." });
   }
 };
 
 export const editAddress = async (req, res) => {
   try {
-    console.log("axios address route reached");
-
     let user;
     const userData = req.session?.user?.email || req.session?.user;
-    console.log("data here", userData);
 
     if (req.session.user.email) {
       user = await Users.findOne({ email: userData });
-      // console.log("normal user :", userData);
     } else if (req.session.user) {
       user = await Users.findOne({ googleId: userData });
-      // console.log("google User  :", userData);
     }
 
     if (!user)
@@ -253,7 +231,6 @@ export const editAddress = async (req, res) => {
       address,
       setDefault,
     } = req.body;
-    console.log(req.body);
 
     const newAddress = {
       firstName,
@@ -273,7 +250,7 @@ export const editAddress = async (req, res) => {
       const defaultAddress = user.addresses.find(
         (addr) => addr.isDefault && addr._id.toString() !== addressId
       );
-      console.log(defaultAddress);
+
       if (defaultAddress) {
         defaultAddress.isDefault = false;
       }
@@ -283,7 +260,6 @@ export const editAddress = async (req, res) => {
     if (addressToUpdate) {
       addressToUpdate.set(newAddress);
       await user.save();
-      console.log(user.addresses.id(addressId));
 
       return res
         .status(200)
@@ -293,18 +269,16 @@ export const editAddress = async (req, res) => {
       .status(500)
       .json({ success: false, message: "Address not found" });
   } catch (error) {
-    console.log("Error", error.message);
+    res.status(500).json({ message: "error occurred while address editing." });
   }
 };
 
 export const deleteAddress = async (req, res) => {
   try {
     const { addressId } = req.body;
-    console.log(addressId);
 
     let user;
     const userData = req.session?.user?.email || req.session?.user;
-    // console.log("data here", userData);
 
     if (req.session.user.email) {
       user = await Users.findOneAndUpdate(
@@ -313,8 +287,6 @@ export const deleteAddress = async (req, res) => {
         { new: true }
       );
       user.save();
-
-      // console.log("normal user :", userData);
     } else if (req.session.user) {
       user = await Users.findOneAndUpdate(
         { googleId: userData },
@@ -333,13 +305,12 @@ export const deleteAddress = async (req, res) => {
       .status(200)
       .json({ success: true, message: "Address deleted Successfully!" });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "error occurred while address deleting." });
   }
 };
 
 export const loadOrders = async (req, res) => {
   try {
-    console.log("profile order route reached");
     const userData = req.session.user.email || req.session.user;
 
     const user = await Users.findOne({
@@ -355,20 +326,17 @@ export const loadOrders = async (req, res) => {
     const orders = await Order.find({ customerId: user._id })
       .populate("items.productId")
       .sort({ createdAt: -1 });
-    // console.log("User order ", orders);
-    // console.log(orders[0]?.items);
-
-    // console.log(user);
 
     res.status(200).render("user/userOrders", { orders, user });
   } catch (error) {
-    console.log(error);
+    res
+      .status(500)
+      .json({ message: "error occurred while order page rendering." });
   }
 };
 
 export const orderDetails = async (req, res) => {
   try {
-    console.log("User order details page reached");
     const orderId = req.query.orderId;
     const orderDetails = await Order.findById(orderId).populate(
       "items.productId"
@@ -380,7 +348,7 @@ export const orderDetails = async (req, res) => {
     displayInvoice = orderDetails.items.every(
       (item) => item.status === "delivered"
     );
-    // console.log(displayInvoice);
+
     if (orderDetails.paymentStatus !== "paid") {
       displayInvoice = false;
     }
@@ -389,13 +357,14 @@ export const orderDetails = async (req, res) => {
       .status(200)
       .render("user/userOrderDetails", { orderDetails, displayInvoice });
   } catch (error) {
-    console.log(error);
+    res
+      .status(500)
+      .json({ message: "error occurred while order-details page loading." });
   }
 };
 
 export const cancelOrder = async (req, res) => {
   try {
-    console.log("cancel order route reached");
     const userData = req.session.user.email || req.session.user;
     const { itemId, orderId } = req.body;
 
@@ -409,19 +378,13 @@ export const cancelOrder = async (req, res) => {
         .json({ success: false, message: "User not Exists!" });
     }
 
-    // console.log("item id :", itemId);
-    // console.log("order id :", orderId);
-
     const order = await Order.findById(orderId);
-    // console.log(order);
     const item = order.items.find((item) => item._id.toString() === itemId);
-    // console.log(item);
 
     if (
       order.paymentMethod === "razorpay" ||
       order.paymentMethod === "wallet"
     ) {
-      // console.log(order.paymentMethod)
       item.status = "cancelled";
       user.walletAmount += item.subDiscount;
 
@@ -442,7 +405,6 @@ export const cancelOrder = async (req, res) => {
       return res.status(200).json({ success: true });
     }
   } catch (error) {
-    console.log("Error occurred when cancel order", error.message);
     res.status(500).json({ success: false, message: "Internal Server Error!" });
   }
 };
@@ -457,11 +419,10 @@ export const loadWishlist = async (req, res) => {
     }).populate("wishlist");
 
     const wishlist = user.wishlist;
-    console.log(wishlist);
 
     res.status(200).render("user/userWishlist", { wishlist, user });
   } catch (error) {
-    console.log("Error occurred when cancel order", error.message);
+    res.status(500).json({ success: false, message: "Internal Server Error!" });
   }
 };
 
@@ -483,8 +444,6 @@ export const addToWishlist = async (req, res) => {
       return res.status(500).json({ message: "Product Not found" });
     }
 
-    // console.log(product);
-
     if (!user.wishlist.includes(productId)) {
       user.wishlist.push(productId);
       await user.save();
@@ -503,7 +462,6 @@ export const addToWishlist = async (req, res) => {
 
 export const removeItemFromWishlist = async (req, res) => {
   try {
-    console.log("remove item from wishlist route reached");
     const { productId } = req.body;
     const userData = req.session.user.email || req.session.user;
     const user = await Users.findOne({
@@ -540,10 +498,8 @@ export const loadWallet = async (req, res) => {
       return res.status(302).json({ message: "User Not found" });
     }
 
-    console.log("wallet route reached");
     res.status(200).render("user/userWallet", { user });
   } catch (error) {
-    console.log("Error", error);
     return res.status(500).json({ success: false, message: "Internal Server" });
   }
 };
@@ -551,7 +507,6 @@ export const loadWallet = async (req, res) => {
 export const updateWallet = async (req, res) => {
   try {
     const { value } = req.body;
-    console.log(value);
     const userData = req.session.user.email || req.session.user;
     const user = await Users.findOne({
       $or: [{ email: userData }, { googleId: userData }],
@@ -572,7 +527,6 @@ export const updateWallet = async (req, res) => {
       return res.status(200).json({ success: true, message: "Wallet updated" });
     }
   } catch (error) {
-    console.log("Error", error);
     return res.status(500).json({ success: false, message: "Internal Server" });
   }
 };

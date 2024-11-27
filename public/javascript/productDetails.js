@@ -7,20 +7,15 @@ thumbnail.addEventListener("click", (e) => {
   productImage.src = target;
 });
 
-// console.log("product details js page reached");
 const addToCartButtons = document.querySelectorAll(".add-to-cart");
-// console.log(addToCartButtons);
 
 addToCartButtons.forEach((button) => {
   button.addEventListener("click", (event) => {
-    console.log("button clicked");
     const stockStatusDiv = document.getElementById("stock-status");
     const variantSize = stockStatusDiv
       .querySelector("p")
       .getAttribute("data-variant");
-    console.log(variantSize);
     const productId = button.getAttribute("data-id");
-    console.log(productId);
     axios
       .post("/user/cart/add", { productId, variantSize })
       .then((response) => {
@@ -87,7 +82,6 @@ function showStockStatusAndUpdateButton(size, stock, button) {
 // Function to initialize the stock status on page load
 function initializeStockStatus() {
   const buttons = document.querySelectorAll(".variant-button");
-  // console.log('hell')
   if (buttons.length > 0) {
     const firstButton = buttons[0];
     const size = firstButton.innerText; // Get size from button text
@@ -103,11 +97,9 @@ window.onload = initializeStockStatus;
 
 
 function addToWishlist (productId){
-  console.log('wishlist button clicked', productId);
 
   axios.post('/user/profile/wishlist', {productId})
     .then((response) => {
-      console.log('product added to wishlist');
       if(response.data.success){
         Swal.fire({
           title: 'Product added to wishlist!',

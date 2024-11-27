@@ -33,13 +33,11 @@ checkoutBtn.addEventListener("click", (e) => {
   const payment = paymentMethod.getAttribute("id");
 
   if (payment === "razorpay") {
-    console.log("route in");
     // Handle Razorpay payment flow
     axios
       .post("/user/createRazorpay")
       .then((response) => {
         //here order is the response
-        console.log(JSON.stringify(response.data.order));
         if (response.data.order) {
           const options = {
             key: "rzp_test_KDYrLJHnu3O9Ip", // Razorpay key ID
@@ -50,7 +48,6 @@ checkoutBtn.addEventListener("click", (e) => {
             order_id: response.data.order.id,
             handler: async function (response) {
               // Successful payment handler
-              console.log("Payment successful:", response);
               await Swal.fire({
                 icon: "success",
                 title: "Payment Successful!",
@@ -59,7 +56,6 @@ checkoutBtn.addEventListener("click", (e) => {
               });
 
               // Send payment confirmation to the backend
-              console.log(JSON.stringify(response))
               axios
                 .post("/user/verifyPayment", {
                   addressId: addressId,

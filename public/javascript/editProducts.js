@@ -9,21 +9,11 @@ const croppedImageData3 = document.getElementById("cropped-image-data3");
 
 let uploadedImages = [];
 let cropper;
-//use for loop when area is empty in future ! //
-// for(let i = 0; i < 3; i++){
-//   if()
-// }
-
-
-//this is from top
 
 uploadedImages[0] = croppedImageData1.value;
 uploadedImages[1] = croppedImageData2.value;
 uploadedImages[2] = croppedImageData3.value;
 
-// croppedImageData1.value = prevImageData1
-// croppedImageData2.value = prevImageData2
-// croppedImageData3.value = prevImageData3
 
 // Handle image input change
 imageInput.addEventListener("change", (event) => {
@@ -80,7 +70,6 @@ function handleClick () {
     });
     return;
   }
-  console.log(uploadedImages)
   if (uploadedImages.length >= 3) {
     Swal.fire({
       icon: "error",
@@ -108,7 +97,6 @@ function handleClick () {
         formData
       );
       const imageUrl = response.data.secure_url; // The response is image URL from Cloudinary
-      console.log(imageUrl);
       uploadedImages.push(imageUrl);
 
       // Create a new div to wrap the image and the remove button
@@ -157,12 +145,9 @@ function handleClick () {
       if (uploadedImages.length >= 2) {
         croppedImageData2.value = uploadedImages[1];
       }
-      console.log("image 3 here start");
       if (uploadedImages.length >= 3) {
         croppedImageData3.value = uploadedImages[2];
       }
-      console.log("image 3 here ends");
-      console.log(uploadedImages);
       Swal.fire({
         title: "Image Uploaded!",
         text: "Your image has been uploaded successfully.",
@@ -176,7 +161,6 @@ function handleClick () {
       cancelButton.classList.add("hidden");
       cropper.destroy(); // Destroy the cropper instance
     } catch (error) {
-      console.error(error); // Log the error for debugging
       let errorMessage = "There was an error uploading your image.";
       if (error.response && error.response.data && error.response.data.error) {
         errorMessage = error.response.data.error.message; // Get specific error message from Cloudinary
@@ -191,126 +175,6 @@ function handleClick () {
 }
 
 
-// // Handle crop button click
-
-// cropButton.addEventListener("click", () => {
-//   if (!cropper) {
-//     Swal.fire({
-//       icon: "error",
-//       title: "No cropper initialized",
-//       text: "Please upload an image first.",
-//     });
-//     return;
-//   }
-//   console.log(uploadedImages)
-//   if (uploadedImages.length >= 3) {
-//     Swal.fire({
-//       icon: "error",
-//       text: "You can only upload a maximum of 3 images.",
-//       title: "Limit Reached",
-//     });
-//     imagePreview.classList.add("hidden");
-//     cropButton.classList.add("hidden");
-//     cancelButton.classList.add("hidden");
-//     imageInput.value = "";
-
-//     cropper.destroy();
-//     return;
-//   }
-
-//   const canvas = cropper.getCroppedCanvas();
-//   canvas.toBlob(async (blob) => {
-//     const formData = new FormData();
-//     formData.append("file", blob);
-//     formData.append("upload_preset", "product-image");
-
-//     try {
-//       const response = await axios.post(
-//         "https://api.cloudinary.com/v1_1/de5vavykz/image/upload",
-//         formData
-//       );
-//       const imageUrl = response.data.secure_url; // The response is image URL from Cloudinary
-//       console.log(imageUrl);
-//       uploadedImages.push(imageUrl);
-
-//       // Create a new div to wrap the image and the remove button
-//       const div = document.createElement("div");
-
-//       // Create the remove button
-//       const removeBtn = document.createElement("button");
-//       removeBtn.id = "remove-button";
-//       removeBtn.onclick = () => {
-//         removeImage(imageUrl);
-//       };
-//       removeBtn.textContent = "Remove";
-//       removeBtn.classList.add(
-//         "bg-red-500",
-//         "text-white",
-//         "px-2",
-//         "py-1",
-//         "rounded",
-//         "hover:bg-red-700",
-//         "transition",
-//         "duration-200"
-//       );
-
-//       const imgElement = document.createElement("img");
-//       imgElement.src = imageUrl;
-//       imgElement.alt = "Uploaded Image";
-//       imgElement.style.maxWidth = "150px";
-//       imgElement.style.maxHeight = "150px";
-//       imgElement.style.marginRight = "20px";
-
-//       const inputElement = document.createElement("input");
-//       inputElement.type = "hidden";
-//       inputElement.value = imageUrl;
-//       inputElement.name = "croppedImages";
-
-//       div.appendChild(imgElement);
-//       div.appendChild(removeBtn);
-//       div.appendChild(inputElement);
-
-//       const container = document.getElementById("image-preview-container");
-//       container.appendChild(div);
-
-//       if (uploadedImages.length >= 1) {
-//         croppedImageData1.value = uploadedImages[0];
-//       }
-//       if (uploadedImages.length >= 2) {
-//         croppedImageData2.value = uploadedImages[1];
-//       }
-//       console.log("image 3 here start");
-//       if (uploadedImages.length >= 3) {
-//         croppedImageData3.value = uploadedImages[2];
-//       }
-//       console.log("image 3 here ends");
-//       console.log(uploadedImages);
-//       Swal.fire({
-//         title: "Image Uploaded!",
-//         text: "Your image has been uploaded successfully.",
-//         icon: "success",
-//       });
-
-//       // Clear the input and preview for the next image
-//       imageInput.value = "";
-//       imagePreview.classList.add("hidden");
-//       cropButton.classList.add("hidden");
-//       cancelButton.classList.add("hidden");
-//       cropper.destroy(); // Destroy the cropper instance
-//     } catch (error) {
-//       console.error(error); // Log the error for debugging
-//       let errorMessage = "There was an error uploading your image.";
-//       if (error.response && error.response.data && error.response.data.error) {
-//         errorMessage = error.response.data.error.message; // Get specific error message from Cloudinary
-//       }
-//       Swal.fire({
-//         icon: "error",
-//         title: "Upload Failed",
-//         text: errorMessage || "There was an error uploading your image.",
-//       });
-//     }
-//   });
-// });
 
 productForm.addEventListener("submit", (e) => {
   const name = document.getElementById("product-name").value.trim();
@@ -318,7 +182,6 @@ productForm.addEventListener("submit", (e) => {
   const description = document.getElementById("description").value.trim();
   const category = document.getElementById("category").value.trim();
   const discount = document.getElementById("discount").value.trim();
-  // console.log(uploadedImages);
 
   const sizeSelect = document.querySelectorAll(".size-select");
   const stockInput = document.querySelectorAll(".stock-input");
@@ -376,7 +239,6 @@ productForm.addEventListener("submit", (e) => {
     return;
   }
 
-  // console.log(category);
 
   if (uploadedImages.length === 0) {
     Swal.fire({
@@ -398,7 +260,6 @@ productForm.addEventListener("submit", (e) => {
 });
 
 function removeImage(imageUrl) {
-  console.log(imageUrl);
   uploadedImages = uploadedImages.filter((val) => val !== imageUrl);
   const imageElements = document.querySelectorAll(
     "#image-preview-container img"
@@ -407,10 +268,8 @@ function removeImage(imageUrl) {
     if (imgElement.src === imageUrl) {
       imgElement.parentElement.remove();
     }
-    console.log(uploadedImages);
   });
 
-  console.log("removed");
 }
 
 let count = document.querySelectorAll('.size-quantity-block').length;

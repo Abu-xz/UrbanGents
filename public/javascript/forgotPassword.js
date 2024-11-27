@@ -26,7 +26,6 @@ forgotForm.addEventListener('click',(event)=>{
     }
   })
   .catch((error) => {
-    console.error("Axios error:", error); // Log the error for debugging
     if (error.response && error.response.data) {
       displayError(error.response.data.message);
     } else {

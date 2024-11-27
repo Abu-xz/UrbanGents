@@ -20,23 +20,20 @@ document.getElementById("otp-form").addEventListener("submit", (e) => {
   axios
     .post("/user/otp", { userOtp })
     .then((response) => {
-      // console.log(response.data);
       if (response.data.success) {
         //This will redirect to user login
         window.location.href = "/user/login";
       }
-      
     }) // if any error occurs in this route catch will catch the error ok!
     .catch((err) => {
-      if(err.response.data.redirect){
-        return window.location.href = '/user/signup'
+      if (err.response.data.redirect) {
+        return (window.location.href = "/user/signup");
       }
-      if(err.response && err.response.data && err.response.data.message){
+      if (err.response && err.response.data && err.response.data.message) {
         displayError(err.response.data.message);
-      }else{
+      } else {
         displayError("An unexpected error occurred.");
       }
-
     });
 });
 
@@ -49,21 +46,23 @@ const formatTime = (seconds) => {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
   // returning mm:ss
-  return `${minutes.toString().padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+  return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+    .toString()
+    .padStart(2, "0")}`;
 };
 
 window.onload = () => startCountDown();
 
 const startCountDown = () => {
-  resendBtn.classList.add('hidden');
+  resendBtn.classList.add("hidden");
   timer = setInterval(() => {
     otpTimeOut--;
     timerDisplay.textContent = formatTime(otpTimeOut); // update the timer by count down
 
     if (otpTimeOut <= 0) {
       clearInterval(timer);
-      resendBtn.classList.remove('hidden')
+      resendBtn.classList.remove("hidden");
       timerDisplay.textContent = "00:00";
     }
-  },1000);
+  }, 1000);
 };

@@ -11,7 +11,6 @@ export const loadOrders = async (req, res) => {
     if (page > totalPages)
       return res.status(200).redirect(`/admin/orders?page=${totalPages}`);
 
-    console.log("Order page request received");
     const orders = await Order.find()
       .populate("customerId")
       .populate("items.productId")
@@ -22,10 +21,12 @@ export const loadOrders = async (req, res) => {
     if (!orders) {
       res.status(404).render("admin/order", { success: false }); //create a sweet alert for this
     }
-    // console.log(orders);
-    res.status(200).render("admin/order", { orders , page, totalPages});
+    res.status(200).render("admin/order", { orders, page, totalPages });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
   }
 };
 
@@ -38,28 +39,22 @@ export const loadOrderDetails = async (req, res) => {
     if (!orderDetails) {
       res.status(404).render("admin/order", { success: false }); //create a sweet alert for this
     }
-    // console.log(orderDetails);
 
     res.status(200).render("admin/orderDetails", { orderDetails });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
   }
 };
 
 export const updateStatus = async (req, res) => {
   try {
-    console.log("Order status update request received");
-
     const { itemId, newStatus, orderId } = req.body;
-    console.log(req.body);
 
-    console.log(orderId.length);
-    console.log(
-      `Item ID: ${itemId}, New Status: ${newStatus}, Order ID: ${orderId}`
-    );
     // Finding the order by its ID
     const order = await Order.findById(orderId);
-    //   console.log(order)
 
     if (!order) {
       return res
@@ -69,7 +64,6 @@ export const updateStatus = async (req, res) => {
 
     // Finding the item in the order by its item ID
     const item = order.items.find((item) => item._id.equals(itemId));
-    console.log(item);
 
     if (!item) {
       return res
@@ -110,14 +104,12 @@ export const updateStatus = async (req, res) => {
 
     // Saving the updated order
     await order.save();
-    console.log(`Order updated successfully. New status: ${newStatus}`);
 
     return res.status(200).json({
       success: true,
       message: "Order status updated successfully",
     });
   } catch (error) {
-    console.error("Error updating order status:", error);
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
@@ -128,9 +120,7 @@ export const updateStatus = async (req, res) => {
 //invoice download here
 export const downloadInvoice = async (req, res) => {
   try {
-    console.log("invoice download route reached");
     const { orderId } = req.query;
-    console.log(orderId);
 
     const order = await Order.findById(orderId)
       .populate("customerId")
@@ -138,7 +128,6 @@ export const downloadInvoice = async (req, res) => {
     if (!order) {
       res.status(404).json("Order not found!");
     }
-    console.log(order);
     const doc = new PdfDocument();
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", 'attachment; filename="invoice.pdf"');
@@ -205,5 +194,10 @@ export const downloadInvoice = async (req, res) => {
 
     // Finalize the PDF and send it to the client
     doc.end();
-  } catch (error) {}
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
 };

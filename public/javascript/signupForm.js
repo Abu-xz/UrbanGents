@@ -16,7 +16,7 @@ document.getElementById("user-sign-up").addEventListener("submit", (e) => {
     !/^[a-zA-Z]+$/.test(firstName)
   ) {
     showToast("Please enter valid First Name");
-    isValid = false
+    isValid = false;
   }
   if (
     lastName.length < 2 ||
@@ -24,12 +24,12 @@ document.getElementById("user-sign-up").addEventListener("submit", (e) => {
     !/^[a-zA-Z]+$/.test(lastName)
   ) {
     showToast("Please enter a valid last Name");
-    isValid = false
+    isValid = false;
   }
 
   if (!/^\d{10}$/.test(phoneNumber)) {
     showToast("Please enter a valid phone Number");
-    isValid = false
+    isValid = false;
   }
 
   if (!/^\S+@\S+\.\S+$/.test(email)) {

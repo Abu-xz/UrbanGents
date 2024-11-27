@@ -14,15 +14,10 @@ couponForm.addEventListener("submit", (e) => {
   const usageLimit = document.getElementById("limit").value.trim();
 
   const expiryDate = new Date(expiry);
-  console.log(expiryDate);
-  //   const startDate = new Date(start);
-  //   console.log(startDate);
 
-  console.log("button clicked");
   e.preventDefault();
   let isValid = true;
   const codePattern = /^[A-Za-z0-9]+$/; // Only allow letters and numbers
-  console.log(code, discount, start, expiry, usageLimit);
 
   if (!code || !discount || !start || !expiry || !usageLimit) {
     isValid = false;
@@ -73,7 +68,6 @@ couponForm.addEventListener("submit", (e) => {
       .post("/admin/coupons", couponData)
       .then((response) => {
         if (response.data.success) {
-          console.log("success");
           window.location.reload();
         }
       })
@@ -100,7 +94,6 @@ const deleteButtons = document.querySelectorAll(".delete-button");
 
 editButtons.forEach((button) => {
   button.addEventListener("click", () => {
-     console.log('edit button clicked');
      const couponId = button.getAttribute('data-id');
      window.location.href = `/admin/coupons/${couponId}`
   });
@@ -109,7 +102,6 @@ editButtons.forEach((button) => {
 
 deleteButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    console.log('delete button clicked');
     const couponId = button.getAttribute('data-id');
     Swal.fire({
       icon: 'warning',

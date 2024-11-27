@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
-import morgan from "morgan";
 import path, { dirname } from "path";
 import { fileURLToPath } from "url";
 import connectDb from "./utils/db.js";
@@ -64,10 +63,8 @@ passport.use(
       try {
         let user = await Users.findOne({ googleId: profile.id });
         if (user) {
-          // console.log('profile here',profile)
           return done(null, user);
         } else {
-          console.log(profile);
           user = new Users({
             googleId: profile.id,
             email: profile.emails[0].value,
@@ -120,7 +117,6 @@ app.use(express.static("public"));
 
 app.get("/", isUser, async (req, res) => {
   try {
-    // console.log(req.session.user);
     const product = await Product.find({
       isActive: true,
       isDeleted: false,
@@ -129,10 +125,9 @@ app.get("/", isUser, async (req, res) => {
       isActive: true,
       isDeleted: false,
     }).limit(3);
-    // console.log('user home route reached and get product details')
     res.status(200).render("user/landing", { product, spotlight });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({message:'Internal server error!'});
   }
 });
 
@@ -151,7 +146,7 @@ const startServer = async () => {
       );
     });
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
 

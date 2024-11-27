@@ -9,23 +9,29 @@ const croppedImageData3 = document.getElementById("cropped-image-data3");
 let uploadedImages = [];
 let cropper;
 
-
-
 productForm.addEventListener("submit", (e) => {
   const name = document.getElementById("product-name").value.trim();
   const price = document.getElementById("price").value.trim();
   const description = document.getElementById("description").value.trim();
   const category = document.getElementById("category").value.trim();
   const discount = document.getElementById("discount").value.trim();
-  
-  const sizeSelect = document.querySelectorAll('.size-select');
-  const stockInput = document.querySelectorAll('.stock-input');
+
+  const sizeSelect = document.querySelectorAll(".size-select");
+  const stockInput = document.querySelectorAll(".stock-input");
 
   // Collect values for sizes and stocks
-  const sizes = Array.from(sizeSelect).map(input => input.value.trim());
-  const stocks = Array.from(stockInput).map(input => input.value.trim());
+  const sizes = Array.from(sizeSelect).map((input) => input.value.trim());
+  const stocks = Array.from(stockInput).map((input) => input.value.trim());
 
-  if (!name || !price || !description || !category || !discount || sizes.includes("") || stocks.includes("")) {
+  if (
+    !name ||
+    !price ||
+    !description ||
+    !category ||
+    !discount ||
+    sizes.includes("") ||
+    stocks.includes("")
+  ) {
     Swal.fire("All fields are required!");
     e.preventDefault();
     return;
@@ -49,7 +55,11 @@ productForm.addEventListener("submit", (e) => {
     return;
   }
 
-  if (typeof description !== "string" || description.length < 10 || description.length > 300) {
+  if (
+    typeof description !== "string" ||
+    description.length < 10 ||
+    description.length > 300
+  ) {
     Swal.fire("Description must be between 10 and 300 characters.");
     e.preventDefault();
     return;
@@ -64,11 +74,11 @@ productForm.addEventListener("submit", (e) => {
 
   const hasDuplicates = sizes.length !== new Set(sizes).size;
 
-if (hasDuplicates) {
-  Swal.fire("Invalid size, Please remove Duplicate size");
-  e.preventDefault();
-  return;
-}
+  if (hasDuplicates) {
+    Swal.fire("Invalid size, Please remove Duplicate size");
+    e.preventDefault();
+    return;
+  }
 
   // Check image uploads
   if (uploadedImages.length === 0) {
@@ -82,10 +92,7 @@ if (hasDuplicates) {
     e.preventDefault();
     return;
   }
-
-  
 });
-
 
 // Handle image input change
 imageInput.addEventListener("change", (event) => {
@@ -137,7 +144,7 @@ cropButton.addEventListener("click", () => {
     });
     imagePreview.classList.add("hidden");
     cropButton.classList.add("hidden");
-    cancelButton.classList.add('hidden');
+    cancelButton.classList.add("hidden");
     cropper.destroy();
     return;
   }
@@ -184,11 +191,10 @@ cropButton.addEventListener("click", () => {
       imageInput.value = "";
       imagePreview.classList.add("hidden");
       cropButton.classList.add("hidden");
-    cancelButton.classList.add('hidden');
+      cancelButton.classList.add("hidden");
 
       cropper.destroy(); // Destroy the cropper instance
     } catch (error) {
-      console.error(error); // Log the error for debugging
       // let errorMessage = "There was an error uploading your image.";
       if (error.response && error.response.data && error.response.data.error) {
         errorMessage = error.response.data.error.message; // Get specific error message from Cloudinary
@@ -202,17 +208,15 @@ cropButton.addEventListener("click", () => {
   });
 });
 
-
- // Function to add a new size-quantity field
- let variantCount = 2; //balance here
- function addSizeField() {
-  // console.log(variantCount)
-  if(variantCount == 4){
-   return Swal.fire('Maximum variants reached')
+// Function to add a new size-quantity field
+let variantCount = 2; //balance here
+function addSizeField() {
+  if (variantCount == 4) {
+    return Swal.fire("Maximum variants reached");
   }
-  const container = document.getElementById('size-quantity-container');
-  const newSizeField = document.createElement('div');
-  newSizeField.className = 'flex items-center mt-2 space-x-5';
+  const container = document.getElementById("size-quantity-container");
+  const newSizeField = document.createElement("div");
+  newSizeField.className = "flex items-center mt-2 space-x-5";
   newSizeField.innerHTML = `
     <select
       name="size[]"
@@ -238,11 +242,10 @@ cropButton.addEventListener("click", () => {
     <button type="button" onclick="removeSize(this)" class="ml-2 text-white rounded bg-red-600 p-2">Remove</button>
   `;
   container.appendChild(newSizeField);
-  variantCount++
- }
+  variantCount++;
+}
 
-
-  // Function to remove a size-quantity field
-  function removeSize(button) {
-    button.parentElement.remove();
-  }
+// Function to remove a size-quantity field
+function removeSize(button) {
+  button.parentElement.remove();
+}

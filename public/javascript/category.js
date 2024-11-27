@@ -31,7 +31,6 @@ addCategoryBtn.addEventListener("click", (e) => {
           }
         })
         .catch((error) => {
-          console.error("Error!", error);
           Swal.fire(
             "Error!",
             error.response?.data?.message || "Something went wrong.",
@@ -76,7 +75,6 @@ function unblockCategory(categoryId) {
       }
     })
     .catch((error) => {
-      console.error("Error Unblocking category:", error);
       Swal.fire("Error!", "Something went wrong.", "error");
     });
 }
@@ -115,7 +113,6 @@ function blockCategory(categoryId) {
       }
     })
     .catch((error) => {
-      console.error("Error blocking category:", error);
       Swal.fire("Error!", "Something went wrong.", "error");
     });
 }
@@ -157,7 +154,6 @@ function editCategory(categoryId, categoryName) {
               }
             })
             .catch((error) => {
-              console.error("Error!", error);
               Swal.fire(
                 "Error!",
                 error.response?.data?.message || "Something went wrong.",

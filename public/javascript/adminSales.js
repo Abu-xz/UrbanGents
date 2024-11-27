@@ -7,9 +7,7 @@ const totalOrderAmount =
   document.getElementById("totalOrderAmount").textContent || 0;
 const totalDiscount = document.getElementById("totalDiscount").textContent || 0;
 
-console.log("fetch report ");
 async function fetchSalesReport() {
-  console.log("button clicked");
   const reportType = document.getElementById("reportType").value;
   const startDate = document.getElementById("startDate").value;
   const endDate = document.getElementById("endDate").value;
@@ -22,10 +20,8 @@ async function fetchSalesReport() {
   try {
     const response = await axios.get(query);
     const data = response.data;
-    console.log("hello admin sales");
 
     if (data.success) {
-      console.log(data);
       const salesData = data.salesData;
       document.getElementById("totalSalesCount").textContent =
         salesData.totalSalesCount;
@@ -48,8 +44,6 @@ async function fetchSalesReport() {
       });
     }
   } catch (error) {
-    // console.error('Error fetching sales report:', error);
-
     Swal.fire({
       title: "Error",
       text: "An error occurred while fetching the sales report. Please try again later.",
@@ -68,8 +62,6 @@ downloadPdfButton.addEventListener("click", () => {
     document.getElementById("totalOrderAmount").textContent || 0;
   const totalDiscount =
     document.getElementById("totalDiscount").textContent || 0;
-  console.log("pdf button clicked");
-  console.log(totalDiscount, totalOrderAmount, totalSalesCount)
 
   window.location.href = `/admin/sales-pdf?totalSalesCount=${totalSalesCount}&totalOrderAmount=${totalOrderAmount}&totalDiscount=${totalDiscount}`;
 });
@@ -81,7 +73,5 @@ downloadExcelButton.addEventListener("click", () => {
     document.getElementById("totalOrderAmount").textContent || 0;
   const totalDiscount =
     document.getElementById("totalDiscount").textContent || 0;
-  console.log("excel button clicked");
-  console.log(totalDiscount, totalOrderAmount, totalSalesCount)
   window.location.href = `/admin/sales-excel?totalSalesCount=${totalSalesCount}&totalOrderAmount=${totalOrderAmount}&totalDiscount=${totalDiscount}`;
 });

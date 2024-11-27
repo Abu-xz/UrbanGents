@@ -1,4 +1,3 @@
-console.log("address session");
 const addressForm = document.getElementById("address-form");
 const addAddressBtn = document.getElementById("add-address-btn");
 const addAddressForm = document.getElementById("add-address-form");
@@ -6,7 +5,6 @@ const cancelBtn = document.getElementById("cancel-btn");
 
 addressForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  console.log("form submitted");
   const firstName = document.getElementById("first-name").value.trim();
   const lastName = document.getElementById("last-name").value.trim();
   const pincode = document.getElementById("pincode").value.trim();
@@ -20,9 +18,7 @@ addressForm.addEventListener("submit", (event) => {
     'input[name="addressType"]:checked'
   ).value;
   const setDefault = document.getElementById("setDefault").checked;
-  console.log(setDefault);
 
-  console.log(addressType);
   const firstNameError = document.getElementById("first-name-error");
   const lastNameError = document.getElementById("last-name-error");
   const phoneNumberError = document.getElementById("phone-number-error");
@@ -142,16 +138,15 @@ addressForm.addEventListener("submit", (event) => {
     .then((response) => {
       // Swal.fire("hell world");
       if (response.data.success) {
-        // console.log("Address added successfully: ", response.data);
         Swal.fire({
           icon: "success",
           text: response.data.message,
           title: "Address Added",
         }).then((result) => {
-          if(result.isConfirmed){
+          if (result.isConfirmed) {
             window.location.reload();
           }
-        })
+        });
       }
     })
     .catch((error) => {
@@ -174,13 +169,10 @@ cancelBtn.addEventListener("click", (e) => {
 });
 
 const deleteButtons = document.querySelectorAll(".delete-address-btn");
-// console.log(deleteButtons);
 
 deleteButtons.forEach((btn) => {
   btn.addEventListener("click", (event) => {
-    console.log("address delete btn reached");
     const addressId = document.getElementById("addressId").value;
-    // console.log(addressId);
 
     Swal.fire({
       title: "Are you sure!",
@@ -211,7 +203,6 @@ deleteButtons.forEach((btn) => {
             }
           })
           .catch((error) => {
-            console.log("Error in deleting address");
             Swal.fire({
               icon: "error",
               title: "Error",

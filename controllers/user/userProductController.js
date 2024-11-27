@@ -4,7 +4,6 @@ import Offer from "../../models/offerModel.js";
 
 export const loadAllProduct = async (req, res) => {
   try {
-    console.log("all product route reached");
 
     const page = parseInt(req.query.page) || 1;
     const limit = 8;
@@ -17,10 +16,7 @@ export const loadAllProduct = async (req, res) => {
     }
 
     const { search, category, sort } = req.query;
-    console.log("Search value:", search);
-    console.log("Category value:", category);
-    console.log("Sort value:", sort);
-
+    
     let query = {};
     let sortOption = {};
 
@@ -75,7 +71,6 @@ export const loadAllProduct = async (req, res) => {
       totalPages,
     });
   } catch (error) {
-    console.error("Error fetching products:", error);
     res
       .status(500)
       .json({ error: "An error occurred while fetching products" });
@@ -89,14 +84,10 @@ export const loadProductDetails = async (req, res) => {
 
     const activeOffers = await Offer.find({}).sort({ discountPercentage: -1 });
 
-    console.log(activeOffers);
-    // console.log(product);
     const offer = activeOffers.find(
       (offer) => offer.category === product.category.categoryName
     );
-    // console.log(offer);
     const offerDiscount = offer?.discountPercentage;
-    console.log(offerDiscount);
 
     const relatedProduct = await Product.find({ isActive: true }).limit(4);
     if (product) {
@@ -107,6 +98,8 @@ export const loadProductDetails = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    return res
+    .status(500)
+    .json({ success: false, message: "Server error. please try again" });
   }
 };

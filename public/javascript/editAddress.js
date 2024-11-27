@@ -1,4 +1,3 @@
-console.log("Edit address");
 const addressForm = document.getElementById("address-form");
 const addAddressBtn = document.getElementById('add-address-btn');
 const cancelBtn = document.getElementById('cancel-btn');
@@ -6,7 +5,6 @@ const cancelBtn = document.getElementById('cancel-btn');
 
 addressForm.addEventListener("submit", (event) => {
   event.preventDefault(); 
-  console.log("form submitted");
   const firstName = document.getElementById("first-name").value.trim();
   const lastName = document.getElementById("last-name").value.trim();
   const pincode = document.getElementById("pincode").value.trim();
@@ -21,9 +19,7 @@ addressForm.addEventListener("submit", (event) => {
     'input[name="addressType"]:checked'
   ).value;
   const setDefault = document.getElementById("setDefault").checked;
-  console.log(setDefault);
 
-  console.log(addressType);
   const firstNameError = document.getElementById("first-name-error");
   const lastNameError = document.getElementById("last-name-error");
   const phoneNumberError = document.getElementById("phone-number-error");
@@ -124,7 +120,6 @@ addressForm.addEventListener("submit", (event) => {
   }
   if (hasError) return 
 
-  console.log(phoneNumber)
 
   axios
   .post("/user/profile/address/edit", {
@@ -144,7 +139,6 @@ addressForm.addEventListener("submit", (event) => {
   .then((response) => {
     Swal.fire("hell world");
     if (response.data.success) {
-      console.log("Address added successfully: ", response.data);
       Swal.fire({
         icon: "success",
         text: response.data.message,
@@ -157,7 +151,6 @@ addressForm.addEventListener("submit", (event) => {
     }
   })
   .catch((error) => {
-    console.log(error);
     
     Swal.fire({
       icon: "error",

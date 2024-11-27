@@ -4,9 +4,7 @@ import ExcelJS from "exceljs";
 
 export const loadSalesReport = async (req, res) => {
   try {
-
     let matchCriteria = {};
-
 
     matchCriteria.createdAt = {
       $gte: new Date(new Date().setHours(0, 0, 0, 0)),
@@ -25,12 +23,10 @@ export const loadSalesReport = async (req, res) => {
       },
     ]);
 
-    console.log(salesData);
     return res
       .status(200)
       .render("admin/salesReport", { salesData: salesData[0] });
   } catch (error) {
-    console.error("Error fetching sales report:", error);
     res.status(500).json({
       success: false,
       message: "An error occurred while fetching the sales report.",
@@ -40,10 +36,8 @@ export const loadSalesReport = async (req, res) => {
 
 export const fetchReport = async (req, res) => {
   try {
-    console.log("fetch data");
     const { reportType, startDate, endDate } = req.query;
     let matchCriteria = {};
-    console.log(reportType);
 
     if (reportType === "daily") {
       matchCriteria.createdAt = {
@@ -92,10 +86,8 @@ export const fetchReport = async (req, res) => {
         message: "No sales data found for the selected criteria.",
       });
     }
-    console.log(salesData);
     return res.status(200).json({ success: true, salesData: salesData[0] });
   } catch (error) {
-    console.error("Error fetching sales report:", error);
     res.status(500).json({
       success: false,
       message: "An error occurred while fetching the sales report.",
@@ -105,13 +97,7 @@ export const fetchReport = async (req, res) => {
 
 export const downloadSalesPdf = async (req, res) => {
   try {
-    console.log("download sales pdf route reached");
-    const {
-      totalSalesCount,
-      totalOrderAmount,
-      totalDiscount,
-    } = req.query;
-    console.log(req.query)
+    const { totalSalesCount, totalOrderAmount, totalDiscount } = req.query;
 
     const doc = new PDFDocument();
 
@@ -169,12 +155,7 @@ export const downloadSalesPdf = async (req, res) => {
 };
 export const downloadSalesExcel = async (req, res) => {
   try {
-    console.log("download sales Excel route reached");
-    const {
-      totalSalesCount,
-      totalOrderAmount,
-      totalDiscount,
-    } = req.query;
+    const { totalSalesCount, totalOrderAmount, totalDiscount } = req.query;
     // Create a new workbook and worksheet
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet("Sales_Report");

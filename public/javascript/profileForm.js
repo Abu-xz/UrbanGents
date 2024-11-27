@@ -48,7 +48,6 @@ profileForm.addEventListener("submit", (e) => {
 
   if (hasError) {
     e.preventDefault();
-    console.log("error");
   }
 });
 
@@ -118,16 +117,17 @@ updatePasswordButton.addEventListener("click", () => {
       text: "New password and confirm password must be the same.",
       title: "Incorrect confirm password!",
     });
-    return; 
+    return;
   }
 
   if (!isValid) return; // Exit if validation fails
 
-  console.log("Making Axios PUT request...");
-  
-  // Axios request
   axios
-    .put("/user/profile/update-password", { currentPassword, newPassword, confirmPassword })
+    .put("/user/profile/update-password", {
+      currentPassword,
+      newPassword,
+      confirmPassword,
+    })
     .then((response) => {
       if (response.data.success) {
         Swal.fire({

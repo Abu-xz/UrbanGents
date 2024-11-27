@@ -1,32 +1,39 @@
 import Category from "../../models/categoryModel.js";
 
 export const loadCategory = async (req, res) => {
-  const page =  parseInt(req.query.page) || 1;
+  const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 8;
-  const skip = (page - 1) * limit; 
+  const skip = (page - 1) * limit;
   const categories = await Category.find().skip(skip).limit(limit);
   const totalCategories = await Category.countDocuments();
   const totalPages = Math.ceil(totalCategories / limit);
-  console.log(totalPages)
 
-  if(page > totalPages){
-    res.status(200).redirect(`/admin/category?page=${totalPages}&limit=${limit}`)
+  if (page > totalPages) {
+    res
+      .status(200)
+      .redirect(`/admin/category?page=${totalPages}&limit=${limit}`);
   }
-  res.status(200).render("admin/category", { categories, currentPage:page, totalCategories, limit, totalPages });
+  res.status(200).render("admin/category", {
+    categories,
+    currentPage: page,
+    totalCategories,
+    limit,
+    totalPages,
+  });
 };
-
 
 export const addCategory = async (req, res) => {
   try {
     const { categoryName } = req.body;
-    // console.log("axios route reached for add category");
     if (!categoryName) {
       return res
         .status(400)
         .json({ success: false, message: "Oops! Category name is required" });
     }
-    if(!/^[a-zA-Z]+$/.test(Category)){
-      return res.status(400).json({success: false, message: 'Invalid Category Name!'});
+    if (!/^[a-zA-Z]+$/.test(Category)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid Category Name!" });
     }
 
     const isExist = await Category.findOne({ categoryName: categoryName });
@@ -46,7 +53,6 @@ export const addCategory = async (req, res) => {
         .json({ success: false, message: "Oops! Category already exists!" });
     }
   } catch (error) {
-    console.log("Error adding category :-", error);
     res
       .status(500)
       .json({ success: false, message: "Server error! Try again" });
@@ -67,7 +73,6 @@ export const blockCategory = async (req, res) => {
       res.status(400).json({ success: false, message: "Category not found!" });
     }
   } catch (error) {
-    console.log("Error blocking category:", error);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
@@ -94,7 +99,7 @@ export const unblockCategory = async (req, res) => {
 export const editCategory = async (req, res) => {
   try {
     const { categoryId, newCategoryName } = req.body;
-    
+
     if (!categoryId || !newCategoryName) {
       return res
         .status(400)
@@ -103,12 +108,14 @@ export const editCategory = async (req, res) => {
     const category = await Category.findById(categoryId);
     if (category) {
       category.categoryName = newCategoryName;
-      console.log("hello");
       await category.save();
-      console.log(category.categoryName);
       res.status(200).json({ success: true });
     } else {
       res.status(400).json({ success: false, message: "Category not found" });
     }
-  } catch (error) {}
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error occurred while category editing !" });
+  }
 };

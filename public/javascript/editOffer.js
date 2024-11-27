@@ -3,7 +3,6 @@ const editOfferForm = document.getElementById("edit-offer-form");
 
 editOfferForm.addEventListener("submit", function (event) {
   event.preventDefault();
-  console.log("form submit");
   // Collect form values
   const category = document.getElementById("category").value.trim();
   const discount = document.getElementById("discount").value.trim();
@@ -56,7 +55,6 @@ editOfferForm.addEventListener("submit", function (event) {
       }
     })
     .catch((error) => {
-      console.error("Error creating the offer:", error);
       Swal.fire("An error occurred while creating the offer.");
       submitButton.disabled = false; // Re-enable the button
     });

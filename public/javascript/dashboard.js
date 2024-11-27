@@ -2,10 +2,8 @@
  // Function to fetch data from the backend
  async function fetchDashboardData() {
     const filter = document.getElementById("timeFilter").value || 'daily';
-    console.log(filter)
     const response = await axios.get(`/admin/dashboard/fetchData?filter=${filter}`);
     const data = response.data
-    console.log(data)
     // Display the sales, revenue, and user count on dashboard cards
     const dashboardCards = document.getElementById("dashboardCards");
     dashboardCards.innerHTML = `
@@ -39,7 +37,6 @@
 
   // Sales chart update function
   function updateSalesChart(salesData, salesDates) {
-    console.log(salesData)
     const options = {
       series: [{
         name: 'Sales',

@@ -10,13 +10,10 @@ couponForm.addEventListener("submit", (e) => {
   const usageLimit = document.getElementById("limit").value.trim();
 
   const expiryDate = new Date(expiry);
-  console.log(expiryDate);
 
-  console.log("button clicked");
   e.preventDefault();
   let isValid = true;
   const codePattern = /^[A-Za-z0-9]+$/; // Only allow letters and numbers
-  console.log(code, discount, start, expiry, usageLimit);
 
   if (!code || !discount || !start || !expiry || !usageLimit) {
     isValid = false;
@@ -53,8 +50,6 @@ couponForm.addEventListener("submit", (e) => {
     isValid = false;
     Swal.fire("Expiry date must be in the future.");
   };
-console.log(couponId)
-
   if (isValid) {
     const couponData = {
       code,
@@ -69,7 +64,6 @@ console.log(couponId)
       .put("/admin/coupons", couponData)
       .then((response) => {
         if (response.data.success) {
-          console.log("success");
           window.location.href = '/admin/coupons'
         }
       })

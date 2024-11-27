@@ -8,21 +8,24 @@ export const loadOffer = async (req, res) => {
     const skip = (page - 1) * limit;
     const totalOffers = await Offer.countDocuments();
     const totalPages = Math.ceil(totalOffers / limit);
-    if(page > totalPages) {
+    if (page > totalPages) {
       return res.status(200).redirect(`/admin/offers?page=${totalPages}`);
     }
-    const offers = await Offer.find({ isActive: true }).skip(skip).limit(limit)
+    const offers = await Offer.find({ isActive: true }).skip(skip).limit(limit);
     const categories = await Category.find({ isActive: true });
-    // console.log(offers)
-    res.status(200).render("admin/offer", { categories, offers, page, totalPages });
+    res
+      .status(200)
+      .render("admin/offer", { categories, offers, page, totalPages });
   } catch (error) {
-    console.log("Error occurred in loadOffer", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error. Please try again later.",
+    });
   }
 };
 
 export const createOffer = async (req, res) => {
   try {
-    console.log("create offer route reached");
     const { category, discount, validFrom, offerName, validUntil } = req.body;
 
     if (!category || !discount || !offerName || !validFrom || !validUntil) {
@@ -57,7 +60,6 @@ export const createOffer = async (req, res) => {
     await newOffer.save();
     res.json({ success: true, message: "Offer created successfully." });
   } catch (error) {
-    console.error("Error creating offer:", error);
     res.status(500).json({
       success: false,
       message: "Server error. Please try again later.",
@@ -67,7 +69,6 @@ export const createOffer = async (req, res) => {
 
 export const loadEditOffer = async (req, res) => {
   try {
-    console.log("edit offer route reached");
     const { offerId } = req.query;
 
     const offer = await Offer.findById(offerId);
@@ -80,15 +81,14 @@ export const loadEditOffer = async (req, res) => {
       selectedCategory,
     });
   } catch (error) {
-    console.log("Error", error);
     res.status(500).json({ message: "Internal Server error" });
   }
 };
 
 export const updateOffer = async (req, res) => {
   try {
-    console.log("update offer route hit");
-    const { offerId, category, discount, offerName, validFrom, validUntil } = req.body;
+    const { offerId, category, discount, offerName, validFrom, validUntil } =
+      req.body;
 
     const offer = await Offer.findById(offerId);
 
@@ -119,25 +119,21 @@ export const updateOffer = async (req, res) => {
     offer.validUntil = validUntil;
     await offer.save();
 
-    return res.status(200).json({success: true});
+    return res.status(200).json({ success: true });
   } catch (error) {
-    console.log("Error", error);
     res.status(500).json({ message: "Internal Server error" });
   }
 };
 
-
-export const deleteOffer = async ( req , res ) => {
+export const deleteOffer = async (req, res) => {
   try {
-    const {offerId} = req.body;
+    const { offerId } = req.body;
     const offer = await Offer.findById(offerId);
 
     offer.isActive = !offer.isActive;
     await offer.save();
-    res.status(200).json({success: true});  
-
+    res.status(200).json({ success: true });
   } catch (error) {
-    console.log("Error", error);
     res.status(500).json({ message: "Internal Server error" });
   }
-}
+};
