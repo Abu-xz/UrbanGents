@@ -142,7 +142,7 @@ const startServer = async () => {
     await connectDb();
     app.listen(PORT, () => {
       console.log(
-        `Server started \nUser: https://urbangents.site \nAdmin: https://urbangents.store/admin/login`
+        `Server started \nUser: https://urbangents.store \nAdmin: https://urbangents.store/admin/login`
       );
     });
   } catch (error) {
