@@ -30,7 +30,7 @@ export const addCategory = async (req, res) => {
         .status(400)
         .json({ success: false, message: "Oops! Category name is required" });
     }
-    if (!/^[a-zA-Z]+$/.test(Category)) {
+    if (!/^[a-zA-Z]+$/.test(categoryName)) {
       return res
         .status(400)
         .json({ success: false, message: "Invalid Category Name!" });
