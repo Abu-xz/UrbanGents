@@ -6,11 +6,17 @@ export const userAuth = async (req, res, next) => {
     const user = await Users.findOne({
       $or: [{ email: userData }, { googleId: userData }],
     });
-    if(user.status)
-      {
-        req.session.user= null
-        return res.status(403).redirect('/user/login');
-      } 
+    console.log(user);
+    if (!user) {
+      console.log('user not found')
+      req.session.user = null;
+      return res.status(404).redirect("/user/login");
+    }
+    console.log('user 2', user)
+    if (user.status || user.status === "undefined") {
+      req.session.user = null;
+      return res.status(403).redirect("/user/login");
+    }
     next();
   } else {
     res.status(401).redirect("/user/login");
