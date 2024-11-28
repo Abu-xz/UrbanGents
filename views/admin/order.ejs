@@ -67,19 +67,19 @@
       </aside>
 
       <main>
-
-        <% if(typeof orders !== 'undefined' && orders) { %>
-          <div class="container w-full p-4">
-            <table class="min-w-full bg-white border border-gray-200">
-              <thead>
-                <tr class="bg-gray-50 border-b">
-                  <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Order ID</th>
-                  <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Customer Name</th>
-                  <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Items</th>
-                  <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Status</th>
-                  <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Actions</th>
-                </tr>
-              </thead>
+        
+        <div class="container w-full p-4">
+          <table class="min-w-full bg-white border border-gray-200">
+            <thead>
+              <tr class="bg-gray-50 border-b">
+                <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Order ID</th>
+                <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Customer Name</th>
+                <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Items</th>
+                <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Status</th>
+                <th class="px-6 py-3 text-center text-xs font-bold text-gray-500 uppercase">Actions</th>
+              </tr>
+            </thead>
+            <% if(typeof orders !== 'undefined' && orders) { %>
               <% if(orders.length !== 0) { %>
 
                 <tbody>
@@ -120,21 +120,21 @@
                   <% }); %>
                 <% }); %>
               </tbody>
-              <% } else {%>
-                <tbody class="">
-                  <tr>
-                    <td class="text-center">No order </td>
-                    <td class="text-center">No Customer </td>
-                    <td class="text-center">No items </td>
-                    <td class="text-center">No status </td>
-                    <td class="text-center">No actions </td>
-                  </tr>
-                </tbody>
-                <% } %>
-              </table>
-            </div>
-            <% }%>
-
+              <% } %>
+              <% } else { %>
+              <tbody class=""> 
+                <tr>
+                  <td class="text-center">No order </td>
+                  <td class="text-center">No Customer </td>
+                  <td class="text-center">No items </td>
+                  <td class="text-center">No status </td>
+                  <td class="text-center">No actions </td>
+                </tr>
+              </tbody>
+              <% } %>
+            </table>
+          </div>
+          
             <section>
               <% if(typeof page !== "undefined"  &&  typeof totalPages !== 'undefined') { %>
         

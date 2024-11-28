@@ -8,19 +8,20 @@ export const loadOrders = async (req, res) => {
     const skip = (page - 1) * limit;
     const totalOrders = await Order.countDocuments();
     const totalPages = Math.ceil(totalOrders / limit);
-    if (page > totalPages)
-      return res.status(200).redirect(`/admin/orders?page=${totalPages}`);
-
+    
     const orders = await Order.find()
-      .populate("customerId")
-      .populate("items.productId")
-      .sort({ createdAt: -1 })
-      .skip(skip)
+    .populate("customerId")
+    .populate("items.productId")
+    .sort({ createdAt: -1 })
+    .skip(skip)
       .limit(limit);
-
-    if (!orders) {
-      res.status(404).render("admin/order", { success: false }); //create a sweet alert for this
-    }
+      
+      if (orders.length === 0) {
+        return res.status(404).render("admin/order", { success: false }); 
+      }
+      if (page > totalPages){
+        return res.status(200).redirect(`/admin/orders?page=${totalPages}`);
+      }
     res.status(200).render("admin/order", { orders, page, totalPages });
   } catch (error) {
     return res.status(500).json({

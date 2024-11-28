@@ -13,13 +13,17 @@ export const loadCategory = async (req, res) => {
       .status(200)
       .redirect(`/admin/category?page=${totalPages}&limit=${limit}`);
   }
-  res.status(200).render("admin/category", {
-    categories,
-    currentPage: page,
-    totalCategories,
-    limit,
-    totalPages,
-  });
+  if (!categories) {
+    res.status(404).render('admin/category')
+  } else {
+    res.status(200).render("admin/category", {
+      categories,
+      currentPage: page,
+      totalCategories,
+      limit,
+      totalPages,
+    });
+  }
 };
 
 export const addCategory = async (req, res) => {
