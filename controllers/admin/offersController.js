@@ -8,11 +8,14 @@ export const loadOffer = async (req, res) => {
     const skip = (page - 1) * limit;
     const totalOffers = await Offer.countDocuments();
     const totalPages = Math.ceil(totalOffers / limit);
+    const offers = await Offer.find({ isActive: true }).skip(skip).limit(limit);
+    const categories = await Category.find({ isActive: true });
+    if(!offers){
+      res.status(404).render('admin/offer');
+    }
     if (page > totalPages) {
       return res.status(200).redirect(`/admin/offers?page=${totalPages}`);
     }
-    const offers = await Offer.find({ isActive: true }).skip(skip).limit(limit);
-    const categories = await Category.find({ isActive: true });
     res
       .status(200)
       .render("admin/offer", { categories, offers, page, totalPages });

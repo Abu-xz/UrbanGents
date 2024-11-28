@@ -109,6 +109,8 @@
                 <option value="<%=category.categoryName %>"><%= category.categoryName %></option>
               <% }) %>
             </select>
+          <% }else{ %>
+            <h2>No Category Found!</h2>
           <% } %>
         </div>
 
@@ -172,6 +174,10 @@
                 </td>
               </tr>
                 <% })) %>
+            <% }else { %>
+                <tr colspan="5" class="py-2 px-4 text-center">
+                  <td>No Offer found</td>
+                </tr>
             <% } %>
         </tbody>
       </table>
