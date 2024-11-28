@@ -7,17 +7,21 @@ export const loadCoupon = async (req, res) => {
     const skip = (page - 1) * limit;
     const totalCoupons = await Coupon.countDocuments();
     const totalPages = Math.ceil(totalCoupons / limit);
+    
+    const coupons = await Coupon.find({ isActive: true })
+    .skip(skip)
+    .limit(limit);
+
+    if(coupons.length === 0){
+      return res.status(200).render('admin/coupon');
+    }
+    
     if (page > totalPages) {
       return res.status(200).redirect(`/admin/coupons?page=${totalPages}`);
     }
-
-    const coupons = await Coupon.find({ isActive: true })
-      .skip(skip)
-      .limit(limit);
-
     res.status(200).render("admin/coupon", { coupons, totalPages, page });
   } catch (error) {
-    res.status(500).redirect("/admin/coupons/404");
+    res.status(500).json({message: 'Coupon page error occurred'});
   }
 };
 

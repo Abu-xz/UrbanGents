@@ -184,16 +184,9 @@
               </tr>
             </thead>
             <tbody>
-              <% if (!coupons || coupons.length === 0) { %>
-              <tr>
-                <td colspan="5" class="py-2 px-4 text-center">
-                  No coupons available.
-                </td>
-              </tr> 
-              <% } %>
 
               <!-- Example Coupon Row -->
-              <% if(typeof coupons !== 'undefined' && coupons.length > 0 ) {%>
+              <% if(typeof coupons !== 'undefined' && coupons.length > 0 ) { %>
               <% coupons.forEach(coupon => { %>
               <tr>
                 <td class="py-2 px-4 border-b text-center">
@@ -226,7 +219,14 @@
                   </button>
                 </td>
               </tr>
-              <% }) %> <% } %>
+              <% }) %>
+               <% }else { %>           
+              <tr>
+                <td colspan="5" class="py-2 px-4 text-center">
+                  No coupons available.
+                </td>
+              </tr> 
+              <% } %>
             </tbody>
           </table>
         </div>
