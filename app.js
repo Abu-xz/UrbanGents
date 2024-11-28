@@ -72,7 +72,7 @@ passport.use(
             lastName: profile.name.familyName,
             displayName: profile.displayName,
             photo: profile.photos[0].value,
-            status: true,
+            status: false,
           });
           await user.save();
           return done(null, user);
