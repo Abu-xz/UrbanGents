@@ -128,7 +128,7 @@
               </tr>
             </thead>
             <tbody class="bg-white">
-              <% if(typeof users !== 'undefined' && users.length > 0) {%> 
+              <% if(typeof users !== 'undefined' && users.length > 0) { %> 
               <% users.forEach(user => { %>
               <tr class="text-center">
                 <td class="border px-4 py-2"><%= user.id %></td>
@@ -156,7 +156,11 @@
                 </td>
               </tr>
               <% }) %>
-               <% } %>
+               <% }else{ %> 
+                  <tr>
+                    <td  colspan="5" class="text-center px-4 py-4">Customers Not Found</td>
+                  </tr>
+                <% } %>
             </tbody>
           </table>
         </div>

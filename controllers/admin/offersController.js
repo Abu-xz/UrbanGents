@@ -10,8 +10,8 @@ export const loadOffer = async (req, res) => {
     const totalPages = Math.ceil(totalOffers / limit);
     const offers = await Offer.find({ isActive: true }).skip(skip).limit(limit);
     const categories = await Category.find({ isActive: true });
-    if(!offers){
-      res.status(404).render('admin/offer');
+    if (offers.length === 0) {
+      return res.status(404).render("admin/offer", {categories});
     }
     if (page > totalPages) {
       return res.status(200).redirect(`/admin/offers?page=${totalPages}`);

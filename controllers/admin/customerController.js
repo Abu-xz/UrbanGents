@@ -8,15 +8,17 @@ export const loadCustomer = async (req, res) => {
     const skip = (page - 1) * limit;
     const totalUsers = await Users.countDocuments();
     const totalPages = Math.ceil(totalUsers / limit);
+    const users = await Users.find().skip(skip).limit(limit);
+    if(users.length === 0) {
+      return res.status(404).render('admin/customers');
+    }
     if (page > totalPages) {
       return res.status(200).redirect(`/admin/customers?page=${totalPages}`);
     }
-
-    const users = await Users.find().skip(skip).limit(limit);
-    if (users) {
-      res.status(200).render("admin/customers", { users, totalPages, page });
-    }
-  } catch (error) {}
+    res.status(200).render("admin/customers", { users, totalPages, page });
+  } catch (error) {
+    res.status(500).render('admin/customers')
+  }
 };
 
 //block & unblock user
