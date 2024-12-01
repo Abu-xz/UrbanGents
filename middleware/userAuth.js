@@ -23,7 +23,6 @@ export const userAuth = async (req, res, next) => {
       res.redirect("/user/login"); // User not logged in
     }
   } catch (error) {
-    console.error("Error in userAuth middleware:", error);
     res.status(500).send("Internal Server Error");
   }
 };

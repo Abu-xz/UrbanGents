@@ -47,3 +47,28 @@ addToCartButtons.forEach((cartBtn) => {
       });
   });
 });
+
+const menuToggle = document.getElementById('menu-toggle');
+const mobileSidebar = document.getElementById('mobile-sidebar');
+const closeSidebar = document.getElementById('close-sidebar');
+
+menuToggle.addEventListener('click', () => {
+  mobileSidebar.classList.toggle('hidden'); 
+  mobileSidebar.classList.toggle('translate-x-0'); 
+  mobileSidebar.classList.toggle('translate-x-full'); 
+});
+
+closeSidebar.addEventListener('click', () => {
+  mobileSidebar.classList.add('hidden'); 
+  mobileSidebar.classList.remove('translate-x-0'); 
+  mobileSidebar.classList.add('translate-x-full'); 
+});
+
+window.addEventListener('click', (e) => {
+  if (!mobileSidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+    mobileSidebar.classList.add('hidden');
+    mobileSidebar.classList.remove('translate-x-0');
+    mobileSidebar.classList.add('translate-x-full');
+  }
+});
+
