@@ -14,25 +14,59 @@
   </head>
   <body class="bg-gray-100">
     <!-- Header  -->
-    <header class="bg-black py-5 px-8 shadow-md">
-      <div class="container mx-auto flex justify-between items-center">
+  
+    <header class="bg-stone-950 py-5 px-4 sm:px-8 shadow-md">
+      <div class="container flex justify-between items-center">
+        <!-- nav bar logo -->
         <div class="logo">
           <a href="/user/home">
-            <h1 class="text-2xl text-white font-bold uppercase">UrbanGents</h1>
+            <h1 class="text-2xl sm:text-3xl text-white font-bold uppercase">UrbanGents</h1>
           </a>
         </div>
-
-        <div class="flex justify-between items-center hidden md:flex">
-          <a href="/user/profile" class="text-white mx-4">
+        
+            <!-- Navbar search input -->
+        <div class="relative hidden md:block">
+            <input type="text" id="search-input"
+            class="border border-gray-300 w-80 rounded-lg px-2 py-2 focus:outline-none focus:ring-2 focus:ring-gray-500 "
+            placeholder="Search...">
+            <button id="search-button">
+              <svg class="w-5 h-5 absolute right-3 top-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="17.65" y2="17.65"></line>
+              </svg>
+            </button>
+        </div>
+      
+         <!-- Desktop Menu -->
+        <div class="hidden sm:flex justify-between items-center space-x-6">
+          <a href="/user/profile" class="text-white">
             <span class="material-icons">person</span>
           </a>
           <a href="/user/cart" class="text-white mx-4">
             <span class="material-icons">shopping_cart</span>
           </a>
-          <a href="/user/wishlist" class="text-white mx-4">
+          <a href="/user/profile/wishlist" class="text-white">
             <span class="material-icons">favorite</span>
           </a>
         </div>
+  
+        <!-- Mobile Menu Toggle -->
+        <div class="sm:hidden flex items-center space-x-4" id="menu-toggle">
+          <button class="text-white focus:outline-none">
+            <span class="material-icons">menu</span>
+          </button>
+        </div>
+  
+        <!-- Mobile Sidebar -->
+        <div id="mobile-sidebar" class="fixed inset-0 bg-gray-800 bg-opacity-100 z-50 hidden transform -translate-x-full transition-transform duration-300">
+          <div class="flex flex-col items-center justify-center space-y-6 p-6">
+            <a href="/user/cart" class="text-white text-xl">Cart</a>
+            <a href="/user/profile/wishlist" class="text-white text-xl">Wishlist</a>
+            <a href="/user/profile" class="text-white text-xl">Profile</a>
+            <button id="close-sidebar" class="text-white text-2xl">&times; Close</button>
+          </div>
+        </div>
+  
       </div>
     </header>
 

@@ -1,10 +1,9 @@
 const addressForm = document.getElementById("address-form");
-const addAddressBtn = document.getElementById('add-address-btn');
-const cancelBtn = document.getElementById('cancel-btn');
-
+const addAddressBtn = document.getElementById("add-address-btn");
+const cancelBtn = document.getElementById("cancel-btn");
 
 addressForm.addEventListener("submit", (event) => {
-  event.preventDefault(); 
+  event.preventDefault();
   const firstName = document.getElementById("first-name").value.trim();
   const lastName = document.getElementById("last-name").value.trim();
   const pincode = document.getElementById("pincode").value.trim();
@@ -14,7 +13,7 @@ addressForm.addEventListener("submit", (event) => {
   const district = document.getElementById("district").value.trim();
   const landmark = document.getElementById("landmark").value.trim();
   const address = document.getElementById("address").value;
-  const addressId = document.getElementById('address-id').value;
+  const addressId = document.getElementById("address-id").value;
   const addressType = document.querySelector(
     'input[name="addressType"]:checked'
   ).value;
@@ -118,50 +117,92 @@ addressForm.addEventListener("submit", (event) => {
     addressError.textContent = "Invalid address";
     hasError = true;
   }
-  if (hasError) return 
-
+  if (hasError) return;
 
   axios
-  .post("/user/profile/address/edit", {
-    addressId,
-    firstName,
-    lastName,
-    pincode,
-    state,
-    district,
-    phoneNumber,
-    city,
-    landmark,
-    addressType,
-    address,
-    setDefault,
-  })
-  .then((response) => {
-    Swal.fire("hell world");
-    if (response.data.success) {
+    .post("/user/profile/address/edit", {
+      addressId,
+      firstName,
+      lastName,
+      pincode,
+      state,
+      district,
+      phoneNumber,
+      city,
+      landmark,
+      addressType,
+      address,
+      setDefault,
+    })
+    .then((response) => {
+      Swal.fire("hell world");
+      if (response.data.success) {
+        Swal.fire({
+          icon: "success",
+          text: response.data.message,
+          title: "Address Updated",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "/user/profile/address";
+          }
+        });
+      }
+    })
+    .catch((error) => {
       Swal.fire({
-        icon: "success",
-        text: response.data.message,
-        title: "Address Updated",
-      }).then((result) => {
-        if(result.isConfirmed){
-         window.location.href = '/user/profile/address'
-        }
-      })
-    }
-  })
-  .catch((error) => {
-    
-    Swal.fire({
-      icon: "error",
-      text:
-        "An error occurred while adding the address",
-      title: "Error",
+        icon: "error",
+        text: "An error occurred while adding the address",
+        title: "Error",
+      });
     });
-  });
-
 });
 
-cancelBtn.addEventListener('click', (e) => {
-    window.location.href = '/user/profile/address';
-})
+cancelBtn.addEventListener("click", (e) => {
+  window.location.href = "/user/profile/address";
+});
+
+// Get the elements
+const menuToggle = document.getElementById("menu-toggle");
+const mobileSidebar = document.getElementById("mobile-sidebar");
+const closeSidebar = document.getElementById("close-sidebar");
+
+// Function to toggle sidebar
+function toggleSidebar() {
+  if (mobileSidebar.classList.contains("hidden")) {
+    // Show the sidebar
+    mobileSidebar.classList.remove("hidden");
+    setTimeout(() => {
+      mobileSidebar.classList.remove("translate-x-full");
+      mobileSidebar.classList.add("translate-x-0");
+    }, 10); // Slight delay to allow for transition
+  } else {
+    // Hide the sidebar
+    mobileSidebar.classList.remove("translate-x-0");
+    mobileSidebar.classList.add("translate-x-full");
+    setTimeout(() => {
+      mobileSidebar.classList.add("hidden");
+    }, 300); // Wait for transition to finish before hiding
+  }
+}
+
+// Toggle the mobile sidebar when the menu button is clicked
+menuToggle.addEventListener("click", (e) => {
+  e.stopPropagation(); // Prevent the event from closing the sidebar immediately
+  toggleSidebar();
+});
+
+// Close the sidebar when the close button is clicked
+closeSidebar.addEventListener("click", () => {
+  toggleSidebar();
+});
+
+// Optionally close sidebar if clicking outside (only for mobile)
+window.addEventListener("click", (e) => {
+  if (!mobileSidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+    mobileSidebar.classList.remove("translate-x-0");
+    mobileSidebar.classList.add("translate-x-full");
+    setTimeout(() => {
+      mobileSidebar.classList.add("hidden");
+    }, 300);
+  }
+});
