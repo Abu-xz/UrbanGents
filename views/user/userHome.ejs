@@ -38,58 +38,60 @@
           </button>
       </div>
     
-          <!-- Mobile menu toggle -->
-          <div class="sm:hidden flex items-center space-x-4" id="menu-toggle">
-            <button class="text-white focus:outline-none">
-              <span class="material-icons">menu</span>
-            </button>
-          </div>
-          
-          <!-- Sidebar navigation -->
-          <div id="mobile-sidebar" class="fixed inset-0 bg-gray-800 bg-opacity-100 z-50 hidden transform -translate-x-full transition-transform duration-300">
-            <div class="flex flex-col items-center justify-center space-y-6 p-6">
-              <a href="/cart" class="text-white text-xl">Cart</a>
-              <a href="/wishlist" class="text-white text-xl">Wishlist</a>
-              <a href="/profile" class="text-white text-xl">Profile</a>
-              <button id="close-sidebar" class="text-white text-2xl">&times; Close</button>
-            </div>
-          </div>
-    
-        <!-- Desktop Menu -->
-        <div class="hidden sm:flex justify-between items-center space-x-6">
-          <a href="/user/profile" class="text-white">
-            <span class="material-icons">person</span>
-          </a>
-          <a href="/user/cart" class="text-white mx-4">
-            <span class="material-icons">shopping_cart</span>
-          </a>
-          <a href="/user/profile/wishlist" class="text-white">
-            <span class="material-icons">favorite</span>
-          </a>
+       <!-- Desktop Menu -->
+      <div class="hidden sm:flex justify-between items-center space-x-6">
+        <a href="/user/profile" class="text-white">
+          <span class="material-icons">person</span>
+        </a>
+        <a href="/user/cart" class="text-white mx-4">
+          <span class="material-icons">shopping_cart</span>
+        </a>
+        <a href="/user/profile/wishlist" class="text-white">
+          <span class="material-icons">favorite</span>
+        </a>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="sm:hidden flex items-center space-x-4" id="menu-toggle">
+        <button class="text-white focus:outline-none">
+          <span class="material-icons">menu</span>
+        </button>
+      </div>
+
+      <!-- Mobile Sidebar -->
+      <div id="mobile-sidebar" class="fixed inset-0 bg-gray-800 bg-opacity-100 z-50 hidden transform -translate-x-full transition-transform duration-300">
+        <div class="flex flex-col items-center justify-center space-y-6 p-6">
+          <a href="/user/cart" class="text-white text-xl">Cart</a>
+          <a href="/user/profile/wishlist" class="text-white text-xl">Wishlist</a>
+          <a href="/user/profile" class="text-white text-xl">Profile</a>
+          <button id="close-sidebar" class="text-white text-2xl">&times; Close</button>
         </div>
+      </div>
+
     </div>
   </header>
   
 
 
 <!-- Hero Section -->
-<section >
+<section>
   <div class="relative font-sans before:absolute before:w-full before:h-full before:inset-0 before:bg-black before:opacity-50 before:z-10">
-    <img src="/images/banner1.webp" alt="Banner Image" class="absolute inset-0 w-full h-full object-cover" />
-
-    <div class="min-h-[350px] relative z-50 h-full max-w-6xl mx-auto flex flex-col justify-center items-center text-center text-white p-6">
-      <h1 class="text-4xl font-bold">Mens Casual Style Trend</h1>
-      <p class="sm:text-lg text-base text-center text-gray-200">Discover timeless styles. Elevate your wardrobe today!</p>
-
-
-      <a
-       href="/user/all-products"
+      <!-- Background Image -->
+      <img src="https://res.cloudinary.com/de5vavykz/image/upload/v1733062224/ecommerce/product/vsbqkcdjspi3m4ifoaot.jpg" alt="Banner Image" class="absolute inset-0 w-full h-full object-cover lg:object-center" />
+      
+      <!-- Content Section -->
+      <div id="content-section" class="min-h-[450px] relative z-50 h-full max-w-6xl mx-auto flex flex-col justify-center items-center text-center text-white p-6">
+        <h1 class="text-4xl font-bold">Mens Casual Style Trend</h1>
+        <p class="sm:text-lg text-base text-center text-gray-200">Discover timeless styles. Elevate your wardrobe today!</p>
+        
+        <a href="/user/all-products"
         class="mt-12 bg-transparent text-white text-base py-3 px-6 border border-white rounded-lg hover:bg-white hover:text-black transition duration-300">
         Shop Now
       </a>
     </div>
   </div>
 </section>
+
 
 <!-- Products -->
 <section class="py-12">
