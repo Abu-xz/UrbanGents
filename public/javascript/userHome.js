@@ -96,3 +96,20 @@ window.addEventListener('click', (e) => {
     }, 300);
   }
 });
+
+
+const searchInput = document.getElementById("search-input");
+searchInput.addEventListener("change", () => {
+  const searchValue = searchInput.value.trim();
+  const queryParams = new URLSearchParams(window.location.search);
+
+  // Update search parameter
+  if (searchValue) {
+    queryParams.set("search", searchValue);
+  } else {
+    queryParams.delete("search");
+  }
+
+  // Redirect with updated query
+  window.location.href = `/user/all-products?${queryParams.toString()}`;
+});
