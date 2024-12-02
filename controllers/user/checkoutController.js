@@ -62,14 +62,16 @@ export const placeOrder = async (req, res) => {
       });
     }
 
-    const walletAmount = user.walletAmount;
+    if (payment === "wallet") {
+      const walletAmount = user.walletAmount;
 
-    if (walletAmount < cart.totalDiscount) {
-      return res.status(400).json({
-        success: false,
-        message: "Insufficient Wallet balance!",
-        icon: "warning",
-      });
+      if (walletAmount < cart.totalDiscount) {
+        return res.status(400).json({
+          success: false,
+          message: "Insufficient Wallet balance!",
+          icon: "warning",
+        });
+      }
     }
 
     const address = user.addresses.find((add) => add._id.equals(addressId));
@@ -103,7 +105,13 @@ export const placeOrder = async (req, res) => {
       ).toFixed();
     }
 
-    const paymentStatus = payment === "wallet" ? "paid" : "pending";
+    let paymentStatus;
+
+    if (payment === "wallet") {
+      paymentStatus = "paid";
+    } else {
+      paymentStatus = "pending";
+    }
 
     const orderData = {
       customerId: user._id,
@@ -119,7 +127,9 @@ export const placeOrder = async (req, res) => {
     };
 
     const newOrder = await Order.create(orderData);
-    user.walletAmount -= cart.totalDiscount;
+    if(payment === 'wallet'){
+      user.walletAmount -= cart.totalDiscount;
+    }
     // update the stock for respective orders
     const updateStockOnOrder = async () => {
       try {
@@ -133,7 +143,7 @@ export const placeOrder = async (req, res) => {
           );
 
           if (variant) {
-            const updatedVariant = await Product.updateOne(
+               await Product.updateOne(
               { _id: product.productId, "variant._id": variant._id },
               { $inc: { "variant.$.stock": -product.quantity } }
             );
