@@ -163,7 +163,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             
         <!-- Order Details Card -->
-        <div class="bg-white p-6 rounded-lg shadow-lg">
+        <div class="bg-white p-6 ">
           <!-- Order Header -->
           <div class="flex items-center justify-between mb-6">
             <h1 class="text-3xl font-semibold text-gray-900">Order Details</h1>
@@ -229,29 +229,32 @@
             <!-- Product 1 -->
              <% orderDetails.items.forEach((item) => { %>
   
-              <div class="flex justify-between items-center border-b py-4">
-                  <div class="flex items-center space-x-4">
-                      <img
-                      src=<%=item.productId.images[0] %>
-                  alt="Product"
-                  class="w-20 h-20 object-cover rounded-md"
+              <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b py-4 space-y-4 md:space-y-0">
+                <!-- Product Info Section -->
+                <div class="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-4 w-full md:w-auto">
+                  <!-- Product Image -->
+                  <img
+                    src="<%= item.productId.images[0] %>"
+                    alt="Product"
+                    class="w-20 h-20 object-cover rounded-md"
                   />
-                  <div>
-                      <p class="font-semibold text-gray-800"><%=item.productId.productName%></p>
-                      <p class="text-gray-600">Size: <%=item.selectedSize%></p>
-                      <p class="text-grey-600 ">Quantity: <%=item.quantity %></p>
-                      <p class="text-gray-500 font-semibold">Prize: <%=item.subTotal %></p>
-                      <!-- Quantity with distinct color -->
+                  <!-- Product Details -->
+                  <div class="text-center sm:text-left mt-2 sm:mt-0">
+                    <p class="font-semibold text-gray-800"><%= item.productId.productName %></p>
+                    <p class="text-gray-600">Size: <%= item.selectedSize %></p>
+                    <p class="text-gray-600">Quantity: <%= item.quantity %></p>
+                    <p class="text-gray-500 font-semibold">Price: <%= item.subTotal %></p>
                   </div>
-              </div>
-  
-              <div class=" flex items-center space-x-2 p-2 rounded-lg bg-gray-100 shadow-md">
+                </div>
+              
+                <!-- Status Section -->
+                <div class="flex items-center space-x-2 p-2 rounded bg-gray-100 ">
                   <label for="status1" class="font-semibold text-gray-700">Status:</label>
                   <p class="text-black font-medium"><%= item.status %></p>
+                </div>
               </div>
-                
-      </div>
-      <% }) %>
+              
+            <% }) %>
   
             <div
               class="flex justify-between items-center border-t pt-4 text-xl font-semibold text-gray-900"
