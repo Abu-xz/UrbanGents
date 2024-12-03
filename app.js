@@ -93,7 +93,7 @@ passport.deserializeUser((user, done) => {
 });
 
 app.get(
-  "/auth/google",
+  "/auth/google", isUser,
   passport.authenticate("google", {
     scope: ["profile", "email"],
     prompt: "select_account",
@@ -101,7 +101,7 @@ app.get(
 );
 
 app.get(
-  "/auth/google/callback",
+  "/auth/google/callback", isUser,
   passport.authenticate("google", { failureRedirect: "/user/login" }),
   (req, res) => {
     req.session.user = req.user.googleId;
