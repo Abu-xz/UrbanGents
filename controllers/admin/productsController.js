@@ -126,7 +126,6 @@ export const productBlockUnblock = async (req, res) => {
     return res.status(200).json({ message: error.message });
   }
 };
-
 export const loadEditProduct = async (req, res) => {
   const { id } = req.params;
   const category = await Category.find();
@@ -136,7 +135,6 @@ export const loadEditProduct = async (req, res) => {
   }
 
   if (product) {
-    console.log(product);
     res.status(200).render("admin/editProducts", { product, category });
   } else {
     res.status(500).redirect("/admin/products");
@@ -145,8 +143,7 @@ export const loadEditProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   try {
-    console.log("body parts ====", req.body);
-    const {
+      const {
       productId,
       productName,
       category,
@@ -157,7 +154,6 @@ export const updateProduct = async (req, res) => {
       size,
       croppedImages,
     } = req.body;
-    console.log(croppedImages);
     if (
       !productId ||
       !productName ||
